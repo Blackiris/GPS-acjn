@@ -1,5 +1,7 @@
 package fr.emse;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,27 +17,49 @@ public class Itinerary {
 	int deniveleTotal;
 	String comments;
 	int nbUsed;
-	Date dateCreation;
+	String dateCreation;
 	
 	public Itinerary(int id, List<Note> notes, String comments) {
 		super();
 		this.id = id;
 		this.notes = notes;
 		this.comments = comments;
+		this.nbUsed = 0;
 		
-		// Computes denivele
-		deniveleTotal = 0;
-		int actualHeight = 0;
+		// Computes denivele and distance
+		this.deniveleTotal = 0;
+		this.distance = 0;
+		Note previousNote = notes.get(0);
+		
+		
 		boolean isFirst = true;
 		for (Note note : notes) {
 			if (isFirst) {
 				isFirst = false;
-				actualHeight = note.getHeight();
 			} else {
-				deniveleTotal += Math.abs(note.getHeight() - actualHeight);
-				actualHeight = note.getHeight();
+				this.deniveleTotal += Math.abs(note.getHeight() - previousNote.getHeight());
+				this.distance += distance(note.getCoordinate(), previousNote.getCoordinate());
 			}
+			
+			previousNote = note;
 		}
+		
+		// Date
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		this.dateCreation = formatter.format(currentDate.getTime());
+	}
+	
+	private double distance(Coordinate A, Coordinate B) {
+		double R = 6371;
+		
+		// Convert to radiant
+		double latA = A.getLatitude()*Math.PI/180;
+		double longA = A.getLongitude()*Math.PI/180;
+		double latB = B.getLatitude()*Math.PI/180;
+		double longB = B.getLongitude()*Math.PI/180;
+		
+		return R*Math.acos(Math.sin(latA)*Math.sin(latB)+Math.cos(latA)*Math.cos(latB)*Math.cos(longA-longB));
 	}
 
 	public List<Note> getNotes() {
@@ -70,8 +94,11 @@ public class Itinerary {
 		return nbUsed;
 	}
 
-	public Date getDateCreation() {
+	public String getDateCreation() {
 		return dateCreation;
 	}
 	
+	public void isUsed() {
+		nbUsed ++;
+	}
 }
