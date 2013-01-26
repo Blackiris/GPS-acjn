@@ -12,7 +12,7 @@ public class Itinerary {
 	int id;
 	List<Note> notes;
 	double distance;
-	int denivele;
+	int deniveleTotal;
 	String comments;
 	int nbUsed;
 	Date dateCreation;
@@ -22,6 +22,20 @@ public class Itinerary {
 		this.id = id;
 		this.notes = notes;
 		this.comments = comments;
+		
+		// Computes denivele
+		deniveleTotal = 0;
+		int actualHeight = 0;
+		boolean isFirst = true;
+		for (Note note : notes) {
+			if (isFirst) {
+				isFirst = false;
+				actualHeight = note.getHeight();
+			} else {
+				deniveleTotal += Math.abs(note.getHeight() - actualHeight);
+				actualHeight = note.getHeight();
+			}
+		}
 	}
 
 	public List<Note> getNotes() {
@@ -48,8 +62,8 @@ public class Itinerary {
 		return distance;
 	}
 
-	public int getDenivele() {
-		return denivele;
+	public int getDeniveleTotal() {
+		return deniveleTotal;
 	}
 
 	public int getNbUsed() {

@@ -1,6 +1,8 @@
 package fr.emse;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,7 +19,7 @@ public class Note implements Serializable {
 	Coordinate coordinate;
 	int height;
 	String comments;
-	Date dateCreation;
+	String dateCreation;
 	String category;
 	
 	public Note(int id, Coordinate coordinate, int height, String comments,
@@ -28,6 +30,10 @@ public class Note implements Serializable {
 		this.height = height;
 		this.comments = comments;
 		this.category = category;
+		
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		dateCreation = formatter.format(currentDate.getTime());
 	}
 
 	public Coordinate getCoordinate() {
@@ -66,7 +72,7 @@ public class Note implements Serializable {
 		return id;
 	}
 
-	public Date getDateCreation() {
+	public String getDateCreation() {
 		return dateCreation;
 	}
 	
