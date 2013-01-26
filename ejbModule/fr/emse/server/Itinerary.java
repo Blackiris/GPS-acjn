@@ -1,8 +1,7 @@
-package fr.emse;
+package fr.emse.server;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package fr.emse;
+package fr.emse.server;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 /**
  * Session Bean implementation class AdminBean
  */
-@Stateless
+@Stateless (name="AdminEJB", mappedName="AdminBean")
 @LocalBean
 public class AdminBean implements AdminBeanRemote {
 
@@ -54,4 +54,8 @@ public class AdminBean implements AdminBeanRemote {
 		
 	}
 
+	@Override
+	public String hello() {
+		return "Hello!";
+	}
 }

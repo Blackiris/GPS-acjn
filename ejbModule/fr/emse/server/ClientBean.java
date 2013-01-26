@@ -1,4 +1,4 @@
-package fr.emse;
+package fr.emse.server;
 
 import java.util.List;
 

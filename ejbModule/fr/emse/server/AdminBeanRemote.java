@@ -1,4 +1,4 @@
-package fr.emse;
+package fr.emse.server;
 
 import java.util.List;
 
@@ -11,4 +11,5 @@ public interface AdminBeanRemote {
 	void addNote(Note note);
 	List<Itinerary> getItineraries();
 	void addItinerary(Itinerary newItinerary);
+	String hello();
 }
