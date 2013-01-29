@@ -15,14 +15,26 @@ public class Note implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	int id;
+	Integer id;
 	Coordinate coordinate;
 	int height;
 	String comments;
 	String dateCreation;
 	String category;
 	
-	public Note(int id, Coordinate coordinate, int height, String comments,
+	public Note() {
+		this.id = -1;
+		this.coordinate = null;
+		this.height = 0;
+		this.comments = "";
+		this.category = "";
+		
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		dateCreation = formatter.format(currentDate.getTime());
+	}
+	
+	public Note(Integer id, Coordinate coordinate, int height, String comments,
 			String category) {
 		super();
 		this.id = id;

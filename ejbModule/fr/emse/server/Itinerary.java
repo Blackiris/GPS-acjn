@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Entity
 public class Itinerary {
 	@Id
-	int id;
+	Integer id;
 	List<Note> notes;
 	double distance;
 	int deniveleTotal;
@@ -18,7 +18,21 @@ public class Itinerary {
 	int nbUsed;
 	String dateCreation;
 	
-	public Itinerary(int id, List<Note> notes, String comments) {
+	public Itinerary() {
+		this.id = -1;
+		this.notes = null;
+		this.comments = "";
+		this.nbUsed = 0;
+		this.deniveleTotal = 0;
+		this.distance = 0;
+		
+		// Date
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		this.dateCreation = formatter.format(currentDate.getTime());
+	}
+	
+	public Itinerary(Integer id, List<Note> notes, String comments) {
 		super();
 		this.id = id;
 		this.notes = notes;

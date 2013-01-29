@@ -5,6 +5,10 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 /**
  * Session Bean implementation class AdminBean
@@ -13,6 +17,7 @@ import javax.persistence.EntityManager;
 @LocalBean
 public class AdminBean implements AdminBeanRemote {
 
+	@PersistenceContext(unitName = "admin-unit")
 	EntityManager em;
 	boolean isLogged = false;
 	
@@ -20,7 +25,6 @@ public class AdminBean implements AdminBeanRemote {
      * Default constructor. 
      */
     public AdminBean() {
-        // TODO Auto-generated constructor stub
     }
 
 	@Override
@@ -38,20 +42,23 @@ public class AdminBean implements AdminBeanRemote {
 
 	@Override
 	public void addNote(Note note) {
-		// TODO Auto-generated method stub
-		
+		em.persist(note);
+	}
+	
+	@Override
+	public Note getNote(Integer id) {
+		return (Note)em.find(Note.class, id);
 	}
 
 	@Override
 	public List<Itinerary> getItineraries() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("SELECT m from Itinerary as m");
+        return (List<Itinerary>)query.getResultList();
 	}
 
 	@Override
 	public void addItinerary(Itinerary newItinerary) {
-		// TODO Auto-generated method stub
-		
+		em.persist(newItinerary);
 	}
 
 	@Override

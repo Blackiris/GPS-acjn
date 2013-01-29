@@ -7,10 +7,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/home/julien/git/GPS-acjn/lib/appserv-rt.jar"/>
-	<classpathentry kind="lib" path="/home/julien/git/GPS-acjn/lib/javaee.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/appserv-rt.jar"/>
-	<classpathentry kind="lib" path="lib/javaee.jar"/>
+	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/glassfish/lib/appserv-rt.jar"/>
+	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/glassfish/lib/javaee.jar"/>
+	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/javadb/lib/derbyclient.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -1,6 +1,12 @@
 package fr.emse.server;
 
-public class Coordinate {
+import java.io.Serializable;
+
+public class Coordinate implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	double latitude;
 	double longitude;
 	
