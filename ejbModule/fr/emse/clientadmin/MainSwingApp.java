@@ -37,17 +37,17 @@ public class MainSwingApp extends javax.swing.JFrame {
 			getContentPane().setLayout(thisLayout);
 			{
 				jButtonItinery = new JButton();
-				getContentPane().add(jButtonItinery, new AnchorConstraint(283, 473, 364, 32, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jButtonItinery, new AnchorConstraint(161, 473, 243, 32, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonItinery.setText("Créer un itinéraire");
-				jButtonItinery.setPreferredSize(new java.awt.Dimension(172, 22));
+				jButtonItinery.setPreferredSize(new java.awt.Dimension(269, 24));
 			}
 			{
 				jButtonCreateNote = new JButton();
-				getContentPane().add(jButtonCreateNote, new AnchorConstraint(135, 473, 216, 32, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jButtonCreateNote, new AnchorConstraint(42, 473, 124, 32, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonCreateNote.setText("Créer une note");
-				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(172, 22));
+				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(269, 24));
 			}
-			setSize(400, 300);
+			this.setSize(619, 324);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
