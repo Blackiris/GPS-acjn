@@ -17,11 +17,13 @@ public class ClientUser {
 			System.out.println("Recherche du bean...");
 			AdminBeanRemote bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 			
-			Note note = new Note(0, new Coordinate(10,20), 522, "Sommet de la montagne", "Nature");
+			Note note = new Note(new Coordinate(10,20), 522, "Sommet de la montagne", "Nature");
+			Note note2 = new Note(new Coordinate(30,40), 54, "Bas de la montagne", "Nature");
 			System.out.println("Envoi...");
 			bean.addNote(note);
+			bean.addNote(note2);
 			System.out.println("Lecture...");
-			System.out.println(bean.getNote(0).getComments());
+			System.out.println(bean.getNote(1).getComments());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

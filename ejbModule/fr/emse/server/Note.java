@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Note implements Serializable {
@@ -14,6 +18,7 @@ public class Note implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	Coordinate coordinate;
 	int height;
@@ -33,10 +38,9 @@ public class Note implements Serializable {
 		dateCreation = formatter.format(currentDate.getTime());
 	}
 	
-	public Note(Integer id, Coordinate coordinate, int height, String comments,
+	public Note(Coordinate coordinate, int height, String comments,
 			String category) {
 		super();
-		this.id = id;
 		this.coordinate = coordinate;
 		this.height = height;
 		this.comments = comments;

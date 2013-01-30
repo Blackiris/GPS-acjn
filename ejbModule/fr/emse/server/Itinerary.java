@@ -5,11 +5,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Itinerary {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	List<Note> notes;
 	double distance;
@@ -32,9 +35,8 @@ public class Itinerary {
 		this.dateCreation = formatter.format(currentDate.getTime());
 	}
 	
-	public Itinerary(Integer id, List<Note> notes, String comments) {
+	public Itinerary(List<Note> notes, String comments) {
 		super();
-		this.id = id;
 		this.notes = notes;
 		this.comments = comments;
 		this.nbUsed = 0;
