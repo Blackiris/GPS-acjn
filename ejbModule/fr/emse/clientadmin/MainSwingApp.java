@@ -1,11 +1,5 @@
 package fr.emse.clientadmin;
-import com.cloudgarden.layout.AnchorConstraint;
-import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.server.AdminBeanRemote;
-import fr.emse.server.Itinerary;
-
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,9 +7,20 @@ import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListModel;
 
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
+import com.cloudgarden.layout.AnchorConstraint;
+import com.cloudgarden.layout.AnchorLayout;
+
+import fr.emse.server.AdminBeanRemote;
+import fr.emse.server.Itinerary;
 
 
 /**
@@ -30,7 +35,7 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class MainSwingApp extends javax.swing.JFrame implements ActionListener {
+public class MainSwingApp extends JFrame implements ActionListener {
 	private JButton jButtonCreateNote;
 	private JButton jButtonItinery;
 	private JList jListItineraries;

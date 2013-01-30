@@ -21,7 +21,7 @@ public class ClientUser {
 			System.out.println("Envoi...");
 			bean.addNote(note);
 			System.out.println("Lecture...");
-			System.out.println(bean.getNote(0));
+			System.out.println(bean.getNote(0).getComments());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
