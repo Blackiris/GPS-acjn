@@ -46,8 +46,8 @@ public class CreateNoteJFrame extends javax.swing.JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			{
 				jTextAreaComments = new JTextArea();
-				getContentPane().add(jTextAreaComments, new AnchorConstraint(498, 865, 653, 311, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jTextAreaComments.setPreferredSize(new java.awt.Dimension(216, 42));
+				getContentPane().add(jTextAreaComments, new AnchorConstraint(494, 865, 650, 298, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextAreaComments.setPreferredSize(new java.awt.Dimension(218, 41));
 			}
 			{
 				jTextFieldCategory = new JTextField();
