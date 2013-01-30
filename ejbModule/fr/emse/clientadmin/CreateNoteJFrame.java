@@ -167,7 +167,10 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			String category = jTextFieldCategory.getText();
 			
 			Note note = new Note(id, new Coordinate(latitude, longitude), height, comment, category);
+			System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
 			bean.addNote(note);
+			
+			System.out.println("Note ajouté !");
 		} catch (NamingException e1){
 			e1.printStackTrace();
 		} catch (NumberFormatException e2){

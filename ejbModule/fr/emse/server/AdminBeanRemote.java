@@ -10,6 +10,7 @@ public interface AdminBeanRemote {
 	void signOut();
 	void addNote(Note note);
 	Note getNote(Integer id);
+	List<Note> getNotes();
 	List<Itinerary> getItineraries();
 	void addItinerary(Itinerary newItinerary);
 	String hello();

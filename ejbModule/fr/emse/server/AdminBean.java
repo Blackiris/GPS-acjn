@@ -49,6 +49,12 @@ public class AdminBean implements AdminBeanRemote {
 	public Note getNote(Integer id) {
 		return (Note)em.find(Note.class, id);
 	}
+	
+	@Override
+	public List<Note> getNotes() {
+		Query query = em.createQuery("SELECT m from Note as m");
+        return (List<Note>)query.getResultList();
+	}
 
 	@Override
 	public List<Itinerary> getItineraries() {

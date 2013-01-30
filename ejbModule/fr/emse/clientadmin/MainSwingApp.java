@@ -15,12 +15,14 @@ import javax.swing.JList;
 import javax.swing.ListModel;
 
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
 import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Itinerary;
+import fr.emse.server.Note;
 
 
 /**
@@ -100,6 +102,15 @@ public class MainSwingApp extends JFrame implements ActionListener {
 				JMapViewer map = new JMapViewer();
 				getContentPane().add(map, new AnchorConstraint(42, 970, 767, 339, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				map.setPreferredSize(new java.awt.Dimension(441, 264));
+				
+				// Displays notes
+				List<Note> notes = bean.getNotes();
+				
+				for (Note note : notes) {
+					map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(), 
+							                          note.getCoordinate().getLongitude()));
+				}
+				
 			}
 			{
 				jButtonCreateNote = new JButton();
