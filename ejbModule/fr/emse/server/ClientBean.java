@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * Session Bean implementation class ClientBean
@@ -13,6 +15,7 @@ import javax.persistence.EntityManager;
 @LocalBean
 public class ClientBean implements ClientBeanRemote {
 
+	@PersistenceContext(unitName = "admin-unit")
 	EntityManager em;
 	
     /**
@@ -24,14 +27,15 @@ public class ClientBean implements ClientBeanRemote {
 
 	@Override
 	public List<Itinerary> getItineraries() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("SELECT m from Itinerary as m");
+        return (List<Itinerary>)query.getResultList();
 	}
 
 	@Override
 	public void usingItinerary(int id) {
-		// TODO Auto-generated method stub
-		
+		Itinerary itinerary = (Itinerary)em.find(Itinerary.class, id);
+		itinerary.isUsed();
+		em.persist(itinerary);
 	}
 
 }
