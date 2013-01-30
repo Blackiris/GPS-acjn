@@ -1,11 +1,10 @@
 package fr.emse.clientadmin;
-import com.cloudgarden.layout.AnchorConstraint;
-import com.cloudgarden.layout.AnchorLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.*;
+import javax.swing.JButton;
 
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
+import com.cloudgarden.layout.AnchorConstraint;
+import com.cloudgarden.layout.AnchorLayout;
 
 
 /**
