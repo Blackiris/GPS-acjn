@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import fr.emse.objects.Itinerary;
+
 @Remote
 public interface ClientBeanRemote {
 	List<Itinerary> getItineraries();

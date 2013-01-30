@@ -3,8 +3,8 @@ package fr.emse.clientuser;
 import javax.naming.InitialContext;
 
 import fr.emse.beans.AdminBeanRemote;
-import fr.emse.beans.Coordinate;
-import fr.emse.beans.Note;
+import fr.emse.objects.Coordinate;
+import fr.emse.objects.Note;
 
 public class ClientUser {
 

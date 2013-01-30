@@ -14,8 +14,8 @@ import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
 import fr.emse.beans.AdminBeanRemote;
-import fr.emse.beans.Coordinate;
-import fr.emse.beans.Note;
+import fr.emse.objects.Coordinate;
+import fr.emse.objects.Note;
 
 
 /**
