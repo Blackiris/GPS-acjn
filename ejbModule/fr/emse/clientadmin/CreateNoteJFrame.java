@@ -13,9 +13,9 @@ import javax.swing.WindowConstants;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.beans.AdminBeanRemote;
-import fr.emse.beans.Coordinate;
-import fr.emse.beans.Note;
+import fr.emse.server.AdminBeanRemote;
+import fr.emse.server.Coordinate;
+import fr.emse.server.Note;
 
 
 /**
