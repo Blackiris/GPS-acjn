@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.*;
 
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -47,6 +49,10 @@ public class MainSwingApp extends javax.swing.JFrame {
 				jButtonCreateNote.setText("Créer une note");
 				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(269, 24));
 			}
+			{
+				JMapViewer jMapViewer = new JMapViewer();
+			}
+			
 			this.setSize(619, 324);
 		} catch (Exception e) {
 			e.printStackTrace();
