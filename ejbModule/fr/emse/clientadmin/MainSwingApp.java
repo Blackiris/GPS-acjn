@@ -20,7 +20,7 @@ import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
 import fr.emse.beans.AdminBeanRemote;
-import fr.emse.objects.Itinerary;
+import fr.emse.beans.Itinerary;
 
 
 /**

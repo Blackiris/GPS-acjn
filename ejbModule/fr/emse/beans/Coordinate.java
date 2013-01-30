@@ -1,4 +1,4 @@
-package fr.emse.objects;
+package fr.emse.beans;
 
 import java.io.Serializable;
 

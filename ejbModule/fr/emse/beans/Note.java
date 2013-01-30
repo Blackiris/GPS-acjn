@@ -1,4 +1,4 @@
-package fr.emse.objects;
+package fr.emse.beans;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import fr.emse.objects.Coordinate;
+import fr.emse.beans.Coordinate;
 
 @Entity
 public class Note implements Serializable {

@@ -10,9 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-import fr.emse.objects.Itinerary;
-import fr.emse.objects.Note;
-
 /**
  * Session Bean implementation class AdminBean
  */
