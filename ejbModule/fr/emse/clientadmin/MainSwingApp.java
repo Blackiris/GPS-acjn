@@ -19,8 +19,8 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.server.AdminBeanRemote;
-import fr.emse.server.Itinerary;
+import fr.emse.beans.AdminBeanRemote;
+import fr.emse.beans.Itinerary;
 
 
 /**
@@ -36,6 +36,10 @@ import fr.emse.server.Itinerary;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class MainSwingApp extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton jButtonCreateNote;
 	private JButton jButtonItinery;
 	private JList jListItineraries;

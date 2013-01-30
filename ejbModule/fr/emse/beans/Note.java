@@ -1,11 +1,14 @@
-package fr.emse.server;
+package fr.emse.beans;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import fr.emse.beans.Coordinate;
 
 @Entity
 public class Note implements Serializable {
@@ -13,6 +16,8 @@ public class Note implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@GeneratedValue
 	@Id
 	Integer id;
 	Coordinate coordinate;

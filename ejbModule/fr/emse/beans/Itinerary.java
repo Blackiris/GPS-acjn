@@ -1,14 +1,16 @@
-package fr.emse.server;
+package fr.emse.beans;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Itinerary {
+	@GeneratedValue
 	@Id
 	Integer id;
 	List<Note> notes;
