@@ -1,4 +1,4 @@
-package fr.emse.client;
+package fr.emse.clientuser;
 
 import javax.naming.InitialContext;
 

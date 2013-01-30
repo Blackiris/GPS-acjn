@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/glassfish/lib/appserv-rt.jar"/>
 	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/glassfish/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="/home/julien/.eclipse/org.eclipse.platform_4.2.0_1543616141/plugins/oracle.eclipse.runtime.glassfish.build3122_1.0.0/glassfish3/javadb/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="lib/forms-1.1.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
