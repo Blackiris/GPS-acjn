@@ -117,7 +117,8 @@ public class MainSwingApp extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		new CreateNoteJFrame();
+		JFrame createNoteFrame = new CreateNoteJFrame();
+		createNoteFrame.setVisible(true);
 	}
 
 }
