@@ -2,6 +2,8 @@ package fr.emse.clientadmin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -11,6 +13,7 @@ import javax.swing.WindowConstants;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
+import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Coordinate;
 import fr.emse.server.Note;
 
@@ -28,6 +31,10 @@ import fr.emse.server.Note;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel jLabel1;
 	private JLabel jLabelComments;
 	private JLabel jLabelId;
@@ -145,14 +152,29 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int id = Integer.parseInt(jTextFieldId.getText());
-		double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
-		double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
-		int height = Integer.parseInt(jTextFieldHeight.getText());
-		String comment = jTextAreaComments.getText();
-		String category = jTextFieldCategory.getText();
 		
-		new Note(id, new Coordinate(latitude, longitude), height, comment, category);
+		try {
+			InitialContext ctx;
+			ctx = new InitialContext();
+			System.out.println("Recherche du bean...");
+			AdminBeanRemote bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
+			
+			int id = Integer.parseInt(jTextFieldId.getText());
+			double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
+			double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
+			int height = Integer.parseInt(jTextFieldHeight.getText());
+			String comment = jTextAreaComments.getText();
+			String category = jTextFieldCategory.getText();
+			
+			Note note = new Note(id, new Coordinate(latitude, longitude), height, comment, category);
+			bean.addNote(note);
+		} catch (NamingException e1){
+			e1.printStackTrace();
+		} catch (NumberFormatException e2){
+			e2.printStackTrace();
+		} catch (NullPointerException e3){
+			e3.printStackTrace();
+		}
 	}
 
 }
