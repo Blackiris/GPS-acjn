@@ -37,10 +37,8 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 	private static final long serialVersionUID = 1L;
 	private JLabel jLabel1;
 	private JLabel jLabelComments;
-	private JLabel jLabelId;
 	private JTextField jTextFieldHeight;
 	private JLabel jLabelHeight;
-	private JTextField jTextFieldId;
 	private JTextField jTextFieldCoordinate2;
 	private JLabel jLabelCoordinate2;
 	private JTextField jTextFieldCoordinate1;
@@ -75,29 +73,19 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 				jLabelHeight.setText("Altitude");
 			}
 			{
-				jTextFieldId = new JTextField();
-				getContentPane().add(jTextFieldId, new AnchorConstraint(200, 365, 288, 118, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jTextFieldId.setPreferredSize(new java.awt.Dimension(95, 23));
-			}
-			{
-				jLabelId = new JLabel();
-				getContentPane().add(jLabelId, new AnchorConstraint(211, 87, 272, 58, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jLabelId.setText("ID");
-			}
-			{
 				jLabelCoordinate2 = new JLabel();
-				getContentPane().add(jLabelCoordinate2, new AnchorConstraint(349, 639, 410, 498, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabelCoordinate2, new AnchorConstraint(280, 657, 341, 516, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelCoordinate2.setText("Longitude");
 				jLabelCoordinate2.setPreferredSize(new java.awt.Dimension(54, 16));
 			}
 			{
 				jTextFieldCoordinate1 = new JTextField();
-				getContentPane().add(jTextFieldCoordinate1, new AnchorConstraint(337, 446, 421, 194, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jTextFieldCoordinate1, new AnchorConstraint(269, 451, 353, 199, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jTextFieldCoordinate1.setPreferredSize(new java.awt.Dimension(97, 22));
 			}
 			{
 				jLabelCoordinate1 = new JLabel();
-				getContentPane().add(jLabelCoordinate1, new AnchorConstraint(353, 170, 414, 58, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabelCoordinate1, new AnchorConstraint(291, 167, 353, 55, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelCoordinate1.setText("Latitude");
 				jLabelCoordinate1.setPreferredSize(new java.awt.Dimension(43, 16));
 			}
@@ -139,7 +127,7 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			}
 			{
 				jTextFieldCoordinate2 = new JTextField();
-				getContentPane().add(jTextFieldCoordinate2, new AnchorConstraint(337, 917, 421, 665, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jTextFieldCoordinate2, new AnchorConstraint(269, 928, 353, 675, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jTextFieldCoordinate2.setPreferredSize(new java.awt.Dimension(97, 22));
 			}
 			pack();
@@ -159,15 +147,15 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			System.out.println("Recherche du bean...");
 			AdminBeanRemote bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 			
-			int id = Integer.parseInt(jTextFieldId.getText());
 			double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
 			double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
 			int height = Integer.parseInt(jTextFieldHeight.getText());
 			String comment = jTextAreaComments.getText();
 			String category = jTextFieldCategory.getText();
 			
-			Note note = new Note(id, new Coordinate(latitude, longitude), height, comment, category);
+			Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
 			System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
+
 			bean.addNote(note);
 			
 			System.out.println("Note ajouté !");
