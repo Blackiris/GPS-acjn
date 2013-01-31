@@ -195,13 +195,12 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 					Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
 					if( MarkerPosition != null){
 
-						int centerX =  MarkerPosition.x;
+						int centerX = MarkerPosition.x;
 						int centerY = MarkerPosition.y;
 
 						//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
 						// calculate the radius from the touch to the center of the dot
 						radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
-
 
 					}
 				}
