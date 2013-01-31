@@ -167,6 +167,8 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			bean.addNote(note);
 			
 			System.out.println("Note ajouté !");
+			
+			this.dispose();
 		} catch (NamingException e1){
 			e1.printStackTrace();
 		} catch (NumberFormatException e2){

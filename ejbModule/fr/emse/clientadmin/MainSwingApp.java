@@ -129,14 +129,6 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				getContentPane().add(map, new AnchorConstraint(42, 970, 767, 339, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				map.setPreferredSize(new java.awt.Dimension(440, 300));
 				
-				// Displays notes
-				List<Note> notes = bean.getNotes();
-				
-				for (Note note : notes) {
-					map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(), 
-							                          note.getCoordinate().getLongitude()));
-				}
-				
 			}
 			{
 				jButtonCreateNote = new JButton();
@@ -152,18 +144,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 	}
 
-	public void initiateMainView(){
+	private void initiateMainView(){
 		try {
 
 			InitialContext ctx;
 			ctx = new InitialContext();
 			System.out.println("Recherche du bean...");
 			bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
-			List<Note> list = bean.getNotes();
-			Iterator<Note> i = list.iterator();
+			List<Note> notes = bean.getNotes();
 
-			while (i.hasNext()){
-				Note note = (Note) i.next();
+			for (Note note : notes) {
 				map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(),note.getCoordinate().getLongitude()));
 			}
 
