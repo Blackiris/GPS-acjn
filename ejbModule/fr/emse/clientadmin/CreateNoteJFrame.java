@@ -57,6 +57,14 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 		initGUI();
 	}
 	
+	public CreateNoteJFrame(double lat, double lon, int height){
+		super();
+		initGUI();
+		jTextFieldCoordinate1.setText(String.valueOf(lat));
+		jTextFieldCoordinate2.setText(String.valueOf(lon));
+		jTextFieldHeight.setText(String.valueOf(height));
+	}
+	
 	private void initGUI() {
 		try {
 			AnchorLayout thisLayout = new AnchorLayout();
