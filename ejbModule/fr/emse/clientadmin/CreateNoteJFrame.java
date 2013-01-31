@@ -37,6 +37,7 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 	private static final long serialVersionUID = 1L;
 	private JLabel jLabel1;
 	private JLabel jLabelComments;
+	private JButton jButton1;
 	private JTextField jTextFieldHeight;
 	private JLabel jLabelHeight;
 	private JTextField jTextFieldCoordinate2;
@@ -72,30 +73,34 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			{
 				jTextFieldHeight = new JTextField();
-				getContentPane().add(jTextFieldHeight, new AnchorConstraint(448, 446, 528, 199, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jTextFieldHeight.setPreferredSize(new java.awt.Dimension(95, 21));
+				getContentPane().add(jTextFieldHeight, new AnchorConstraint(446, 480, 527, 234, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextFieldHeight.setPreferredSize(new java.awt.Dimension(96, 22));
 			}
 			{
 				jLabelHeight = new JLabel();
-				getContentPane().add(jLabelHeight, new AnchorConstraint(459, 167, 520, 58, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabelHeight, new AnchorConstraint(457, 203, 520, 57, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelHeight.setText("Altitude");
+				jLabelHeight.setFont(new java.awt.Font("Andale Mono",0,10));
+				jLabelHeight.setPreferredSize(new java.awt.Dimension(57, 17));
 			}
 			{
 				jLabelCoordinate2 = new JLabel();
 				getContentPane().add(jLabelCoordinate2, new AnchorConstraint(280, 657, 341, 516, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelCoordinate2.setText("Longitude");
 				jLabelCoordinate2.setPreferredSize(new java.awt.Dimension(54, 16));
+				jLabelCoordinate2.setFont(new java.awt.Font("Andale Mono",0,10));
 			}
 			{
 				jTextFieldCoordinate1 = new JTextField();
-				getContentPane().add(jTextFieldCoordinate1, new AnchorConstraint(269, 451, 353, 199, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jTextFieldCoordinate1.setPreferredSize(new java.awt.Dimension(97, 22));
+				getContentPane().add(jTextFieldCoordinate1, new AnchorConstraint(268, 485, 353, 234, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextFieldCoordinate1.setPreferredSize(new java.awt.Dimension(98, 23));
 			}
 			{
 				jLabelCoordinate1 = new JLabel();
-				getContentPane().add(jLabelCoordinate1, new AnchorConstraint(291, 167, 353, 55, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabelCoordinate1, new AnchorConstraint(290, 203, 353, 55, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelCoordinate1.setText("Latitude");
-				jLabelCoordinate1.setPreferredSize(new java.awt.Dimension(43, 16));
+				jLabelCoordinate1.setPreferredSize(new java.awt.Dimension(58, 17));
+				jLabelCoordinate1.setFont(new java.awt.Font("Andale Mono",0,10));
 			}
 			{
 				jTextAreaComments = new JTextArea();
@@ -109,15 +114,17 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			}
 			{
 				jLabel2 = new JLabel();
-				getContentPane().add(jLabel2, new AnchorConstraint(746, 207, 803, 50, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabel2, new AnchorConstraint(746, 267, 801, 50, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabel2.setText("Catégorie");
-				jLabel2.setPreferredSize(new java.awt.Dimension(60, 15));
+				jLabel2.setPreferredSize(new java.awt.Dimension(85, 15));
+				jLabel2.setFont(new java.awt.Font("Andale Mono",0,11));
 			}
 			{
 				jButtonCreateNote = new JButton();
-				getContentPane().add(jButtonCreateNote, new AnchorConstraint(875, 529, 959, 404, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jButtonCreateNote, new AnchorConstraint(879, 775, 961, 547, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonCreateNote.setText("Créer");
-				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(48, 22));
+				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(89, 22));
+				jButtonCreateNote.setFont(new java.awt.Font("Andale Mono",0,11));
 				jButtonCreateNote.addActionListener(this);
 			}
 			{
@@ -125,6 +132,7 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 				getContentPane().add(jLabelComments, new AnchorConstraint(616, 279, 669, 50, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelComments.setText("Commentaires");
 				jLabelComments.setPreferredSize(new java.awt.Dimension(88, 14));
+				jLabelComments.setFont(new java.awt.Font("Andale Mono",0,11));
 			}
 			{
 				jLabel1 = new JLabel();
@@ -137,6 +145,14 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 				jTextFieldCoordinate2 = new JTextField();
 				getContentPane().add(jTextFieldCoordinate2, new AnchorConstraint(269, 928, 353, 675, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jTextFieldCoordinate2.setPreferredSize(new java.awt.Dimension(97, 22));
+			}
+			{
+				jButton1 = new JButton();
+				getContentPane().add(jButton1, new AnchorConstraint(875, 424, 957, 185, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButton1.setText("Annuler");
+				jButton1.setFont(new java.awt.Font("Andale Mono",0,11));
+				jButton1.setPreferredSize(new java.awt.Dimension(93, 22));
+				jButton1.addActionListener(this);
 			}
 			pack();
 			setSize(400, 300);
