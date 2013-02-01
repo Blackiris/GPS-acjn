@@ -164,64 +164,72 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		Point mousePoint = e.getPoint();
+		
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
 
 			if (state == State.CREATE_NOTE) {
-				Point p = e.getPoint();
+				
 				if (current_mapmarker != null){
 					map.removeMapMarker(current_mapmarker);
-					map.addMapMarker(new MapMarkerDot(map.getPosition(p).getLat(),map.getPosition(p).getLon()));
+					map.addMapMarker(new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon()));
 					current_mapmarker = null;
 				} else {
-	
-					int X = p.x+3;
-					int Y = p.y+3;
-	
-					List<MapMarker> ar = map.getMapMarkerList();
-					Iterator<MapMarker> i = ar.iterator();
-	
-					double radCircle = 10;
-					MapMarker mapMarker = null;
-					while (i.hasNext() && radCircle>=8) {
-	
-						mapMarker = (MapMarker) i.next();
-	
-						Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
-						if( MarkerPosition != null){
-	
-							int centerX = MarkerPosition.x;
-							int centerY = MarkerPosition.y;
-	
-							//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
-							// calculate the radius from the touch to the center of the dot
-							radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
-	
-						}
-					}
-					// if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
-					if (radCircle < 8){
+					MapMarker mapMarker = getMapMarker(mousePoint);
+					
+					if (mapMarker != null) {
 						map.removeMapMarker(mapMarker);
 						current_mapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
 						map.addMapMarker(current_mapmarker);
-						System.out.println(mapMarker.toString() + " is clicked");                       
+						System.out.println(mapMarker.toString() + " is clicked");      
 					} else {
-						int height = map.getHeight();
-						Coordinate coor = new Coordinate(map.getPosition(p).getLat(),map.getPosition(p).getLon());
-						map.addMapMarker(new MapMarkerDot(coor.getLat(),coor.getLon()));
-						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(),coor.getLon(),height);
+						Coordinate coor = map.getPosition(mousePoint);
+						map.addMapMarker(new MapMarkerDot(coor.getLat(), coor.getLon()));
+						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0);
 						createNoteFrame.setVisible(true);
+						state = State.NORMAL;
 					}
+					
 				}
-				
-				state = State.NORMAL;
 			}
 			
 			else if (state == State.CREATE_ITINERARY) {
-				
+				List<MapMarker> mapMarkers = map.getMapMarkerList();
 			}
 		}
 
+	}
+	
+	private MapMarker getMapMarker(Point mousePoint) {
+		int X = mousePoint.x+3;
+		int Y = mousePoint.y+3;
+
+		List<MapMarker> ar = map.getMapMarkerList();
+		Iterator<MapMarker> i = ar.iterator();
+
+		double radCircle = 10;
+		MapMarker mapMarker = null;
+		while (i.hasNext() && radCircle>=8) {
+
+			mapMarker = (MapMarker) i.next();
+
+			Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
+			if( MarkerPosition != null){
+
+				int centerX = MarkerPosition.x;
+				int centerY = MarkerPosition.y;
+
+				//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
+				// calculate the radius from the touch to the center of the dot
+				radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
+
+			}
+		}
+		// if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
+		if (radCircle < 8){
+			return mapMarker;
+		}
+		return null;
 	}
 
 	@Override
