@@ -1,6 +1,7 @@
 package fr.emse.server;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Itinerary {
 	
 	public Itinerary() {
 		this.id = -1;
-		this.notes = null;
+		this.notes = new ArrayList<Note>();
 		this.comments = "";
 		this.nbUsed = 0;
 		this.deniveleTotal = 0;

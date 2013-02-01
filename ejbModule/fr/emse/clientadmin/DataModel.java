@@ -1,6 +1,7 @@
 package fr.emse.clientadmin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public class DataModel {
 		System.out.println("Recherche du bean...");
 		adminBeanRemote = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 		
+		mapNotes = new HashMap<Coordinate, Note>();
+		
 		List<Note> notes = adminBeanRemote.getNotes();
 		for (Note note : notes) {
 			mapNotes.put(note.getCoordinate(), note);
@@ -38,11 +41,23 @@ public class DataModel {
 	}
 	
 	public List<Note> getNotes() {
-		return new ArrayList<Note>(mapNotes.values());
+		System.out.println(mapNotes.size());
+		
+		return new ArrayList<Note>();
 	}
 	
-	public Note getNodeAt(double latitude, double longitude) {
-		return mapNotes.get(new Coordinate(latitude, longitude));
+	public Note getNearestNodeFrom(double latitude, double longitude) {
+		double min = 1000;
+		Note actualNote = null;
+		for (Coordinate coord : mapNotes.keySet()) {
+			double dist = Math.abs(latitude-coord.getLatitude())+Math.abs(longitude-coord.getLongitude());
+			if (dist < min) {
+				min = dist;
+				actualNote = mapNotes.get(coord);
+			}
+		}
+		
+		return actualNote;
 	}
 	
 	public void addItinerary(Itinerary newItinerary) {

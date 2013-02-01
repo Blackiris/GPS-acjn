@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import javax.swing.event.MouseInputListener;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 import com.cloudgarden.layout.AnchorConstraint;
@@ -54,7 +56,8 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	
 	private MapMarker currentMapmarker;
 	private Itinerary currentItinerary;
-
+	private boolean isSelected;
+		
 	private JLabel jLabel1;
 	
 	private State state;
@@ -66,6 +69,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	public MainSwingApp() {
 		super();
 		state = State.NORMAL;
+		isSelected = false;
 
 		this.map = new JMapViewer();
 		map.addMouseListener(this);
@@ -171,10 +175,10 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 			if (state == State.CREATE_NOTE) {
 				
-				if (currentMapmarker != null){
+				if (isSelected){
 					map.removeMapMarker(currentMapmarker);
 					map.addMapMarker(new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon()));
-					currentMapmarker = null;
+					isSelected = false;
 				} else {
 					MapMarker mapMarker = getMapMarker(mousePoint);
 					
@@ -182,7 +186,8 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 						map.removeMapMarker(mapMarker);
 						currentMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
 						map.addMapMarker(currentMapmarker);
-						System.out.println(mapMarker.toString() + " is clicked");      
+						System.out.println(mapMarker.toString() + " is clicked");
+						isSelected = true;
 					} else {
 						Coordinate coor = map.getPosition(mousePoint);
 						currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
@@ -199,10 +204,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				MapMarker mapMarker = getMapMarker(mousePoint);
 				
 				if (mapMarker != null) {
-					//TODO
-					//Note noteToAdd = notes.
-					
-					//currentItinerary.appendNote(noteToAdd);
+					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
+					currentItinerary.appendNote(noteToAdd);
+					updateMap();
 				}
 			}
 		}
@@ -246,6 +250,29 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			map.removeMapMarker(currentMapmarker);
 			currentMapmarker = null;
 		}
+	}
+	
+	public void updateMap() {
+		map.removeAllMapPolygons();
+		
+		List<Note> notes = currentItinerary.getNotes();
+		org.openstreetmap.gui.jmapviewer.Coordinate coord1 = null;
+		org.openstreetmap.gui.jmapviewer.Coordinate coord2 = null;
+		
+		for (Note note : notes) {
+			coord1 = coord2;
+			coord2 = new org.openstreetmap.gui.jmapviewer.Coordinate(note.getCoordinate().getLatitude(), note.getCoordinate().getLongitude());
+			
+			if (coord1 != null) {
+				List<org.openstreetmap.gui.jmapviewer.Coordinate> route = 
+						new ArrayList<org.openstreetmap.gui.jmapviewer.Coordinate>(Arrays.asList(coord1, coord2, coord2));
+				map.addMapPolygon(new MapPolygonImpl(route));
+			}
+			
+		}
+		
+		
+
 	}
 
 	@Override
