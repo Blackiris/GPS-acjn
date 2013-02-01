@@ -174,7 +174,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 				Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
 				System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
 	
-				ClientAdmin.adminBeanRemote.addNote(note);
+				ClientAdmin.dataModel.addNote(note);
 				
 				System.out.println("Note ajouté !");
 				

@@ -51,7 +51,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JButton jButtonItinerary;
 	private JList<String> jListItineraries;
 	private JMapViewer map;
-	private MapMarker current_mapmarker;
+	
+	private MapMarker currentMapmarker;
+	private Itinerary currentItinerary;
 
 	private JLabel jLabel1;
 	
@@ -88,7 +90,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 			{
 
-				List<Itinerary> itineraries = ClientAdmin.adminBeanRemote.getItineraries();
+				List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 				ArrayList<String> itinerariesName = new ArrayList<String>();
 				for (Itinerary itinerary : itineraries) {
 					itinerariesName.add("Itinéraire "+itinerary.getId());
@@ -145,9 +147,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	}
 
 	private void initiateMainView(){
-		List<Note> notes = ClientAdmin.adminBeanRemote.getNotes();
-
-		for (Note note : notes) {
+		for (Note note : ClientAdmin.dataModel.getNotes()) {
 			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(),note.getCoordinate().getLongitude()));
 		}
 	}
@@ -155,6 +155,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == jButtonItinerary) {
+			currentItinerary = new Itinerary();
 			state = State.CREATE_ITINERARY;
 		}
 		else if (ae.getSource() == jButtonCreateNote) {
@@ -170,17 +171,17 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 			if (state == State.CREATE_NOTE) {
 				
-				if (current_mapmarker != null){
-					map.removeMapMarker(current_mapmarker);
+				if (currentMapmarker != null){
+					map.removeMapMarker(currentMapmarker);
 					map.addMapMarker(new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon()));
-					current_mapmarker = null;
+					currentMapmarker = null;
 				} else {
 					MapMarker mapMarker = getMapMarker(mousePoint);
 					
 					if (mapMarker != null) {
 						map.removeMapMarker(mapMarker);
-						current_mapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
-						map.addMapMarker(current_mapmarker);
+						currentMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
+						map.addMapMarker(currentMapmarker);
 						System.out.println(mapMarker.toString() + " is clicked");      
 					} else {
 						Coordinate coor = map.getPosition(mousePoint);
@@ -194,7 +195,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 			
 			else if (state == State.CREATE_ITINERARY) {
-				List<MapMarker> mapMarkers = map.getMapMarkerList();
+				MapMarker mapMarker = getMapMarker(mousePoint);
+				
+				if (mapMarker != null) {
+					//TODO
+					//Note noteToAdd = notes.
+					
+					//currentItinerary.appendNote(noteToAdd);
+				}
 			}
 		}
 
