@@ -56,7 +56,6 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JMapViewer map;
 	private MapMarker current_mapmarker;
 
-	AdminBeanRemote bean;
 	private JLabel jLabel1;
 
 	/**
@@ -89,7 +88,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 			{
 
-				List<Itinerary> itineraries = bean.getItineraries();
+				List<Itinerary> itineraries = ClientAdmin.adminBeanRemote.getItineraries();
 				ArrayList<String> itinerariesName = new ArrayList<String>();
 				for (Itinerary itinerary : itineraries) {
 					itinerariesName.add("Itinéraire "+itinerary.getId());
@@ -145,21 +144,10 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	}
 
 	private void initiateMainView(){
-		try {
+		List<Note> notes = ClientAdmin.adminBeanRemote.getNotes();
 
-			InitialContext ctx;
-			ctx = new InitialContext();
-			System.out.println("Recherche du bean...");
-			bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
-			List<Note> notes = bean.getNotes();
-
-			for (Note note : notes) {
-				map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(),note.getCoordinate().getLongitude()));
-			}
-
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (Note note : notes) {
+			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(),note.getCoordinate().getLongitude()));
 		}
 	}
 

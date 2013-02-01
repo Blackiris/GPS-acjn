@@ -166,11 +166,7 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 	public void actionPerformed(ActionEvent e) {
 		
 		try {
-			InitialContext ctx;
-			ctx = new InitialContext();
-			System.out.println("Recherche du bean...");
-			AdminBeanRemote bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
-			
+
 			double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
 			double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
 			int height = Integer.parseInt(jTextFieldHeight.getText());
@@ -180,13 +176,11 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 			Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
 			System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
 
-			bean.addNote(note);
+			ClientAdmin.adminBeanRemote.addNote(note);
 			
 			System.out.println("Note ajouté !");
 			
 			this.dispose();
-		} catch (NamingException e1){
-			e1.printStackTrace();
 		} catch (NumberFormatException e2){
 			e2.printStackTrace();
 		} catch (NullPointerException e3){
