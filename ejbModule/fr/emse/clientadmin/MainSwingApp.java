@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,7 +26,6 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Itinerary;
 import fr.emse.server.Note;
 
@@ -51,12 +48,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton jButtonCreateNote;
-	private JButton jButtonItinery;
-	private JList jListItineraries;
+	private JButton jButtonItinerary;
+	private JList<String> jListItineraries;
 	private JMapViewer map;
 	private MapMarker current_mapmarker;
 
 	private JLabel jLabel1;
+	
+	private State state;
 
 	/**
 	 * Auto-generated main method to display this JFrame
@@ -64,6 +63,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	public MainSwingApp() {
 		super();
+		state = State.NORMAL;
 
 		this.map = new JMapViewer();
 		map.addMouseListener(this);
@@ -96,16 +96,17 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 				ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
 
-				jListItineraries = new JList();
+				jListItineraries = new JList<String>();
 				getContentPane().add(jListItineraries, new AnchorConstraint(388, 215, 767, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jListItineraries.setModel(jListItinerariesModel);
 				jListItineraries.setPreferredSize(new java.awt.Dimension(116, 138));
 			}
 			{
-				jButtonItinery = new JButton();
-				getContentPane().add(jButtonItinery, new AnchorConstraint(831, 489, 913, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jButtonItinery.setText("Créer un itinéraire");
-				jButtonItinery.setPreferredSize(new java.awt.Dimension(308, 30));
+				jButtonItinerary = new JButton();
+				getContentPane().add(jButtonItinerary, new AnchorConstraint(831, 489, 913, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButtonItinerary.setText("Créer un itinéraire");
+				jButtonItinerary.setPreferredSize(new java.awt.Dimension(308, 30));
+				jButtonItinerary.addActionListener(this);
 			}
 			{	
 
@@ -152,59 +153,72 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		JFrame createNoteFrame = new CreateNoteJFrame();
-		createNoteFrame.setVisible(true);
+	public void actionPerformed(ActionEvent ae) {
+		if (ae.getSource() == jButtonItinerary) {
+			state = State.CREATE_ITINERARY;
+		}
+		else if (ae.getSource() == jButtonCreateNote) {
+			state = State.CREATE_NOTE;
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
 
-			Point p = e.getPoint();
-			if (current_mapmarker != null){
-				map.removeMapMarker(current_mapmarker);
-				map.addMapMarker(new MapMarkerDot(map.getPosition(p).getLat(),map.getPosition(p).getLon()));
-				current_mapmarker = null;
-			} else {
-
-				int X = p.x+3;
-				int Y = p.y+3;
-
-				List<MapMarker> ar = map.getMapMarkerList();
-				Iterator<MapMarker> i = ar.iterator();
-
-				double radCircle = 10;
-				MapMarker mapMarker = null;
-				while (i.hasNext() && radCircle>=8) {
-
-					mapMarker = (MapMarker) i.next();
-
-					Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
-					if( MarkerPosition != null){
-
-						int centerX = MarkerPosition.x;
-						int centerY = MarkerPosition.y;
-
-						//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
-						// calculate the radius from the touch to the center of the dot
-						radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
-
+			if (state == State.CREATE_NOTE) {
+				Point p = e.getPoint();
+				if (current_mapmarker != null){
+					map.removeMapMarker(current_mapmarker);
+					map.addMapMarker(new MapMarkerDot(map.getPosition(p).getLat(),map.getPosition(p).getLon()));
+					current_mapmarker = null;
+				} else {
+	
+					int X = p.x+3;
+					int Y = p.y+3;
+	
+					List<MapMarker> ar = map.getMapMarkerList();
+					Iterator<MapMarker> i = ar.iterator();
+	
+					double radCircle = 10;
+					MapMarker mapMarker = null;
+					while (i.hasNext() && radCircle>=8) {
+	
+						mapMarker = (MapMarker) i.next();
+	
+						Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
+						if( MarkerPosition != null){
+	
+							int centerX = MarkerPosition.x;
+							int centerY = MarkerPosition.y;
+	
+							//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
+							// calculate the radius from the touch to the center of the dot
+							radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
+	
+						}
+					}
+					// if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
+					if (radCircle < 8){
+						map.removeMapMarker(mapMarker);
+						current_mapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
+						map.addMapMarker(current_mapmarker);
+						System.out.println(mapMarker.toString() + " is clicked");                       
+					} else {
+						int height = map.getHeight();
+						Coordinate coor = new Coordinate(map.getPosition(p).getLat(),map.getPosition(p).getLon());
+						map.addMapMarker(new MapMarkerDot(coor.getLat(),coor.getLon()));
+						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(),coor.getLon(),height);
+						createNoteFrame.setVisible(true);
 					}
 				}
-				// if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
-				if (radCircle < 8){
-					map.removeMapMarker(mapMarker);
-					current_mapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
-					map.addMapMarker(current_mapmarker);
-					System.out.println(mapMarker.toString() + " is clicked");                       
-				} else {
-					int height = map.getHeight();
-					Coordinate coor = new Coordinate(map.getPosition(p).getLat(),map.getPosition(p).getLon());
-					map.addMapMarker(new MapMarkerDot(coor.getLat(),coor.getLon()));
-					JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(),coor.getLon(),height);
-					createNoteFrame.setVisible(true);
-				}
+				
+				state = State.NORMAL;
+			}
+			
+			else if (state == State.CREATE_ITINERARY) {
+				
 			}
 		}
 

@@ -2,9 +2,8 @@ package fr.emse.clientadmin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -13,7 +12,6 @@ import javax.swing.WindowConstants;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Coordinate;
 import fr.emse.server.Note;
 
@@ -30,14 +28,14 @@ import fr.emse.server.Note;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListener{
+public class CreateNoteJFrame extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel jLabel1;
 	private JLabel jLabelComments;
-	private JButton jButton1;
+	private JButton jButtonCancel;
 	private JTextField jTextFieldHeight;
 	private JLabel jLabelHeight;
 	private JTextField jTextFieldCoordinate2;
@@ -125,7 +123,7 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 				jButtonCreateNote.setText("Créer");
 				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(89, 22));
 				jButtonCreateNote.setFont(new java.awt.Font("Andale Mono",0,11));
-				jButtonCreateNote.addActionListener(this);
+				jButtonCreateNote.addActionListener(this);  
 			}
 			{
 				jLabelComments = new JLabel();
@@ -147,12 +145,12 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 				jTextFieldCoordinate2.setPreferredSize(new java.awt.Dimension(97, 22));
 			}
 			{
-				jButton1 = new JButton();
-				getContentPane().add(jButton1, new AnchorConstraint(875, 424, 957, 185, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jButton1.setText("Annuler");
-				jButton1.setFont(new java.awt.Font("Andale Mono",0,11));
-				jButton1.setPreferredSize(new java.awt.Dimension(93, 22));
-				jButton1.addActionListener(this);
+				jButtonCancel = new JButton();
+				getContentPane().add(jButtonCancel, new AnchorConstraint(875, 424, 957, 185, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButtonCancel.setText("Annuler");
+				jButtonCancel.setFont(new java.awt.Font("Andale Mono",0,11));
+				jButtonCancel.setPreferredSize(new java.awt.Dimension(93, 22));
+				jButtonCancel.addActionListener(this);  
 			}
 			pack();
 			setSize(400, 300);
@@ -163,28 +161,32 @@ public class CreateNoteJFrame extends javax.swing.JFrame implements ActionListen
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		try {
-
-			double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
-			double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
-			int height = Integer.parseInt(jTextFieldHeight.getText());
-			String comment = jTextAreaComments.getText();
-			String category = jTextFieldCategory.getText();
-			
-			Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
-			System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
-
-			ClientAdmin.adminBeanRemote.addNote(note);
-			
-			System.out.println("Note ajouté !");
-			
+	public void actionPerformed(ActionEvent ae) {
+		if(ae.getSource() == jButtonCreateNote) {
+			try {
+	
+				double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
+				double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
+				int height = Integer.parseInt(jTextFieldHeight.getText());
+				String comment = jTextAreaComments.getText();
+				String category = jTextFieldCategory.getText();
+				
+				Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
+				System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
+	
+				ClientAdmin.adminBeanRemote.addNote(note);
+				
+				System.out.println("Note ajouté !");
+				
+				this.dispose();
+			} catch (NumberFormatException e2){
+				e2.printStackTrace();
+			} catch (NullPointerException e3){
+				e3.printStackTrace();
+			}
+		}
+		else if (ae.getSource() == jButtonCancel) {
 			this.dispose();
-		} catch (NumberFormatException e2){
-			e2.printStackTrace();
-		} catch (NullPointerException e3){
-			e3.printStackTrace();
 		}
 	}
 
