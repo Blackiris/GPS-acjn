@@ -185,8 +185,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 						System.out.println(mapMarker.toString() + " is clicked");      
 					} else {
 						Coordinate coor = map.getPosition(mousePoint);
-						map.addMapMarker(new MapMarkerDot(coor.getLat(), coor.getLon()));
-						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0);
+						currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
+						map.addMapMarker(currentMapmarker);
+						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0, this);
 						createNoteFrame.setVisible(true);
 						state = State.NORMAL;
 					}
@@ -238,6 +239,13 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			return mapMarker;
 		}
 		return null;
+	}
+	
+	public void removeCurrentMapMarker() {
+		if (currentMapmarker != null) {
+			map.removeMapMarker(currentMapmarker);
+			currentMapmarker = null;
+		}
 	}
 
 	@Override

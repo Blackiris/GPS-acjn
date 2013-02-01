@@ -113,6 +113,17 @@ public class Itinerary {
 		return dateCreation;
 	}
 	
+	public void appendNote(Note newNote) {
+		if (notes.size()>0) {
+			Note lastNote = notes.get(notes.size()-1);
+			
+			distance+=distance(newNote.getCoordinate(), lastNote.getCoordinate());
+			deniveleTotal += Math.abs(newNote.getHeight() - lastNote.getHeight());
+		}
+		
+		notes.add(newNote);
+	}
+	
 	public void isUsed() {
 		nbUsed ++;
 	}

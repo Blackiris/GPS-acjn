@@ -46,22 +46,21 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 	private JTextField jTextFieldCategory;
 	private JLabel jLabel2;
 	private JButton jButtonCreateNote;
+	
+	private MainSwingApp mainFrame;
 
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
-		
-	public CreateNoteJFrame() {
-		super();
-		initGUI();
-	}
 	
-	public CreateNoteJFrame(double lat, double lon, int height){
+	public CreateNoteJFrame(double lat, double lon, int height, MainSwingApp mainFrame){
 		super();
 		initGUI();
 		jTextFieldCoordinate1.setText(String.valueOf(lat));
 		jTextFieldCoordinate2.setText(String.valueOf(lon));
 		jTextFieldHeight.setText(String.valueOf(height));
+		
+		this.mainFrame = mainFrame;
 	}
 	
 	private void initGUI() {
@@ -186,6 +185,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			}
 		}
 		else if (ae.getSource() == jButtonCancel) {
+			mainFrame.removeCurrentMapMarker();
 			this.dispose();
 		}
 	}
