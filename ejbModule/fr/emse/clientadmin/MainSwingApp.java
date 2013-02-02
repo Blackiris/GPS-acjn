@@ -165,6 +165,8 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				jButtonItinerary.setText("Finish itinerary");
 			} else {
 				ClientAdmin.dataModel.addItinerary(currentItinerary);
+				System.out.println("Itinéraire ajouté !");
+				updateListItineraries();
 				state = State.NORMAL;
 				jButtonItinerary.setText("Create itinerary");
 			}
@@ -267,7 +269,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		jButtonCreateNote.setText("Create note");
 	}
 	
-	public void updateMap() {
+	private void updateMap() {
 		map.removeAllMapPolygons();
 		
 		List<Note> notes = currentItinerary.getNotes();
@@ -282,12 +284,19 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				List<org.openstreetmap.gui.jmapviewer.Coordinate> route = 
 						new ArrayList<org.openstreetmap.gui.jmapviewer.Coordinate>(Arrays.asList(coord1, coord2, coord2));
 				map.addMapPolygon(new MapPolygonImpl(route));
-			}
-			
+			}	
+		}
+	}
+	
+	private void updateListItineraries() {
+		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
+		ArrayList<String> itinerariesName = new ArrayList<String>();
+		for (Itinerary itinerary : itineraries) {
+			itinerariesName.add("Itinéraire "+itinerary.getId());
 		}
 		
-		
-
+		ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
+		jListItineraries.setModel(jListItinerariesModel);
 	}
 
 	@Override
