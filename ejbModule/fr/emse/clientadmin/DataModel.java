@@ -54,6 +54,10 @@ public class DataModel {
 	public Note getNote(int id){
 		return adminBeanRemote.getNote(id);
 	}
+	
+	public void updateNote(int id, Note note) {
+		adminBeanRemote.updateNote(id, note);
+	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {
 		double min = 1000;

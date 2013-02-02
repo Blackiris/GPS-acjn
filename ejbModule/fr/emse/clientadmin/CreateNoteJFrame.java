@@ -9,6 +9,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
@@ -48,7 +50,6 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 	private JButton jButtonCreateNote;
 
 	private MainSwingApp mainFrame;
-	private State state;
 
 	/**
 	 * Auto-generated main method to display this JFrame
@@ -60,7 +61,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 		jTextFieldCoordinate1.setText(String.valueOf(coor.getLat()));
 		jTextFieldCoordinate2.setText(String.valueOf(coor.getLon()));
 		jTextFieldHeight.setText(String.valueOf(height));
-		state = State.CREATE_NOTE;
+		Context.setState(State.CREATE_NOTE);
 		this.mainFrame = mainFrame;
 	}
 
@@ -73,7 +74,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 		jTextAreaComments.setText(note.getComments());
 		jTextFieldHeight.setText(String.valueOf(note.getHeight()));
 		jButtonCreateNote.setText("Éditer");
-		state = State.EDIT_NOTE;
+		Context.setState(State.EDIT_NOTE);
 		this.mainFrame = mainFrame;
 	}
 
@@ -187,15 +188,20 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 				Note note = new Note(new SCoordinate(latitude, longitude), height, comment, category);
 				System.out.println("Note : "+note.getCoordinate().getLat()+" "+note.getCoordinate().getLon());
 
-				if (state == State.CREATE_NOTE){
+				System.out.println(Context.getState().toString());
+				if (Context.getState() == State.CREATE_NOTE){
 					ClientAdmin.dataModel.addNote(note);
 					System.out.println("Note ajoutée !");
+					mainFrame.createNotefinished();
 				}
 				
-				if (state == State.EDIT_NOTE){
-					//ClientAdmin.dataModel
+				if (Context.getState() == State.EDIT_NOTE){
+					ClientAdmin.dataModel.updateNote(Context.getCurrentIndex(), note);
+					Context.setCurrentMapMarker(new MapMarkerDot(note.getCoordinate().getLat(), note.getCoordinate().getLon()));
+					System.out.println("Note mise à jour");
+					mainFrame.updateNotefinished();
 				}
-				mainFrame.createNotefinished();
+				
 
 				this.dispose();
 			} catch (NumberFormatException e2){
@@ -205,7 +211,12 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			}
 		}
 		else if (ae.getSource() == jButtonCancel) {
-			mainFrame.cancelCreateNote();
+			if (Context.getState() == State.CREATE_NOTE)
+				mainFrame.cancelCreateNote();
+			if (Context.getState() == State.EDIT_NOTE){
+				mainFrame.createNotefinished();
+			}
+			
 			this.dispose();
 		}
 	}

@@ -55,14 +55,10 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JList<String> jListItineraries;
 	private JMapViewer map;
 
-	private MapMarker currentMapmarker;
-	private int currentIndex;
 	private Itinerary currentItinerary;
-	private boolean isSelected;
 
 	private JLabel jLabel1;
 
-	private State state;
 
 	/**
 	 * Auto-generated main method to display this JFrame
@@ -70,8 +66,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	public MainSwingApp() {
 		super();
-		state = State.NORMAL;
-		isSelected = false;
+		Context.setState(State.NORMAL);
 
 		this.map = new JMapViewer();
 		map.addMouseListener(this);
@@ -162,9 +157,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == jButtonItinerary) {
-			if (state == State.NORMAL) {
+			if (Context.getState() == State.NORMAL) {
 				currentItinerary = new Itinerary();
-				state = State.CREATE_ITINERARY;
+				Context.setState(State.CREATE_ITINERARY);
 				jButtonItinerary.setText("Finish itinerary");
 			} else {
 				CreateItineraryJFrame frame = new CreateItineraryJFrame(currentItinerary, this);
@@ -172,19 +167,19 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 		}
 		else if (ae.getSource() == jButtonCreateNote) {
-			if (state == State.NORMAL) {
-				state = State.CREATE_NOTE;
+			if (Context.getState() == State.NORMAL) {
+				Context.setState(State.CREATE_NOTE);
 				jButtonCreateNote.setText("Put note on map");
 			}
 
-			if (state == State.EDIT_NOTE) {
+			if (Context.getState() == State.EDIT_NOTE) {
 				Note note = ClientAdmin.dataModel.getNote(1);
-				System.out.println(currentIndex);
+				System.out.println(Context.getCurrentIndex());
 				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
 				createNoteFrame.setVisible(true);
 			}
 		}
-		System.out.println(state.toString());
+		//System.out.println(Context.getState().toString());
 	}
 
 	@Override
@@ -194,44 +189,45 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
 
 			MapMarker mapMarker = getMapMarker(mousePoint);
-			if (state == State.NORMAL && mapMarker != null){
-				currentIndex = map.getMapMarkerList().indexOf(mapMarker);
-				currentMapmarker = mapMarker;
+			if (Context.getState() == State.NORMAL && mapMarker != null){
+				Context.setCurrentIndex(map.getMapMarkerList().indexOf(mapMarker));
+				Context.setCurrentMapMarker(mapMarker);
 				MapMarker tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
-				map.getMapMarkerList().set(currentIndex, tmpMapmarker);
+				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
 				System.out.println(mapMarker.toString() + " is clicked");
 				jButtonCreateNote.setText("Edit note");
-				state = State.EDIT_NOTE;
+				Context.setState(State.EDIT_NOTE);
 			}
 
-			else if (state == State.EDIT_NOTE) {
+			else if (Context.getState() == State.EDIT_NOTE) {
 				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
-				map.getMapMarkerList().set(currentIndex, tmpMapmarker);
+				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
 				jButtonCreateNote.setText("Create note");
-				state = State.NORMAL;
+				Context.setState(State.NORMAL);
 			}
 
-			else if (state == State.CREATE_NOTE) {
+			else if (Context.getState() == State.CREATE_NOTE) {
 				if (mapMarker == null){
 					SCoordinate coor = new SCoordinate (map.getPosition(mousePoint).getLat(), map.getPosition(mousePoint).getLon());
-					currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
-					map.addMapMarker(currentMapmarker);
-					JFrame createNoteFrame = new CreateNoteJFrame(coor, 0, this);
+					Context.setCurrentMapMarker(new MapMarkerDot(coor.getLat(), coor.getLon()));
+					map.addMapMarker(Context.getCurrentMapMarker());
+					JFrame createNoteFrame = new CreateNoteJFrame(coor, map.getHeight(), this);
 					createNoteFrame.setVisible(true);
-					state = State.NORMAL;
 				} else {
 					System.out.println("Note existante à cet emplacement");
+					Context.setState(State.NORMAL);
+					jButtonCreateNote.setText("Create note");
 				}
 			}
 
-			else if (state == State.CREATE_ITINERARY) {
+			else if (Context.getState() == State.CREATE_ITINERARY) {
 				if (mapMarker != null) {
 					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
 					currentItinerary.appendNote(noteToAdd);
 					updateMap();
 				}
 			}
-			System.out.println(state.toString());
+			//System.out.println(Context.getState().toString());
 			map.repaint();
 		}
 	}
@@ -269,22 +265,31 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	}
 
 	public void cancelCreateNote() {
-		if (currentMapmarker != null) {
-			map.removeMapMarker(currentMapmarker);
-			currentMapmarker = null;
+		if (Context.getCurrentMapMarker() != null) {
+			map.removeMapMarker(Context.getCurrentMapMarker());
+			Context.setCurrentMapMarker(null);
 		}
 		jButtonCreateNote.setText("Create note");
+		Context.setState(State.NORMAL);
 	}
 
+	public void updateNotefinished() {
+		map.getMapMarkerList().set(Context.getCurrentIndex(), Context.getCurrentMapMarker());
+		jButtonCreateNote.setText("Create note");
+		Context.setState(State.NORMAL);
+		map.repaint();
+	}
+	
 	public void createNotefinished() {
 		jButtonCreateNote.setText("Create note");
+		Context.setState(State.NORMAL);
 	}
 	
 	public void createItineraryFinished() {
 		ClientAdmin.dataModel.addItinerary(currentItinerary);
 		System.out.println("Itinéraire ajouté !");
 		updateListItineraries();
-		state = State.NORMAL;
+		Context.setState(State.NORMAL);
 		jButtonItinerary.setText("Create itinerary");
 	}
 	

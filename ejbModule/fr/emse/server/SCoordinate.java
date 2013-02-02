@@ -3,16 +3,17 @@ package fr.emse.server;
 import java.io.Serializable;
 
 public class SCoordinate implements Serializable {
+
 	/**
 	 * 
 	 */
-	
 	private double lat;
 	private double lon;
 	
 	private static final long serialVersionUID = 1L;
-	
-	public SCoordinate (double lat, double lon) {
+
+	public SCoordinate(double lat, double lon) {
+		super();
 		this.lat = lat;
 		this.lon = lon;
 	}
@@ -32,6 +33,6 @@ public class SCoordinate implements Serializable {
 	public void setLon(double lon) {
 		this.lon = lon;
 	}
-	
+
 	
 }

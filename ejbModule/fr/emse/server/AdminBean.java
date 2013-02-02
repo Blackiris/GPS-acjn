@@ -1,6 +1,7 @@
 package fr.emse.server;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -46,7 +47,7 @@ public class AdminBean implements AdminBeanRemote {
 	}
 	
 	@Override
-	public Note getNote(Integer id) {
+	public Note getNote(int id) {
 		return (Note)em.find(Note.class, id);
 	}
 	
@@ -54,6 +55,18 @@ public class AdminBean implements AdminBeanRemote {
 	public List<Note> getNotes() {
 		Query query = em.createQuery("SELECT m from Note as m");
         return (List<Note>)query.getResultList();
+	}
+	
+	@Override
+	public void updateNote(int id, Note note) {
+		Note previousNote = (Note) em.find(Note.class, id);
+		previousNote.setCategory(note.getCategory());
+		previousNote.setComments(note.getComments());
+		previousNote.setCoordinate(note.getCoordinate());
+		previousNote.setHeight(note.getHeight());
+		
+		em.merge(previousNote);
+		em.getTransaction().commit(); 
 	}
 
 	@Override
