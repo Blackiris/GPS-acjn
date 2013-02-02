@@ -176,6 +176,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 				ClientAdmin.dataModel.addNote(note);
 				
 				System.out.println("Note ajouté !");
+				mainFrame.createNotefinished();
 				
 				this.dispose();
 			} catch (NumberFormatException e2){
@@ -185,7 +186,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			}
 		}
 		else if (ae.getSource() == jButtonCancel) {
-			mainFrame.removeCurrentMapMarker();
+			mainFrame.cancelCreateNote();
 			this.dispose();
 		}
 	}

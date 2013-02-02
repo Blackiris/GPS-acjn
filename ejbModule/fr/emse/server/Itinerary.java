@@ -1,20 +1,28 @@
 package fr.emse.server;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Itinerary {
+public class Itinerary implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8148007240281677876L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
+	@ManyToMany(mappedBy="itineraries", cascade = CascadeType.PERSIST)
 	List<Note> notes;
 	double distance;
 	int deniveleTotal;
@@ -58,6 +66,7 @@ public class Itinerary {
 			}
 			
 			previousNote = note;
+			note.addItinerary(this);
 		}
 		
 		// Date
@@ -122,6 +131,7 @@ public class Itinerary {
 			deniveleTotal += Math.abs(newNote.getHeight() - lastNote.getHeight());
 		}
 		
+		newNote.addItinerary(this);
 		notes.add(newNote);
 	}
 	

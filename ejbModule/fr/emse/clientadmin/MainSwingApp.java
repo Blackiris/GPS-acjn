@@ -159,11 +159,21 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == jButtonItinerary) {
-			currentItinerary = new Itinerary();
-			state = State.CREATE_ITINERARY;
+			if (state == State.NORMAL) {
+				currentItinerary = new Itinerary();
+				state = State.CREATE_ITINERARY;
+				jButtonItinerary.setText("Finish itinerary");
+			} else {
+				ClientAdmin.dataModel.addItinerary(currentItinerary);
+				state = State.NORMAL;
+				jButtonItinerary.setText("Create itinerary");
+			}
 		}
 		else if (ae.getSource() == jButtonCreateNote) {
-			state = State.CREATE_NOTE;
+			if (state == State.NORMAL) {
+				state = State.CREATE_NOTE;
+				jButtonCreateNote.setText("Put note on map");
+			}
 		}
 	}
 
@@ -245,11 +255,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		return null;
 	}
 	
-	public void removeCurrentMapMarker() {
+	public void cancelCreateNote() {
 		if (currentMapmarker != null) {
 			map.removeMapMarker(currentMapmarker);
 			currentMapmarker = null;
 		}
+		jButtonCreateNote.setText("Create note");
+	}
+	
+	public void createNotefinished() {
+		jButtonCreateNote.setText("Create note");
 	}
 	
 	public void updateMap() {

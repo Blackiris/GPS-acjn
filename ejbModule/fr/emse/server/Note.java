@@ -2,15 +2,15 @@ package fr.emse.server;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Note implements Serializable {
@@ -27,12 +27,15 @@ public class Note implements Serializable {
 	String dateCreation;
 	String category;
 	
+	List<Itinerary> itineraries;
+	
 	public Note() {
 		this.id = -1;
 		this.coordinate = null;
 		this.height = 0;
 		this.comments = "";
 		this.category = "";
+		itineraries = new ArrayList<Itinerary>();
 		
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -46,6 +49,8 @@ public class Note implements Serializable {
 		this.height = height;
 		this.comments = comments;
 		this.category = category;
+		
+		itineraries = new ArrayList<Itinerary>();
 		
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter=  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -92,5 +97,7 @@ public class Note implements Serializable {
 		return dateCreation;
 	}
 	
-	
+	public void addItinerary(Itinerary newItinerary) {
+		itineraries.add(newItinerary);
+	}
 }

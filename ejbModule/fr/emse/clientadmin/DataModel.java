@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
 
 import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Coordinate;
@@ -16,6 +18,7 @@ import fr.emse.server.Note;
 public class DataModel {
 	private AdminBeanRemote adminBeanRemote;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
 	Map<Coordinate, Note> mapNotes;
 	private List<Itinerary> itineraries;
 	
