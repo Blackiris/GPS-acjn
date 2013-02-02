@@ -52,8 +52,10 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private static final long serialVersionUID = 1L;
 	private JButton jButtonCreateNote;
 	private JButton jButtonItinerary;
+	private JButton jButtonRemove;
 	private JList<String> jListItineraries;
 	private JMapViewer map;
+	private MapMarker tmpMapmarker;
 
 	private Itinerary currentItinerary;
 
@@ -85,6 +87,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			AnchorLayout thisLayout = new AnchorLayout();
 			getContentPane().setLayout(thisLayout);
 			this.setTitle("GeoNotes");
+			{
+				jButtonRemove = new JButton();
+				getContentPane().add(jButtonRemove, new AnchorConstraint(830, 939, 912, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButtonRemove.setText("x");
+				jButtonRemove.setPreferredSize(new java.awt.Dimension(30, 30));
+				jButtonRemove.addActionListener(this);
+				jButtonRemove.setVisible(false);
+			}
 			{
 				jLabel1 = new JLabel();
 				getContentPane().add(jLabel1, new AnchorConstraint(317, 225, 358, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
@@ -136,9 +146,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 			{
 				jButtonCreateNote = new JButton();
-				getContentPane().add(jButtonCreateNote, new AnchorConstraint(831, 899, 913, 544, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jButtonCreateNote, new AnchorConstraint(830, 870, 912, 515, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonCreateNote.setText("Create note");
-				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(248, 30));
+				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(278, 30));
 				jButtonCreateNote.addActionListener(this);
 			}
 
@@ -173,12 +183,26 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
-				Note note = ClientAdmin.dataModel.getNote(Context.getCurrentIndex()+1);
+				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+				System.out.println(coor.toString());
+				Note note = ClientAdmin.dataModel.getNote(coor);
 				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
 				createNoteFrame.setVisible(true);
 			}
 			
 			else if (Context.getState() == State.CREATE_NOTE) {
+				jButtonCreateNote.setText("Create note");
+				Context.setState(State.NORMAL);
+			}
+		}
+		else if (ae.getSource() == jButtonRemove) {
+			if (Context.getState() == State.EDIT_NOTE) {
+				map.removeMapMarker(tmpMapmarker);
+				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+				ClientAdmin.dataModel.removeNote(coor);
+				Context.setCurrentMapMarker(null);
+				jButtonRemove.setVisible(false);
+				System.out.println("Note supprimée");
 				jButtonCreateNote.setText("Create note");
 				Context.setState(State.NORMAL);
 			}
@@ -196,10 +220,11 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			if (Context.getState() == State.NORMAL && mapMarker != null){
 				Context.setCurrentIndex(map.getMapMarkerList().indexOf(mapMarker));
 				Context.setCurrentMapMarker(mapMarker);
-				MapMarker tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
+				tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
 				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
 				System.out.println(mapMarker.toString() + " is clicked");
 				jButtonCreateNote.setText("Edit note");
+				jButtonRemove.setVisible(true);
 				Context.setState(State.EDIT_NOTE);
 			}
 
@@ -207,6 +232,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
 				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
 				jButtonCreateNote.setText("Create note");
+				jButtonRemove.setVisible(false);
 				Context.setState(State.NORMAL);
 			}
 
@@ -281,6 +307,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		map.getMapMarkerList().set(Context.getCurrentIndex(), new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
 				Context.getCurrentMapMarker().getLon()));
 		jButtonCreateNote.setText("Create note");
+		jButtonRemove.setVisible(false);
 		Context.setState(State.NORMAL);
 		map.repaint();
 	}
@@ -288,6 +315,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	public void updateNotefinished() {
 		map.getMapMarkerList().set(Context.getCurrentIndex(), Context.getCurrentMapMarker());
 		jButtonCreateNote.setText("Create note");
+		jButtonRemove.setVisible(false);
 		Context.setState(State.NORMAL);
 		map.repaint();
 	}

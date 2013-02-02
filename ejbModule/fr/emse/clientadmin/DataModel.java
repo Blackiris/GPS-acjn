@@ -29,7 +29,7 @@ public class DataModel {
 		adminBeanRemote = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 
 		mapNotes = new HashMap<SCoordinate, Note>();
-
+		
 		List<Note> notes = adminBeanRemote.getNotes();
 		if (notes != null){
 			for (Note note : notes) {
@@ -41,22 +41,24 @@ public class DataModel {
 	}
 
 	public void addNote(Note newNote) {
-		mapNotes.put(newNote.getCoordinate(), newNote);
+		//mapNotes.put(newNote.getCoordinate(), newNote);
 		adminBeanRemote.addNote(newNote);
 	}
 
 	public List<Note> getNotes() {
-		System.out.println(mapNotes.size());
-
 		return new ArrayList<Note>();
 	}
 
-	public Note getNote(int id){
-		return adminBeanRemote.getNote(id);
+	public Note getNote(SCoordinate coor){
+		return adminBeanRemote.getNote(coor);
 	}
 	
-	public void updateNote(int id, Note note) {
-		adminBeanRemote.updateNote(id, note);
+	public void updateNote(SCoordinate coor, Note note) {
+		adminBeanRemote.updateNote(coor, note);
+	}
+	
+	public void removeNote(SCoordinate coor) {
+		adminBeanRemote.removeNote(coor);
 	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {

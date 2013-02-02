@@ -1,5 +1,6 @@
 package fr.emse.server;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+
+import sun.org.mozilla.javascript.internal.Node;
 
 /**
  * Session Bean implementation class AdminBean
@@ -47,8 +50,21 @@ public class AdminBean implements AdminBeanRemote {
 	}
 	
 	@Override
-	public Note getNote(int id) {
-		return (Note)em.find(Note.class, id);
+	public Note getNote(SCoordinate coor) {
+		List<Note> noteList = getNotes();
+		Iterator<Note> iter = noteList.listIterator();
+		Note note = null;
+		while (iter.hasNext()){
+			note = iter.next();
+			if (note.getCoordinate().getLat()==coor.getLat() && note.getCoordinate().getLon()==coor.getLon()){
+				break;
+			} else {
+				note = null;
+			}
+			
+		}
+		
+		return note;
 	}
 	
 	@Override
@@ -58,13 +74,19 @@ public class AdminBean implements AdminBeanRemote {
 	}
 	
 	@Override
-	public void updateNote(int id, Note note) {
-		Note previousNote = (Note) em.find(Note.class, id);
+	public void updateNote(SCoordinate coor, Note note) {
+		Note previousNote = getNote(coor);
 		Note newNote = em.merge(previousNote);
 		newNote.setCategory(note.getCategory());
 		newNote.setComments(note.getComments());
 		newNote.setCoordinate(note.getCoordinate());
 		newNote.setHeight(note.getHeight());
+	}
+	
+	@Override
+	public void removeNote(SCoordinate coor) {
+		Note note = getNote(coor);
+		em.remove(note);
 	}
 
 	@Override
