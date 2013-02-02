@@ -84,6 +84,7 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == this.jButtonFinishItinerary) {
 			itinerary.setComments(this.jTextAreaComments.getText());
+			mainFrame.createItineraryFinished();
 			this.dispose();
 		}
 	}
