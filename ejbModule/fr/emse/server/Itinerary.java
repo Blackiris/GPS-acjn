@@ -75,14 +75,14 @@ public class Itinerary implements Serializable {
 		this.dateCreation = formatter.format(currentDate.getTime());
 	}
 	
-	private double distance(Coordinate A, Coordinate B) {
+	private double distance(SCoordinate A, SCoordinate B) {
 		double R = 6371;
 		
 		// Convert to radiant
-		double latA = A.getLatitude()*Math.PI/180;
-		double longA = A.getLongitude()*Math.PI/180;
-		double latB = B.getLatitude()*Math.PI/180;
-		double longB = B.getLongitude()*Math.PI/180;
+		double latA = A.getLat()*Math.PI/180;
+		double longA = A.getLon()*Math.PI/180;
+		double latB = B.getLat()*Math.PI/180;
+		double longB = B.getLon()*Math.PI/180;
 		
 		return R*Math.acos(Math.sin(latA)*Math.sin(latB)+Math.cos(latA)*Math.cos(latB)*Math.cos(longA-longB));
 	}

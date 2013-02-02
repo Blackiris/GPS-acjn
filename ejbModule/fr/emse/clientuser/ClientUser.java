@@ -3,8 +3,8 @@ package fr.emse.clientuser;
 import javax.naming.InitialContext;
 
 import fr.emse.server.AdminBeanRemote;
-import fr.emse.server.Coordinate;
 import fr.emse.server.Note;
+import fr.emse.server.SCoordinate;
 
 public class ClientUser {
 
@@ -17,8 +17,8 @@ public class ClientUser {
 			System.out.println("Recherche du bean...");
 			AdminBeanRemote bean = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 			
-			Note note = new Note(new Coordinate(10,20), 522, "Sommet de la montagne", "Nature");
-			Note note2 = new Note(new Coordinate(30,40), 54, "Bas de la montagne", "Nature");
+			Note note = new Note(new SCoordinate(10,20), 522, "Sommet de la montagne", "Nature");
+			Note note2 = new Note(new SCoordinate(30,40), 54, "Bas de la montagne", "Nature");
 			System.out.println("Envoi...");
 			bean.addNote(note);
 			bean.addNote(note2);

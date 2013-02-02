@@ -12,22 +12,22 @@ import javax.swing.WindowConstants;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
-import fr.emse.server.Coordinate;
 import fr.emse.server.Note;
+import fr.emse.server.SCoordinate;
 
 
 /**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
+ * This code was edited or generated using CloudGarden's Jigloo
+ * SWT/Swing GUI Builder, which is free for non-commercial
+ * use. If Jigloo is being used commercially (ie, by a corporation,
+ * company or business for any purpose whatever) then you
+ * should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details.
+ * Use of Jigloo implies acceptance of these licensing terms.
+ * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+ * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+ * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+ */
 public class CreateNoteJFrame extends JFrame implements ActionListener {
 	/**
 	 * 
@@ -46,23 +46,37 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 	private JTextField jTextFieldCategory;
 	private JLabel jLabel2;
 	private JButton jButtonCreateNote;
-	
+
 	private MainSwingApp mainFrame;
+	private State state;
 
 	/**
-	* Auto-generated main method to display this JFrame
-	*/
-	
-	public CreateNoteJFrame(double lat, double lon, int height, MainSwingApp mainFrame){
+	 * Auto-generated main method to display this JFrame
+	 */
+
+	public CreateNoteJFrame(SCoordinate coor, int height, MainSwingApp mainFrame){
 		super();
 		initGUI();
-		jTextFieldCoordinate1.setText(String.valueOf(lat));
-		jTextFieldCoordinate2.setText(String.valueOf(lon));
+		jTextFieldCoordinate1.setText(String.valueOf(coor.getLat()));
+		jTextFieldCoordinate2.setText(String.valueOf(coor.getLon()));
 		jTextFieldHeight.setText(String.valueOf(height));
-		
+		state = State.CREATE_NOTE;
 		this.mainFrame = mainFrame;
 	}
-	
+
+	public CreateNoteJFrame(Note note, MainSwingApp mainFrame){
+		super();
+		initGUI();
+		jTextFieldCoordinate1.setText(String.valueOf(note.getCoordinate().getLat()));
+		jTextFieldCoordinate2.setText(String.valueOf(note.getCoordinate().getLon()));
+		jTextFieldCategory.setText(note.getCategory());
+		jTextAreaComments.setText(note.getComments());
+		jTextFieldHeight.setText(String.valueOf(note.getHeight()));
+		jButtonCreateNote.setText("Éditer");
+		state = State.EDIT_NOTE;
+		this.mainFrame = mainFrame;
+	}
+
 	private void initGUI() {
 		try {
 			AnchorLayout thisLayout = new AnchorLayout();
@@ -154,7 +168,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			pack();
 			setSize(400, 300);
 		} catch (Exception e) {
-		    //add your error handling code here
+			//add your error handling code here
 			e.printStackTrace();
 		}
 	}
@@ -163,21 +177,26 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource() == jButtonCreateNote) {
 			try {
-	
+
 				double latitude = Double.parseDouble(jTextFieldCoordinate1.getText());
 				double longitude = Double.parseDouble(jTextFieldCoordinate2.getText());
 				int height = Integer.parseInt(jTextFieldHeight.getText());
 				String comment = jTextAreaComments.getText();
 				String category = jTextFieldCategory.getText();
+
+				Note note = new Note(new SCoordinate(latitude, longitude), height, comment, category);
+				System.out.println("Note : "+note.getCoordinate().getLat()+" "+note.getCoordinate().getLon());
+
+				if (state == State.CREATE_NOTE){
+					ClientAdmin.dataModel.addNote(note);
+					System.out.println("Note ajoutée !");
+				}
 				
-				Note note = new Note(new Coordinate(latitude, longitude), height, comment, category);
-				System.out.println("Note : "+note.getCoordinate().getLatitude()+" "+note.getCoordinate().getLongitude());
-	
-				ClientAdmin.dataModel.addNote(note);
-				
-				System.out.println("Note ajouté !");
+				if (state == State.EDIT_NOTE){
+					//ClientAdmin.dataModel
+				}
 				mainFrame.createNotefinished();
-				
+
 				this.dispose();
 			} catch (NumberFormatException e2){
 				e2.printStackTrace();

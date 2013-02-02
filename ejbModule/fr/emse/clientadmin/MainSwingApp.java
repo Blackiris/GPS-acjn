@@ -30,6 +30,7 @@ import com.cloudgarden.layout.AnchorLayout;
 
 import fr.emse.server.Itinerary;
 import fr.emse.server.Note;
+import fr.emse.server.SCoordinate;
 
 
 /**
@@ -55,6 +56,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JMapViewer map;
 
 	private MapMarker currentMapmarker;
+	private int currentIndex;
 	private Itinerary currentItinerary;
 	private boolean isSelected;
 
@@ -139,7 +141,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			{
 				jButtonCreateNote = new JButton();
 				getContentPane().add(jButtonCreateNote, new AnchorConstraint(831, 899, 913, 544, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jButtonCreateNote.setText("Créer une note");
+				jButtonCreateNote.setText("Create note");
 				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(248, 30));
 				jButtonCreateNote.addActionListener(this);
 			}
@@ -152,7 +154,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	private void initiateMainView(){
 		for (Note note : ClientAdmin.dataModel.getNotes()) {
-			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLatitude(),note.getCoordinate().getLongitude()));
+			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLat(),note.getCoordinate().getLon()));
 		}
 	}
 
@@ -176,7 +178,15 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				state = State.CREATE_NOTE;
 				jButtonCreateNote.setText("Put note on map");
 			}
+
+			if (state == State.EDIT_NOTE) {
+				Note note = ClientAdmin.dataModel.getNote(1);
+				System.out.println(currentIndex);
+				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
+				createNoteFrame.setVisible(true);
+			}
 		}
+		System.out.println(state.toString());
 	}
 
 	@Override
@@ -186,29 +196,29 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
 
 			MapMarker mapMarker = getMapMarker(mousePoint);
-			if (state == State.NORMAL){
-				if (isSelected){
-					map.removeMapMarker(currentMapmarker);
-					map.addMapMarker(new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon()));
-					isSelected = false;
-				} else {
-					if (mapMarker != null) {
-						map.removeMapMarker(mapMarker);
-						currentMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
-						map.addMapMarker(currentMapmarker);
-						System.out.println(mapMarker.toString() + " is clicked");
-						jButtonCreateNote.setText("Edit note");
-						isSelected = true;
-					}
-				}
+			if (state == State.NORMAL && mapMarker != null){
+				currentIndex = map.getMapMarkerList().indexOf(mapMarker);
+				currentMapmarker = mapMarker;
+				MapMarker tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
+				map.getMapMarkerList().set(currentIndex, tmpMapmarker);
+				System.out.println(mapMarker.toString() + " is clicked");
+				jButtonCreateNote.setText("Edit note");
+				state = State.EDIT_NOTE;
 			}
 
-			if (state == State.CREATE_NOTE) {
+			else if (state == State.EDIT_NOTE) {
+				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
+				map.getMapMarkerList().set(currentIndex, tmpMapmarker);
+				jButtonCreateNote.setText("Create note");
+				state = State.NORMAL;
+			}
+
+			else if (state == State.CREATE_NOTE) {
 				if (mapMarker == null){
-					Coordinate coor = map.getPosition(mousePoint);
+					SCoordinate coor = new SCoordinate (map.getPosition(mousePoint).getLat(), map.getPosition(mousePoint).getLon());
 					currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
 					map.addMapMarker(currentMapmarker);
-					JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0, this);
+					JFrame createNoteFrame = new CreateNoteJFrame(coor, 0, this);
 					createNoteFrame.setVisible(true);
 					state = State.NORMAL;
 				} else {
@@ -223,8 +233,9 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 					updateMap();
 				}
 			}
+			System.out.println(state.toString());
+			map.repaint();
 		}
-
 	}
 
 	private MapMarker getMapMarker(Point mousePoint) {
@@ -275,16 +286,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		map.removeAllMapPolygons();
 
 		List<Note> notes = currentItinerary.getNotes();
-		org.openstreetmap.gui.jmapviewer.Coordinate coord1 = null;
-		org.openstreetmap.gui.jmapviewer.Coordinate coord2 = null;
+		Coordinate coord1 = null;
+		Coordinate coord2 = null;
 
 		for (Note note : notes) {
 			coord1 = coord2;
-			coord2 = new org.openstreetmap.gui.jmapviewer.Coordinate(note.getCoordinate().getLatitude(), note.getCoordinate().getLongitude());
+			coord2 = new Coordinate(note.getCoordinate().getLat(), note.getCoordinate().getLon());
 
 			if (coord1 != null) {
-				List<org.openstreetmap.gui.jmapviewer.Coordinate> route = 
-						new ArrayList<org.openstreetmap.gui.jmapviewer.Coordinate>(Arrays.asList(coord1, coord2, coord2));
+				List<Coordinate> route = 
+						new ArrayList<Coordinate>(Arrays.asList(coord1, coord2, coord2));
 				map.addMapPolygon(new MapPolygonImpl(route));
 			}	
 		}

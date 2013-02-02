@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
 
 @Entity
 public class Note implements Serializable {
@@ -21,7 +21,7 @@ public class Note implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	Coordinate coordinate;
+	SCoordinate coordinate;
 	int height;
 	String comments;
 	String dateCreation;
@@ -42,7 +42,7 @@ public class Note implements Serializable {
 		dateCreation = formatter.format(currentDate.getTime());
 	}
 	
-	public Note(Coordinate coordinate, int height, String comments,
+	public Note(SCoordinate coordinate, int height, String comments,
 			String category) {
 		super();
 		this.coordinate = coordinate;
@@ -57,11 +57,11 @@ public class Note implements Serializable {
 		dateCreation = formatter.format(currentDate.getTime());
 	}
 
-	public Coordinate getCoordinate() {
+	public SCoordinate getCoordinate() {
 		return coordinate;
 	}
 
-	public void setCoordinate(Coordinate coordinate) {
+	public void setCoordinate(SCoordinate coordinate) {
 		this.coordinate = coordinate;
 	}
 
