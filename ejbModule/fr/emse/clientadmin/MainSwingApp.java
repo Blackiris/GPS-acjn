@@ -53,13 +53,13 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JButton jButtonItinerary;
 	private JList<String> jListItineraries;
 	private JMapViewer map;
-	
+
 	private MapMarker currentMapmarker;
 	private Itinerary currentItinerary;
 	private boolean isSelected;
-		
+
 	private JLabel jLabel1;
-	
+
 	private State state;
 
 	/**
@@ -134,7 +134,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 				getContentPane().add(map, new AnchorConstraint(42, 970, 767, 339, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				map.setPreferredSize(new java.awt.Dimension(440, 300));
-				
+
 			}
 			{
 				jButtonCreateNote = new JButton();
@@ -182,39 +182,41 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Point mousePoint = e.getPoint();
-		
+
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
 
-			if (state == State.CREATE_NOTE) {
-				
+			MapMarker mapMarker = getMapMarker(mousePoint);
+			if (state == State.NORMAL){
 				if (isSelected){
 					map.removeMapMarker(currentMapmarker);
 					map.addMapMarker(new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon()));
 					isSelected = false;
 				} else {
-					MapMarker mapMarker = getMapMarker(mousePoint);
-					
 					if (mapMarker != null) {
 						map.removeMapMarker(mapMarker);
 						currentMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
 						map.addMapMarker(currentMapmarker);
 						System.out.println(mapMarker.toString() + " is clicked");
+						jButtonCreateNote.setText("Edit note");
 						isSelected = true;
-					} else {
-						Coordinate coor = map.getPosition(mousePoint);
-						currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
-						map.addMapMarker(currentMapmarker);
-						JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0, this);
-						createNoteFrame.setVisible(true);
-						state = State.NORMAL;
 					}
-					
 				}
 			}
-			
+
+			if (state == State.CREATE_NOTE) {
+				if (mapMarker == null){
+					Coordinate coor = map.getPosition(mousePoint);
+					currentMapmarker = new MapMarkerDot(coor.getLat(), coor.getLon());
+					map.addMapMarker(currentMapmarker);
+					JFrame createNoteFrame = new CreateNoteJFrame(coor.getLat(), coor.getLon(), 0, this);
+					createNoteFrame.setVisible(true);
+					state = State.NORMAL;
+				} else {
+					System.out.println("Note existante à cet emplacement");
+				}
+			}
+
 			else if (state == State.CREATE_ITINERARY) {
-				MapMarker mapMarker = getMapMarker(mousePoint);
-				
 				if (mapMarker != null) {
 					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
 					currentItinerary.appendNote(noteToAdd);
@@ -224,7 +226,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 
 	}
-	
+
 	private MapMarker getMapMarker(Point mousePoint) {
 		int X = mousePoint.x+3;
 		int Y = mousePoint.y+3;
@@ -256,7 +258,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 		return null;
 	}
-	
+
 	public void cancelCreateNote() {
 		if (currentMapmarker != null) {
 			map.removeMapMarker(currentMapmarker);
@@ -264,22 +266,22 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 		jButtonCreateNote.setText("Create note");
 	}
-	
+
 	public void createNotefinished() {
 		jButtonCreateNote.setText("Create note");
 	}
-	
+
 	private void updateMap() {
 		map.removeAllMapPolygons();
-		
+
 		List<Note> notes = currentItinerary.getNotes();
 		org.openstreetmap.gui.jmapviewer.Coordinate coord1 = null;
 		org.openstreetmap.gui.jmapviewer.Coordinate coord2 = null;
-		
+
 		for (Note note : notes) {
 			coord1 = coord2;
 			coord2 = new org.openstreetmap.gui.jmapviewer.Coordinate(note.getCoordinate().getLatitude(), note.getCoordinate().getLongitude());
-			
+
 			if (coord1 != null) {
 				List<org.openstreetmap.gui.jmapviewer.Coordinate> route = 
 						new ArrayList<org.openstreetmap.gui.jmapviewer.Coordinate>(Arrays.asList(coord1, coord2, coord2));
@@ -287,14 +289,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}	
 		}
 	}
-	
+
 	private void updateListItineraries() {
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		ArrayList<String> itinerariesName = new ArrayList<String>();
 		for (Itinerary itinerary : itineraries) {
 			itinerariesName.add("Itinéraire "+itinerary.getId());
 		}
-		
+
 		ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
 		jListItineraries.setModel(jListItinerariesModel);
 	}
