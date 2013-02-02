@@ -87,6 +87,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		try {
 			AnchorLayout thisLayout = new AnchorLayout();
 			getContentPane().setLayout(thisLayout);
+			this.setTitle("GeoNotes");
 			{
 				jLabel1 = new JLabel();
 				getContentPane().add(jLabel1, new AnchorConstraint(317, 225, 358, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
@@ -164,11 +165,8 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				state = State.CREATE_ITINERARY;
 				jButtonItinerary.setText("Finish itinerary");
 			} else {
-				ClientAdmin.dataModel.addItinerary(currentItinerary);
-				System.out.println("Itinéraire ajouté !");
-				updateListItineraries();
-				state = State.NORMAL;
-				jButtonItinerary.setText("Create itinerary");
+				CreateItineraryJFrame frame = new CreateItineraryJFrame(currentItinerary, this);
+				frame.setVisible(true);
 			}
 		}
 		else if (ae.getSource() == jButtonCreateNote) {
@@ -267,6 +265,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	
 	public void createNotefinished() {
 		jButtonCreateNote.setText("Create note");
+	}
+	
+	public void createItineraryFinished() {
+		ClientAdmin.dataModel.addItinerary(currentItinerary);
+		System.out.println("Itinéraire ajouté !");
+		updateListItineraries();
+		state = State.NORMAL;
+		jButtonItinerary.setText("Create itinerary");
 	}
 	
 	private void updateMap() {
