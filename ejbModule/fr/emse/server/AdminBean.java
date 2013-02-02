@@ -60,13 +60,11 @@ public class AdminBean implements AdminBeanRemote {
 	@Override
 	public void updateNote(int id, Note note) {
 		Note previousNote = (Note) em.find(Note.class, id);
-		previousNote.setCategory(note.getCategory());
-		previousNote.setComments(note.getComments());
-		previousNote.setCoordinate(note.getCoordinate());
-		previousNote.setHeight(note.getHeight());
-		
-		em.merge(previousNote);
-		em.getTransaction().commit(); 
+		Note newNote = em.merge(previousNote);
+		newNote.setCategory(note.getCategory());
+		newNote.setComments(note.getComments());
+		newNote.setCoordinate(note.getCoordinate());
+		newNote.setHeight(note.getHeight());
 	}
 
 	@Override

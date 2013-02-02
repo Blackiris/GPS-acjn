@@ -172,11 +172,15 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				jButtonCreateNote.setText("Put note on map");
 			}
 
-			if (Context.getState() == State.EDIT_NOTE) {
-				Note note = ClientAdmin.dataModel.getNote(1);
-				System.out.println(Context.getCurrentIndex());
+			else if (Context.getState() == State.EDIT_NOTE) {
+				Note note = ClientAdmin.dataModel.getNote(Context.getCurrentIndex()+1);
 				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
 				createNoteFrame.setVisible(true);
+			}
+			
+			else if (Context.getState() == State.CREATE_NOTE) {
+				jButtonCreateNote.setText("Create note");
+				Context.setState(State.NORMAL);
 			}
 		}
 		//System.out.println(Context.getState().toString());
@@ -271,6 +275,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 		jButtonCreateNote.setText("Create note");
 		Context.setState(State.NORMAL);
+	}
+	
+	public void cancelUpdate(){
+		map.getMapMarkerList().set(Context.getCurrentIndex(), new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
+				Context.getCurrentMapMarker().getLon()));
+		jButtonCreateNote.setText("Create note");
+		Context.setState(State.NORMAL);
+		map.repaint();
 	}
 
 	public void updateNotefinished() {

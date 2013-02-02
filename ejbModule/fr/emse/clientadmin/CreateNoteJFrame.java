@@ -196,7 +196,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 				}
 				
 				if (Context.getState() == State.EDIT_NOTE){
-					ClientAdmin.dataModel.updateNote(Context.getCurrentIndex(), note);
+					ClientAdmin.dataModel.updateNote(Context.getCurrentIndex()+1, note);
 					Context.setCurrentMapMarker(new MapMarkerDot(note.getCoordinate().getLat(), note.getCoordinate().getLon()));
 					System.out.println("Note mise à jour");
 					mainFrame.updateNotefinished();
@@ -214,7 +214,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			if (Context.getState() == State.CREATE_NOTE)
 				mainFrame.cancelCreateNote();
 			if (Context.getState() == State.EDIT_NOTE){
-				mainFrame.createNotefinished();
+				mainFrame.updateNotefinished();
 			}
 			
 			this.dispose();
