@@ -88,17 +88,19 @@ public class DataModel {
 	public List<Itinerary> getItineraries() {
 		return itineraries;
 	}
-	
+
 	public void updateRelatedItinerary(SCoordinate coor, Note newNote){
 		for (Itinerary itinerary:itineraries){
 			itinerary.updateNote(coor, newNote);
+			itinerary.updateGeometry();
 			System.out.println("Itinéraire "+itinerary.getTitle()+" modifié");
 		}
 	}
-	
+
 	public void removeRelatedNote(SCoordinate coor){
 		for (Itinerary itinerary:itineraries){
 			itinerary.removeNote(coor);
+			itinerary.updateGeometry();
 			System.out.println("Itinéraire "+itinerary.getTitle()+" modifié");
 		}
 	}

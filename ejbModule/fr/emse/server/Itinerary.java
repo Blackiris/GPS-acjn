@@ -1,6 +1,7 @@
 package fr.emse.server;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -123,9 +124,18 @@ public class Itinerary implements Serializable {
 	public double getDistance() {
 		return distance;
 	}
+	
+	public String getDistanceString() {
+		DecimalFormat dFormat = new DecimalFormat("0.00");
+		return dFormat.format(distance)+" km";
+	}
 
 	public int getDeniveleTotal() {
 		return deniveleTotal;
+	}
+	
+	public String getDeniveleString() {
+		return deniveleTotal+" km";
 	}
 
 	public int getNbUsed() {
@@ -165,6 +175,22 @@ public class Itinerary implements Serializable {
 				notes.remove(i);
 			}
 			i++;
+		}
+	}
+	
+	public void updateGeometry() {
+		Note previousNote = notes.get(0);
+		this.distance = 0;
+		this.deniveleTotal = 0;
+		
+		boolean isFirst = true;
+		for (Note note : notes) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				this.deniveleTotal += Math.abs(note.getHeight() - previousNote.getHeight());
+				this.distance += distance(note.getCoordinate(), previousNote.getCoordinate());
+			}
 		}
 	}
 	

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -44,7 +46,7 @@ import fr.emse.server.SCoordinate;
  * ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
 public class MainSwingApp extends JFrame implements ActionListener,
-		MouseInputListener {
+MouseInputListener {
 	/**
 	 * 
 	 */
@@ -86,6 +88,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		// new SignInDialog(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initGUI() {
 		try {
 			AnchorLayout thisLayout = new AnchorLayout();
@@ -120,10 +123,13 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				List<Itinerary> itineraries = ClientAdmin.dataModel
 						.getItineraries();
 				ArrayList<String> itinerariesName = new ArrayList<String>();
-				for (Itinerary itinerary : itineraries) {
-					itinerariesName.add("Itinéraire " + itinerary.getId());
+				if (itineraries != null){
+					for (Itinerary itinerary : itineraries) {
+						itinerariesName.add("Itinéraire " + itinerary.getId());
+					}
 				}
 
+				@SuppressWarnings({ "rawtypes" })
 				ListModel jListItinerariesModel = new DefaultComboBoxModel(
 						itinerariesName.toArray());
 
@@ -138,6 +144,24 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				jListItineraries.setModel(jListItinerariesModel);
 				jListItineraries.setPreferredSize(new java.awt.Dimension(116,
 						138));
+				MouseListener mouseListener = new MouseAdapter() {
+					public void mousePressed(MouseEvent mouseEvent) {
+						int index = jListItineraries.locationToIndex(mouseEvent.getPoint());
+						if (index >= 0) {
+							Itinerary itinerary = ClientAdmin.adminBeanRemote.getItineraries().get(index);
+							jTextPaneInfo.setText("Itinéraire: "+itinerary.getTitle()+"\n"
+									+"Commentaires: "+itinerary.getComments()+"\n"
+									+"Distance: "+itinerary.getDistanceString()+"\n"
+									+"Dénivelé: "+itinerary.getDeniveleString()+"\n"
+									+"Date: "+itinerary.getDateCreation());
+
+							String element = jListItineraries.getModel().getElementAt(index);
+							System.out.println("clicked on: " + element.toString());
+						}
+					}
+				};
+				jListItineraries.addMouseListener(mouseListener);
+
 			}
 			{
 				jButtonItinerary = new JButton();
@@ -173,8 +197,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 					}
 				});
 
-				getContentPane().add(
-						map,
+				getContentPane().add(map,
 						new AnchorConstraint(42, 970, 767, 339,
 								AnchorConstraint.ANCHOR_REL,
 								AnchorConstraint.ANCHOR_REL,
@@ -257,7 +280,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				System.out.println("Note supprimée");
 			}
 		}
-		// System.out.println(Context.getState().toString());
 	}
 
 	@Override
@@ -435,10 +457,8 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		Coordinate coord2 = null;
 
 		for (Note note : itinerary.getNotes()) {
-			System.out.println(itinerary.getTitle()+": "+note.getCategory());
 			coord1 = coord2;
-			coord2 = new Coordinate(note.getCoordinate().getLat(), note
-					.getCoordinate().getLon());
+			coord2 = new Coordinate(note.getCoordinate().getLat(), note.getCoordinate().getLon());
 
 			if (coord1 != null) {
 				List<Coordinate> route = new ArrayList<Coordinate>(
@@ -448,6 +468,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void updateListItineraries() {
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		ArrayList<String> itinerariesName = new ArrayList<String>();
@@ -455,6 +476,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			itinerariesName.add("Itinéraire "+itinerary.getTitle());
 		}
 
+		@SuppressWarnings({ "rawtypes" })
 		ListModel jListItinerariesModel = new DefaultComboBoxModel(
 				itinerariesName.toArray());
 		jListItineraries.setModel(jListItinerariesModel);

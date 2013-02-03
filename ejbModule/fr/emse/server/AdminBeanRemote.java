@@ -23,4 +23,8 @@ public interface AdminBeanRemote {
 	List<Itinerary> getItineraries();
 
 	void addItinerary(Itinerary newItinerary);
+	
+	Itinerary getItinerary(int id);
+	
+	void updateItinerary(int id, Itinerary itinerary);
 }

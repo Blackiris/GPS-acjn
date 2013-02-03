@@ -29,6 +29,7 @@ public class ClientBean implements ClientBeanRemote {
 		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@WebMethod(operationName = "itineraries")
 	public List<Itinerary> getItineraries() {

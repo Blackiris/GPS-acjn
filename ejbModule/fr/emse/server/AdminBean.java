@@ -71,6 +71,7 @@ public class AdminBean implements AdminBeanRemote {
 		return note;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@WebMethod(operationName = "getNotes")
 	public List<Note> getNotes() {
@@ -97,6 +98,7 @@ public class AdminBean implements AdminBeanRemote {
 		em.remove(note);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@WebMethod(operationName = "itineraries")
 	public List<Itinerary> getItineraries() {
@@ -109,5 +111,22 @@ public class AdminBean implements AdminBeanRemote {
 	public void addItinerary(
 			@WebParam(name = "newItinerary") Itinerary newItinerary) {
 		em.persist(newItinerary);
+	}
+	
+	@Override
+	@WebMethod(operationName = "getItinerary")
+	public Itinerary getItinerary(@WebParam(name = "id") int id) {
+		return em.find(Itinerary.class, id);
+	}
+	
+	@Override
+	@WebMethod(operationName = "updateItinerary")
+	public void updateItinerary(
+			@WebParam(name = "id") int id, @WebParam(name = "itinerary") Itinerary itinerary) {
+		Itinerary previousItinerary = getItinerary(id);
+		Itinerary newItinerary = em.merge(previousItinerary);
+		newItinerary.setTitle(itinerary.getTitle());
+		newItinerary.setNotes(itinerary.getNotes());
+		newItinerary.setComments(itinerary.getComments());
 	}
 }
