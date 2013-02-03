@@ -1,5 +1,6 @@
 package fr.emse.clientadmin;
 
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,10 +42,13 @@ public class CreateItineraryDialog extends JDialog implements ActionListener {
 	 */
 
 	public CreateItineraryDialog(Itinerary itinerary, MainSwingApp mainFrame) {
-		super();
+		super(mainFrame, Dialog.ModalityType.APPLICATION_MODAL);
 		this.itinerary = itinerary;
 		this.mainFrame = mainFrame;
 		initGUI();
+
+		setVisible(true);
+		setModal(true);
 	}
 
 	private void initGUI() {
@@ -95,8 +99,6 @@ public class CreateItineraryDialog extends JDialog implements ActionListener {
 			pack();
 			this.setSize(381, 158);
 
-			setVisible(true);
-			setModal(true);
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();
