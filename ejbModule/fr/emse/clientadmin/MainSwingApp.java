@@ -33,20 +33,18 @@ import fr.emse.server.Itinerary;
 import fr.emse.server.Note;
 import fr.emse.server.SCoordinate;
 
-
 /**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+ * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
+ * Builder, which is free for non-commercial use. If Jigloo is being used
+ * commercially (ie, by a corporation, company or business for any purpose
+ * whatever) then you should purchase a license for each developer using Jigloo.
+ * Please visit www.cloudgarden.com for details. Use of Jigloo implies
+ * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
+ * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
+ * ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class MainSwingApp extends JFrame implements ActionListener, MouseInputListener {
+public class MainSwingApp extends JFrame implements ActionListener,
+		MouseInputListener {
 	/**
 	 * 
 	 */
@@ -64,7 +62,6 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	private JLabel jLabel1;
 
-
 	/**
 	 * Auto-generated main method to display this JFrame
 	 */
@@ -77,12 +74,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		map.addMouseListener(this);
 		initiateMainView();
 		initGUI();
-		if (map.getMapMarkerList().isEmpty()){
-			map.setDisplayPositionByLatLon(45.430262484682125,4.3890380859375, 11);
+		if (map.getMapMarkerList().isEmpty()) {
+			map.setDisplayPositionByLatLon(45.430262484682125, 4.3890380859375,
+					11);
 		} else {
 			map.setDisplayToFitMapMarkers();
 			map.setZoom(9);
 		}
+
+		// Sign in
+		// new SignInDialog(this);
 	}
 
 	private void initGUI() {
@@ -98,49 +99,85 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 			{
 				jButtonRemove = new JButton();
+<<<<<<< HEAD
 				getContentPane().add(jButtonRemove, new AnchorConstraint(810, 961, 929, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonRemove.setText("X");
 				jButtonRemove.setPreferredSize(new java.awt.Dimension(46, 43));
+=======
+				getContentPane().add(
+						jButtonRemove,
+						new AnchorConstraint(830, 939, 912, 902,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
+				jButtonRemove.setText("x");
+				jButtonRemove.setPreferredSize(new java.awt.Dimension(30, 30));
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 				jButtonRemove.addActionListener(this);
 				jButtonRemove.setVisible(false);
 			}
 			{
 				jLabel1 = new JLabel();
-				getContentPane().add(jLabel1, new AnchorConstraint(317, 225, 358, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(
+						jLabel1,
+						new AnchorConstraint(317, 225, 358, 49,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
 				jLabel1.setText("Liste des itinéraires");
 			}
 			{
 
-				List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
+				List<Itinerary> itineraries = ClientAdmin.dataModel
+						.getItineraries();
 				ArrayList<String> itinerariesName = new ArrayList<String>();
 				for (Itinerary itinerary : itineraries) {
-					itinerariesName.add("Itinéraire "+itinerary.getId());
+					itinerariesName.add("Itinéraire " + itinerary.getId());
 				}
 
-				ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
+				ListModel jListItinerariesModel = new DefaultComboBoxModel(
+						itinerariesName.toArray());
 
 				jListItineraries = new JList<String>();
-				getContentPane().add(jListItineraries, new AnchorConstraint(388, 215, 767, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(
+						jListItineraries,
+						new AnchorConstraint(388, 215, 767, 49,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
 				jListItineraries.setModel(jListItinerariesModel);
-				jListItineraries.setPreferredSize(new java.awt.Dimension(116, 138));
+				jListItineraries.setPreferredSize(new java.awt.Dimension(116,
+						138));
 			}
 			{
 				jButtonItinerary = new JButton();
-				getContentPane().add(jButtonItinerary, new AnchorConstraint(831, 489, 913, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(
+						jButtonItinerary,
+						new AnchorConstraint(831, 489, 913, 49,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
 				jButtonItinerary.setText("Créer un itinéraire");
-				jButtonItinerary.setPreferredSize(new java.awt.Dimension(308, 30));
+				jButtonItinerary.setPreferredSize(new java.awt.Dimension(308,
+						30));
 				jButtonItinerary.addActionListener(this);
 			}
-			{	
+			{
 
-				final JCheckBox scrollWrapEnabled = new JCheckBox("Scrollwrap enabled");
+				final JCheckBox scrollWrapEnabled = new JCheckBox(
+						"Scrollwrap enabled");
 				scrollWrapEnabled.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						map.setScrollWrapEnabled(scrollWrapEnabled.isSelected());
 					}
 				});
 
-				final JCheckBox showMapMarker = new JCheckBox("Map markers visible");
+				final JCheckBox showMapMarker = new JCheckBox(
+						"Map markers visible");
 				showMapMarker.setSelected(map.getMapMarkersVisible());
 				showMapMarker.addActionListener(new ActionListener() {
 
@@ -149,15 +186,28 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 					}
 				});
 
-				getContentPane().add(map, new AnchorConstraint(42, 970, 767, 339, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(
+						map,
+						new AnchorConstraint(42, 970, 767, 339,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
 				map.setPreferredSize(new java.awt.Dimension(440, 300));
 
 			}
 			{
 				jButtonCreateNote = new JButton();
-				getContentPane().add(jButtonCreateNote, new AnchorConstraint(830, 870, 912, 515, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(
+						jButtonCreateNote,
+						new AnchorConstraint(830, 870, 912, 515,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL,
+								AnchorConstraint.ANCHOR_REL));
 				jButtonCreateNote.setText("Create note");
-				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(278, 30));
+				jButtonCreateNote.setPreferredSize(new java.awt.Dimension(278,
+						30));
 				jButtonCreateNote.addActionListener(this);
 			}
 
@@ -167,9 +217,12 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		}
 	}
 
-	private void initiateMainView(){
+	private void initiateMainView() {
 		for (Note note : ClientAdmin.dataModel.getNotes()) {
-			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLat(),note.getCoordinate().getLon()));
+			System.out.println(note.getCoordinate().getLat() + " "
+					+ note.getCoordinate().getLon());
+			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLat(),
+					note.getCoordinate().getLon()));
 		}
 	}
 
@@ -181,51 +234,66 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				Context.setState(State.CREATE_ITINERARY);
 				jButtonItinerary.setText("Finish itinerary");
 			} else {
-				CreateItineraryJFrame frame = new CreateItineraryJFrame(currentItinerary, this);
-				frame.setVisible(true);
+				new CreateItineraryDialog(currentItinerary, this);
 			}
-		}
-		else if (ae.getSource() == jButtonCreateNote) {
+		} else if (ae.getSource() == jButtonCreateNote) {
 			if (Context.getState() == State.NORMAL) {
 				Context.setState(State.CREATE_NOTE);
 				jButtonCreateNote.setText("Put note on map");
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
+<<<<<<< HEAD
 
 				JFrame createNoteFrame = new CreateNoteJFrame(currentNote, this);
 				createNoteFrame.setVisible(true);
+=======
+				SCoordinate coor = new SCoordinate(Context
+						.getCurrentMapMarker().getLat(), Context
+						.getCurrentMapMarker().getLon());
+				System.out.println(coor.toString());
+				Note note = ClientAdmin.dataModel.getNote(coor);
+				new CreateNoteDialog(note, this);
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 			}
 
 			else if (Context.getState() == State.CREATE_NOTE) {
 				jButtonCreateNote.setText("Create note");
 				Context.setState(State.NORMAL);
 			}
-		}
-		else if (ae.getSource() == jButtonRemove) {
+		} else if (ae.getSource() == jButtonRemove) {
 			if (Context.getState() == State.EDIT_NOTE) {
 				map.removeMapMarker(tmpMapmarker);
-				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+				SCoordinate coor = new SCoordinate(Context
+						.getCurrentMapMarker().getLat(), Context
+						.getCurrentMapMarker().getLon());
 				ClientAdmin.dataModel.removeNote(coor);
 				Context.setCurrentMapMarker(null);
 				deselectNote();
 				System.out.println("Note supprimée");
 			}
 		}
+<<<<<<< HEAD
+=======
+		// System.out.println(Context.getState().toString());
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Point mousePoint = e.getPoint();
 
-		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
+		if (e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1) {
 
 			MapMarker mapMarker = getMapMarker(mousePoint);
-			if (Context.getState() == State.NORMAL && mapMarker != null){
-				Context.setCurrentIndex(map.getMapMarkerList().indexOf(mapMarker));
+			if (Context.getState() == State.NORMAL && mapMarker != null) {
+				Context.setCurrentIndex(map.getMapMarkerList().indexOf(
+						mapMarker));
 				Context.setCurrentMapMarker(mapMarker);
-				tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
-				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
+				tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(),
+						mapMarker.getLon());
+				map.getMapMarkerList().set(Context.getCurrentIndex(),
+						tmpMapmarker);
 				System.out.println(mapMarker.toString() + " is clicked");
 
 				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
@@ -245,6 +313,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
+<<<<<<< HEAD
 				SCoordinate oldCoor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
 				SCoordinate newCoor = new SCoordinate(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
 				MapMarker tmpMapmarker = new MapMarkerDot(newCoor.getLat(), newCoor.getLon());
@@ -254,15 +323,27 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				note.setCoordinate(newCoor);
 				ClientAdmin.dataModel.updateNote(oldCoor, note);
 				deselectNote();
+=======
+				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(
+						mousePoint).getLat(), map.getPosition(mousePoint)
+						.getLon());
+				map.getMapMarkerList().set(Context.getCurrentIndex(),
+						tmpMapmarker);
+				jButtonCreateNote.setText("Create note");
+				jButtonRemove.setVisible(false);
+				Context.setState(State.NORMAL);
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 			}
 
 			else if (Context.getState() == State.CREATE_NOTE) {
-				if (mapMarker == null){
-					SCoordinate coor = new SCoordinate (map.getPosition(mousePoint).getLat(), map.getPosition(mousePoint).getLon());
-					Context.setCurrentMapMarker(new MapMarkerDot(coor.getLat(), coor.getLon()));
+				if (mapMarker == null) {
+					SCoordinate coor = new SCoordinate(map.getPosition(
+							mousePoint).getLat(), map.getPosition(mousePoint)
+							.getLon());
+					Context.setCurrentMapMarker(new MapMarkerDot(coor.getLat(),
+							coor.getLon()));
 					map.addMapMarker(Context.getCurrentMapMarker());
-					JFrame createNoteFrame = new CreateNoteJFrame(coor, map.getHeight(), this);
-					createNoteFrame.setVisible(true);
+					new CreateNoteDialog(coor, 0, this);
 				} else {
 					System.out.println("Note existante à cet emplacement");
 					Context.setState(State.NORMAL);
@@ -272,44 +353,53 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 			else if (Context.getState() == State.CREATE_ITINERARY) {
 				if (mapMarker != null) {
+<<<<<<< HEAD
 					System.out.println("Note : "+mapMarker.toString());
 					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
+=======
+					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(
+							mapMarker.getLat(), mapMarker.getLon());
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 					currentItinerary.appendNote(noteToAdd);
 					updateMap();
 				}
 			}
-			//System.out.println(Context.getState().toString());
+			// System.out.println(Context.getState().toString());
 			map.repaint();
 		}
 	}
 
 	private MapMarker getMapMarker(Point mousePoint) {
-		int X = mousePoint.x+3;
-		int Y = mousePoint.y+3;
+		int X = mousePoint.x + 3;
+		int Y = mousePoint.y + 3;
 
 		List<MapMarker> ar = map.getMapMarkerList();
 		Iterator<MapMarker> i = ar.iterator();
 
 		double radCircle = 10;
 		MapMarker mapMarker = null;
-		while (i.hasNext() && radCircle>=8) {
+		while (i.hasNext() && radCircle >= 8) {
 
 			mapMarker = (MapMarker) i.next();
 
-			Point MarkerPosition = map.getMapPosition(mapMarker.getLat(), mapMarker.getLon());
-			if( MarkerPosition != null){
+			Point MarkerPosition = map.getMapPosition(mapMarker.getLat(),
+					mapMarker.getLon());
+			if (MarkerPosition != null) {
 
 				int centerX = MarkerPosition.x;
 				int centerY = MarkerPosition.y;
 
-				//System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
+				// System.out.println(map.getPosition(p).getLat()+":"+map.getPosition(p).getLon());
 				// calculate the radius from the touch to the center of the dot
-				radCircle  = Math.sqrt( (((centerX-X)*(centerX-X)) + (centerY-Y)*(centerY-Y)));
+				radCircle = Math
+						.sqrt((((centerX - X) * (centerX - X)) + (centerY - Y)
+								* (centerY - Y)));
 
 			}
 		}
-		// if the radius is smaller then 23 (radius of a ball is 5), then it must be on the dot
-		if (radCircle < 8){
+		// if the radius is smaller then 23 (radius of a ball is 5), then it
+		// must be on the dot
+		if (radCircle < 8) {
 			return mapMarker;
 		}
 		return null;
@@ -331,16 +421,35 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		deselectNote();
 	}
 
+<<<<<<< HEAD
 	public void cancelUpdate(){
 		map.getMapMarkerList().set(Context.getCurrentIndex(), new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
 				Context.getCurrentMapMarker().getLon()));
 		deselectNote();
+=======
+	public void cancelUpdate() {
+		map.getMapMarkerList().set(
+				Context.getCurrentIndex(),
+				new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
+						Context.getCurrentMapMarker().getLon()));
+		jButtonCreateNote.setText("Create note");
+		jButtonRemove.setVisible(false);
+		Context.setState(State.NORMAL);
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 		map.repaint();
 	}
 
 	public void updateNotefinished() {
+<<<<<<< HEAD
 		map.getMapMarkerList().set(Context.getCurrentIndex(), Context.getCurrentMapMarker());
 		deselectNote();
+=======
+		map.getMapMarkerList().set(Context.getCurrentIndex(),
+				Context.getCurrentMapMarker());
+		jButtonCreateNote.setText("Create note");
+		jButtonRemove.setVisible(false);
+		Context.setState(State.NORMAL);
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 		map.repaint();
 	}
 
@@ -377,13 +486,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		for (Note note : itinerary.getNotes()) {
 			System.out.println(itinerary.getTitle()+": "+note.getCategory());
 			coord1 = coord2;
-			coord2 = new Coordinate(note.getCoordinate().getLat(), note.getCoordinate().getLon());
+			coord2 = new Coordinate(note.getCoordinate().getLat(), note
+					.getCoordinate().getLon());
 
 			if (coord1 != null) {
-				List<Coordinate> route = 
-						new ArrayList<Coordinate>(Arrays.asList(coord1, coord2, coord2));
+				List<Coordinate> route = new ArrayList<Coordinate>(
+						Arrays.asList(coord1, coord2, coord2));
 				map.addMapPolygon(new MapPolygonImpl(route));
-			}	
+			}
 		}
 	}
 
@@ -391,10 +501,15 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		ArrayList<String> itinerariesName = new ArrayList<String>();
 		for (Itinerary itinerary : itineraries) {
+<<<<<<< HEAD
 			itinerariesName.add("Itinéraire "+itinerary.getTitle());
+=======
+			itinerariesName.add("Itinéraire " + itinerary.getId());
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 		}
 
-		ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
+		ListModel jListItinerariesModel = new DefaultComboBoxModel(
+				itinerariesName.toArray());
 		jListItineraries.setModel(jListItinerariesModel);
 	}
 
@@ -423,7 +538,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		Point p = e.getPoint();
-		System.out.println(p.x+":"+p.y);
+		System.out.println(p.x + ":" + p.y);
 	}
 
 	@Override

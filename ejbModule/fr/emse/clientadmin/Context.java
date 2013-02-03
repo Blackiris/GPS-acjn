@@ -31,5 +31,11 @@ public class Context {
 	public static void setCurrentMapMarker(MapMarker currentMapMaker) {
 		Context.currentMapMarker = currentMapMaker;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
+
+
 }
