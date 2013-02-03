@@ -294,7 +294,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 					Context.setCurrentMapMarker(new MapMarkerDot(coor.getLat(),
 							coor.getLon()));
 					map.addMapMarker(Context.getCurrentMapMarker());
-					new CreateNoteDialog(coor, map.getHeight(), this);
+					new CreateNoteDialog(coor, 0, this);
 				} else {
 					System.out.println("Note existante à cet emplacement");
 					Context.setState(State.NORMAL);
