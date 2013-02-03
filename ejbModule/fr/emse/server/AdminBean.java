@@ -9,23 +9,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
 /**
  * Session Bean implementation class AdminBean
  */
-@Stateless (name="AdminEJB", mappedName="AdminBean")
+@Stateless(name = "AdminEJB", mappedName = "AdminBean")
 @LocalBean
 public class AdminBean implements AdminBeanRemote {
 
 	@PersistenceContext(unitName = "admin-unit")
 	EntityManager em;
 	boolean isLogged = false;
-	
-    /**
-     * Default constructor. 
-     */
-    public AdminBean() {
-    }
+
+	/**
+	 * Default constructor.
+	 */
+	public AdminBean() {
+	}
 
 	@Override
 	public boolean signIn(String password) {
@@ -34,7 +33,7 @@ public class AdminBean implements AdminBeanRemote {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void signOut() {
 		isLogged = false;
@@ -44,31 +43,32 @@ public class AdminBean implements AdminBeanRemote {
 	public void addNote(Note note) {
 		em.persist(note);
 	}
-	
+
 	@Override
 	public Note getNote(SCoordinate coor) {
 		List<Note> noteList = getNotes();
 		Iterator<Note> iter = noteList.listIterator();
 		Note note = null;
-		while (iter.hasNext()){
+		while (iter.hasNext()) {
 			note = iter.next();
-			if (note.getCoordinate().getLat()==coor.getLat() && note.getCoordinate().getLon()==coor.getLon()){
+			if (note.getCoordinate().getLat() == coor.getLat()
+					&& note.getCoordinate().getLon() == coor.getLon()) {
 				break;
 			} else {
 				note = null;
 			}
-			
+
 		}
-		
+
 		return note;
 	}
-	
+
 	@Override
 	public List<Note> getNotes() {
 		Query query = em.createQuery("SELECT m from Note as m");
-        return (List<Note>)query.getResultList();
+		return (List<Note>) query.getResultList();
 	}
-	
+
 	@Override
 	public void updateNote(SCoordinate coor, Note note) {
 		Note previousNote = getNote(coor);
@@ -78,7 +78,7 @@ public class AdminBean implements AdminBeanRemote {
 		newNote.setCoordinate(note.getCoordinate());
 		newNote.setHeight(note.getHeight());
 	}
-	
+
 	@Override
 	public void removeNote(SCoordinate coor) {
 		Note note = getNote(coor);
@@ -88,7 +88,7 @@ public class AdminBean implements AdminBeanRemote {
 	@Override
 	public List<Itinerary> getItineraries() {
 		Query query = em.createQuery("SELECT m from Itinerary as m");
-        return (List<Itinerary>)query.getResultList();
+		return (List<Itinerary>) query.getResultList();
 	}
 
 	@Override
