@@ -2,9 +2,11 @@ package fr.emse.server;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
+import javax.ejb.StatefulTimeout;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -15,7 +17,8 @@ import javax.persistence.Query;
 /**
  * Session Bean implementation class AdminBean
  */
-@Stateless(name = "AdminEJB", mappedName = "AdminBean")
+@Stateful(name = "AdminEJB", mappedName = "AdminBean")
+@StatefulTimeout(unit = TimeUnit.MINUTES, value = 10)
 @LocalBean
 @WebService(serviceName = "AdminService")
 public class AdminBean implements AdminBeanRemote {
