@@ -199,7 +199,8 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 				}
 				
 				if (Context.getState() == State.EDIT_NOTE){
-					ClientAdmin.dataModel.updateNote(Context.getCurrentIndex()+1, note);
+					SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+					ClientAdmin.dataModel.updateNote(coor, note);
 					Context.setCurrentMapMarker(new MapMarkerDot(note.getCoordinate().getLat(), note.getCoordinate().getLon()));
 					System.out.println("Note mise à jour");
 					mainFrame.updateNotefinished();

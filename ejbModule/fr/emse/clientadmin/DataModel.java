@@ -26,12 +26,13 @@ public class DataModel {
 		InitialContext ctx;
 		ctx = new InitialContext();
 		System.out.println("Recherche du bean...");
-		adminBeanRemote = (AdminBeanRemote) ctx.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
+		adminBeanRemote = (AdminBeanRemote) ctx
+				.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 
 		mapNotes = new HashMap<SCoordinate, Note>();
 
 		List<Note> notes = adminBeanRemote.getNotes();
-		if (notes != null){
+		if (notes != null) {
 			for (Note note : notes) {
 				mapNotes.put(note.getCoordinate(), note);
 			}
@@ -49,27 +50,32 @@ public class DataModel {
 		System.out.println(mapNotes.size());
 
 		List<Note> res = new ArrayList<Note>();
-		
+
 		for (SCoordinate sCoordinate : mapNotes.keySet()) {
 			res.add(mapNotes.get(sCoordinate));
 		}
-		
+
 		return res;
 	}
 
-	public Note getNote(int id){
-		return adminBeanRemote.getNote(id);
+	public Note getNote(SCoordinate coor) {
+		return adminBeanRemote.getNote(coor);
 	}
-	
-	public void updateNote(int id, Note note) {
-		adminBeanRemote.updateNote(id, note);
+
+	public void updateNote(SCoordinate coor, Note note) {
+		adminBeanRemote.updateNote(coor, note);
+	}
+
+	public void removeNote(SCoordinate coor) {
+		adminBeanRemote.removeNote(coor);
 	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {
 		double min = 1000;
 		Note actualNote = null;
 		for (SCoordinate coord : mapNotes.keySet()) {
-			double dist = Math.abs(latitude-coord.getLat())+Math.abs(longitude-coord.getLon());
+			double dist = Math.abs(latitude - coord.getLat())
+					+ Math.abs(longitude - coord.getLon());
 			if (dist < min) {
 				min = dist;
 				actualNote = mapNotes.get(coord);

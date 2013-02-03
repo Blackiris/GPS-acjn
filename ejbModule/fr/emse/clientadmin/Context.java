@@ -31,6 +31,5 @@ public class Context {
 	public static void setCurrentMapMarker(MapMarker currentMapMaker) {
 		Context.currentMapMarker = currentMapMaker;
 	}
-	
-	
+
 }

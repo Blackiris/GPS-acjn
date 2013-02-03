@@ -23,7 +23,7 @@ public class ClientUser {
 			bean.addNote(note);
 			bean.addNote(note2);
 			System.out.println("Lecture...");
-			System.out.println(bean.getNote(1).getComments());
+			System.out.println(bean.getNote(new SCoordinate(10,20)).getComments());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

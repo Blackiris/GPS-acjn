@@ -34,5 +34,8 @@ public class SCoordinate implements Serializable {
 		this.lon = lon;
 	}
 
-	
+	@Override
+	public String toString(){
+		return lat+":"+lon;
+	}
 }
