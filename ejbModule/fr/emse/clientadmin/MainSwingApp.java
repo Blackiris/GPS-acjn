@@ -70,14 +70,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 		this.map = new JMapViewer();
 		map.addMouseListener(this);
-		initiateMainView();
+		
 		initGUI();
+		initiateMainView();
 		if (map.getMapMarkerList().isEmpty()){
 			map.setDisplayPositionByLatLon(45.430262484682125,4.3890380859375, 11);
 		} else {
 			map.setDisplayToFitMapMarkers();
 			map.setZoom(9);
 		}
+		
 	}
 
 	private void initGUI() {
@@ -150,6 +152,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 	private void initiateMainView(){
 		for (Note note : ClientAdmin.dataModel.getNotes()) {
+			System.out.println(note.getCoordinate().getLat() +" "+ note.getCoordinate().getLon());
 			map.addMapMarker(new MapMarkerDot(note.getCoordinate().getLat(),note.getCoordinate().getLon()));
 		}
 	}
@@ -162,8 +165,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				Context.setState(State.CREATE_ITINERARY);
 				jButtonItinerary.setText("Finish itinerary");
 			} else {
-				CreateItineraryJFrame frame = new CreateItineraryJFrame(currentItinerary, this);
-				frame.setVisible(true);
+				new CreateItineraryDialog(currentItinerary, this);
 			}
 		}
 		else if (ae.getSource() == jButtonCreateNote) {
@@ -174,8 +176,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 			else if (Context.getState() == State.EDIT_NOTE) {
 				Note note = ClientAdmin.dataModel.getNote(Context.getCurrentIndex()+1);
-				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
-				createNoteFrame.setVisible(true);
+				new CreateNoteDialog(note, this);
 			}
 			
 			else if (Context.getState() == State.CREATE_NOTE) {
@@ -215,8 +216,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 					SCoordinate coor = new SCoordinate (map.getPosition(mousePoint).getLat(), map.getPosition(mousePoint).getLon());
 					Context.setCurrentMapMarker(new MapMarkerDot(coor.getLat(), coor.getLon()));
 					map.addMapMarker(Context.getCurrentMapMarker());
-					JFrame createNoteFrame = new CreateNoteJFrame(coor, map.getHeight(), this);
-					createNoteFrame.setVisible(true);
+					new CreateNoteDialog(coor, map.getHeight(), this);
 				} else {
 					System.out.println("Note existante à cet emplacement");
 					Context.setState(State.NORMAL);

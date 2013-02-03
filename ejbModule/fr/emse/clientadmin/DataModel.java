@@ -48,7 +48,13 @@ public class DataModel {
 	public List<Note> getNotes() {
 		System.out.println(mapNotes.size());
 
-		return new ArrayList<Note>();
+		List<Note> res = new ArrayList<Note>();
+		
+		for (SCoordinate sCoordinate : mapNotes.keySet()) {
+			res.add(mapNotes.get(sCoordinate));
+		}
+		
+		return res;
 	}
 
 	public Note getNote(int id){

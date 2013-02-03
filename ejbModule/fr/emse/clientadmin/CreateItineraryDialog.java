@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
@@ -25,7 +26,7 @@ import fr.emse.server.Itinerary;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionListener {
+public class CreateItineraryDialog extends JDialog implements ActionListener {
 	/**
 	 * 
 	 */
@@ -41,7 +42,7 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 	* Auto-generated main method to display this JFrame
 	*/
 		
-	public CreateItineraryJFrame(Itinerary itinerary, MainSwingApp mainFrame) {
+	public CreateItineraryDialog(Itinerary itinerary, MainSwingApp mainFrame) {
 		super();
 		this.itinerary = itinerary;
 		this.mainFrame = mainFrame;
@@ -74,6 +75,9 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 			}
 			pack();
 			this.setSize(381, 158);
+			
+			setVisible(true);
+			setModal(true);
 		} catch (Exception e) {
 		    //add your error handling code here
 			e.printStackTrace();

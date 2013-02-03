@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -30,7 +30,7 @@ import fr.emse.server.SCoordinate;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class CreateNoteJFrame extends JFrame implements ActionListener {
+public class CreateNoteDialog extends JDialog implements ActionListener {
 	/**
 	 * 
 	 */
@@ -55,7 +55,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 	 * Auto-generated main method to display this JFrame
 	 */
 
-	public CreateNoteJFrame(SCoordinate coor, int height, MainSwingApp mainFrame){
+	public CreateNoteDialog(SCoordinate coor, int height, MainSwingApp mainFrame){
 		super();
 		initGUI();
 		jTextFieldCoordinate1.setText(String.valueOf(coor.getLat()));
@@ -65,7 +65,7 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 		this.mainFrame = mainFrame;
 	}
 
-	public CreateNoteJFrame(Note note, MainSwingApp mainFrame){
+	public CreateNoteDialog(Note note, MainSwingApp mainFrame){
 		super();
 		initGUI();
 		jTextFieldCoordinate1.setText(String.valueOf(note.getCoordinate().getLat()));
@@ -168,6 +168,9 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 			}
 			pack();
 			setSize(400, 300);
+			
+			setVisible(true);
+			setModal(true);
 		} catch (Exception e) {
 			//add your error handling code here
 			e.printStackTrace();
