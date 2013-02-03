@@ -38,7 +38,7 @@ public class AdminBean implements AdminBeanRemote {
 		if (password.equals("monbean")) {
 			isLogged = true;
 		}
-		return false;
+		return isLogged;
 	}
 
 	@Override

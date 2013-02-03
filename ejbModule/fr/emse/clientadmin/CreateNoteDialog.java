@@ -91,6 +91,7 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 			AnchorLayout thisLayout = new AnchorLayout();
 			getContentPane().setLayout(thisLayout);
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			this.setTitle("Nouvelle note");
 			{
 				jTextFieldHeight = new JTextField();
 				getContentPane().add(
