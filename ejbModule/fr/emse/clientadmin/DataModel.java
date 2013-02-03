@@ -57,13 +57,12 @@ public class DataModel {
 		mapNotes.remove(coor);
 		ClientAdmin.adminBeanRemote.updateNote(coor, note);
 		updateRelatedItinerary(coor, note);
-		ClientAdmin.adminBeanRemote.updateNote(coor, note);
 	}
 
 	public void removeNote(SCoordinate coor) {
 		mapNotes.remove(coor);
 		ClientAdmin.adminBeanRemote.removeNote(coor);
-		ClientAdmin.adminBeanRemote.removeNote(coor);
+		removeRelatedNote(coor);
 	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {
@@ -93,6 +92,13 @@ public class DataModel {
 	public void updateRelatedItinerary(SCoordinate coor, Note newNote){
 		for (Itinerary itinerary:itineraries){
 			itinerary.updateNote(coor, newNote);
+			System.out.println("Itinéraire "+itinerary.getTitle()+" modifié");
+		}
+	}
+	
+	public void removeRelatedNote(SCoordinate coor){
+		for (Itinerary itinerary:itineraries){
+			itinerary.removeNote(coor);
 			System.out.println("Itinéraire "+itinerary.getTitle()+" modifié");
 		}
 	}

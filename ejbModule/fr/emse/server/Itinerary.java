@@ -158,6 +158,16 @@ public class Itinerary implements Serializable {
 		}
 	}
 	
+	public void removeNote(SCoordinate coor) {
+		int i=0;
+		for (Note note:notes){
+			if (note.getCoordinate().getLat() == coor.getLat() && note.getCoordinate().getLon() == coor.getLon()){
+				notes.remove(i);
+			}
+			i++;
+		}
+	}
+	
 	public void isUsed() {
 		nbUsed ++;
 	}

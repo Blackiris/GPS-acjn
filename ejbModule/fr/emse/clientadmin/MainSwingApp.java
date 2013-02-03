@@ -102,22 +102,12 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				getContentPane().add(jButtonRemove, new AnchorConstraint(810, 961, 929, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonRemove.setText("X");
 				jButtonRemove.setPreferredSize(new java.awt.Dimension(46, 43));
-				getContentPane().add(
-						jButtonRemove,
-						new AnchorConstraint(830, 939, 912, 902,
-								AnchorConstraint.ANCHOR_REL,
-								AnchorConstraint.ANCHOR_REL,
-								AnchorConstraint.ANCHOR_REL,
-								AnchorConstraint.ANCHOR_REL));
-				jButtonRemove.setText("x");
-				jButtonRemove.setPreferredSize(new java.awt.Dimension(30, 30));
 				jButtonRemove.addActionListener(this);
 				jButtonRemove.setVisible(false);
 			}
 			{
 				jLabel1 = new JLabel();
-				getContentPane().add(
-						jLabel1,
+				getContentPane().add(jLabel1,
 						new AnchorConstraint(317, 225, 358, 49,
 								AnchorConstraint.ANCHOR_REL,
 								AnchorConstraint.ANCHOR_REL,
