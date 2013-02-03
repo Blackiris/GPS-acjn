@@ -1,4 +1,4 @@
-package fr.emse.clientadmin;
+package fr.emse.depreciated;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +11,7 @@ import javax.swing.WindowConstants;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
+import fr.emse.clientadmin.MainSwingApp;
 import fr.emse.server.Itinerary;
 
 

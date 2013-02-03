@@ -1,4 +1,4 @@
-package fr.emse.clientadmin;
+package fr.emse.depreciated;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +14,10 @@ import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
+import fr.emse.clientadmin.ClientAdmin;
+import fr.emse.clientadmin.Context;
+import fr.emse.clientadmin.MainSwingApp;
+import fr.emse.clientadmin.State;
 import fr.emse.server.Note;
 import fr.emse.server.SCoordinate;
 

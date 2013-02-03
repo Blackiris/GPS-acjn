@@ -230,6 +230,8 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				currentItinerary = new Itinerary();
 				Context.setState(State.CREATE_ITINERARY);
 				jButtonItinerary.setText("Finish itinerary");
+			} else if (Context.getState() == State.EDIT_NOTE) {
+				System.out.println("On ne peut pas crér un itineraire lors de l'édition d'un point");
 			} else {
 				new CreateItineraryDialog(currentItinerary, this);
 			}
@@ -241,8 +243,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 
 			else if (Context.getState() == State.EDIT_NOTE) {
 
-				JFrame createNoteFrame = new CreateNoteJFrame(currentNote, this);
-				createNoteFrame.setVisible(true);
 				SCoordinate coor = new SCoordinate(Context
 						.getCurrentMapMarker().getLat(), Context
 						.getCurrentMapMarker().getLon());
