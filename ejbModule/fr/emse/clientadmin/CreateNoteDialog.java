@@ -56,7 +56,6 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 
 	public CreateNoteDialog(SCoordinate coor, int height, MainSwingApp mainFrame) {
 		super(mainFrame, Dialog.ModalityType.APPLICATION_MODAL);
-		System.out.println(coor.getLat());
 		initGUI();
 		jTextFieldCoordinate1.setText(String.valueOf(coor.getLat()));
 		jTextFieldCoordinate2.setText(String.valueOf(coor.getLon()));

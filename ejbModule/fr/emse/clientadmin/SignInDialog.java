@@ -90,13 +90,13 @@ public class SignInDialog extends javax.swing.JDialog implements ActionListener 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String pass = jTextFieldPassword.getText();
-		if (!ClientAdmin.adminBeanRemote.signIn(pass)) {
-			jTextFieldPassword.setText("");
-		} else {
-			System.out.println("Bienvenue maître");
-			this.dispose();
-		}
+		// String pass = jTextFieldPassword.getText();
+		// if (!ClientAdmin.adminBeanRemote.signIn(pass)) {
+		// jTextFieldPassword.setText("");
+		// } else {
+		// System.out.println("Bienvenue maître");
+		// this.dispose();
+		// }
 	}
 
 }

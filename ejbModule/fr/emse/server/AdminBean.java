@@ -2,11 +2,9 @@ package fr.emse.server;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.ejb.StatefulTimeout;
+import javax.ejb.Stateless;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -17,15 +15,15 @@ import javax.persistence.Query;
 /**
  * Session Bean implementation class AdminBean
  */
-@Stateful
-@StatefulTimeout(unit = TimeUnit.MINUTES, value = 10)
+@Stateless
 @LocalBean
 @WebService(serviceName = "AdminService")
 public class AdminBean implements AdminBeanRemote {
 
 	@PersistenceContext(unitName = "admin-unit")
 	EntityManager em;
-	boolean isLogged = false;
+
+	// boolean isLogged = false;
 
 	/**
 	 * Default constructor.
@@ -33,18 +31,19 @@ public class AdminBean implements AdminBeanRemote {
 	public AdminBean() {
 	}
 
-	@Override
-	public boolean signIn(String password) {
-		if (password.equals("monbean")) {
-			isLogged = true;
-		}
-		return isLogged;
-	}
-
-	@Override
-	public void signOut() {
-		isLogged = false;
-	}
+	// @Override
+	// @WebMethod(operationName = "signIn")
+	// public boolean signIn(@WebParam(name = "password") String password) {
+	// if (password.equals("monbean")) {
+	// isLogged = true;
+	// }
+	// return isLogged;
+	// }
+	//
+	// @Override
+	// public void signOut() {
+	// isLogged = false;
+	// }
 
 	@Override
 	@WebMethod(operationName = "addNote")

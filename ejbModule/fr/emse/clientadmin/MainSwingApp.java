@@ -80,7 +80,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		}
 
 		// Sign in
-		new SignInDialog(this);
+		// new SignInDialog(this);
 	}
 
 	private void initGUI() {
