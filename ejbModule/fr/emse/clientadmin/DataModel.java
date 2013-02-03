@@ -41,7 +41,7 @@ public class DataModel {
 	}
 
 	public void addNote(Note newNote) {
-		//mapNotes.put(newNote.getCoordinate(), newNote);
+		mapNotes.put(newNote.getCoordinate(), newNote);
 		adminBeanRemote.addNote(newNote);
 	}
 
