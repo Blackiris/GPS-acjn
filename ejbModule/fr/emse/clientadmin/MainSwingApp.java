@@ -99,11 +99,9 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			}
 			{
 				jButtonRemove = new JButton();
-<<<<<<< HEAD
 				getContentPane().add(jButtonRemove, new AnchorConstraint(810, 961, 929, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jButtonRemove.setText("X");
 				jButtonRemove.setPreferredSize(new java.awt.Dimension(46, 43));
-=======
 				getContentPane().add(
 						jButtonRemove,
 						new AnchorConstraint(830, 939, 912, 902,
@@ -113,7 +111,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 								AnchorConstraint.ANCHOR_REL));
 				jButtonRemove.setText("x");
 				jButtonRemove.setPreferredSize(new java.awt.Dimension(30, 30));
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 				jButtonRemove.addActionListener(this);
 				jButtonRemove.setVisible(false);
 			}
@@ -243,18 +240,15 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
-<<<<<<< HEAD
 
 				JFrame createNoteFrame = new CreateNoteJFrame(currentNote, this);
 				createNoteFrame.setVisible(true);
-=======
 				SCoordinate coor = new SCoordinate(Context
 						.getCurrentMapMarker().getLat(), Context
 						.getCurrentMapMarker().getLon());
 				System.out.println(coor.toString());
 				Note note = ClientAdmin.dataModel.getNote(coor);
 				new CreateNoteDialog(note, this);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 			}
 
 			else if (Context.getState() == State.CREATE_NOTE) {
@@ -273,10 +267,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				System.out.println("Note supprimée");
 			}
 		}
-<<<<<<< HEAD
-=======
 		// System.out.println(Context.getState().toString());
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 	}
 
 	@Override
@@ -313,7 +304,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
-<<<<<<< HEAD
 				SCoordinate oldCoor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
 				SCoordinate newCoor = new SCoordinate(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
 				MapMarker tmpMapmarker = new MapMarkerDot(newCoor.getLat(), newCoor.getLon());
@@ -323,16 +313,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				note.setCoordinate(newCoor);
 				ClientAdmin.dataModel.updateNote(oldCoor, note);
 				deselectNote();
-=======
-				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(
-						mousePoint).getLat(), map.getPosition(mousePoint)
-						.getLon());
-				map.getMapMarkerList().set(Context.getCurrentIndex(),
-						tmpMapmarker);
-				jButtonCreateNote.setText("Create note");
-				jButtonRemove.setVisible(false);
-				Context.setState(State.NORMAL);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 			}
 
 			else if (Context.getState() == State.CREATE_NOTE) {
@@ -353,13 +333,9 @@ public class MainSwingApp extends JFrame implements ActionListener,
 
 			else if (Context.getState() == State.CREATE_ITINERARY) {
 				if (mapMarker != null) {
-<<<<<<< HEAD
 					System.out.println("Note : "+mapMarker.toString());
-					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
-=======
 					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(
 							mapMarker.getLat(), mapMarker.getLon());
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 					currentItinerary.appendNote(noteToAdd);
 					updateMap();
 				}
@@ -421,35 +397,20 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		deselectNote();
 	}
 
-<<<<<<< HEAD
 	public void cancelUpdate(){
 		map.getMapMarkerList().set(Context.getCurrentIndex(), new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
 				Context.getCurrentMapMarker().getLon()));
 		deselectNote();
-=======
-	public void cancelUpdate() {
-		map.getMapMarkerList().set(
-				Context.getCurrentIndex(),
-				new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
-						Context.getCurrentMapMarker().getLon()));
-		jButtonCreateNote.setText("Create note");
-		jButtonRemove.setVisible(false);
-		Context.setState(State.NORMAL);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
-		map.repaint();
 	}
 
 	public void updateNotefinished() {
-<<<<<<< HEAD
 		map.getMapMarkerList().set(Context.getCurrentIndex(), Context.getCurrentMapMarker());
 		deselectNote();
-=======
 		map.getMapMarkerList().set(Context.getCurrentIndex(),
 				Context.getCurrentMapMarker());
 		jButtonCreateNote.setText("Create note");
 		jButtonRemove.setVisible(false);
 		Context.setState(State.NORMAL);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 		map.repaint();
 	}
 
@@ -501,11 +462,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		ArrayList<String> itinerariesName = new ArrayList<String>();
 		for (Itinerary itinerary : itineraries) {
-<<<<<<< HEAD
 			itinerariesName.add("Itinéraire "+itinerary.getTitle());
-=======
-			itinerariesName.add("Itinéraire " + itinerary.getId());
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
 		}
 
 		ListModel jListItinerariesModel = new DefaultComboBoxModel(

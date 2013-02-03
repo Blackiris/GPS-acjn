@@ -53,23 +53,17 @@ public class DataModel {
 	}
 
 	public void updateNote(SCoordinate coor, Note note) {
-<<<<<<< HEAD
 		mapNotes.put(note.getCoordinate(), note);
 		mapNotes.remove(coor);
-		adminBeanRemote.updateNote(coor, note);
-		updateRelatedItinerary(coor, note);
-=======
 		ClientAdmin.adminBeanRemote.updateNote(coor, note);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
+		updateRelatedItinerary(coor, note);
+		ClientAdmin.adminBeanRemote.updateNote(coor, note);
 	}
 
 	public void removeNote(SCoordinate coor) {
-<<<<<<< HEAD
 		mapNotes.remove(coor);
-		adminBeanRemote.removeNote(coor);
-=======
 		ClientAdmin.adminBeanRemote.removeNote(coor);
->>>>>>> branch 'master' of ssh://git@github.com/Blackiris/GPS-acjn.git
+		ClientAdmin.adminBeanRemote.removeNote(coor);
 	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {
