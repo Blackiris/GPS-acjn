@@ -78,6 +78,9 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			map.setDisplayToFitMapMarkers();
 			map.setZoom(9);
 		}
+
+		// Sign in
+		new SignInDialog(this);
 	}
 
 	private void initGUI() {

@@ -5,50 +5,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 
-import fr.emse.server.AdminBeanRemote;
 import fr.emse.server.Itinerary;
 import fr.emse.server.Note;
 import fr.emse.server.SCoordinate;
 
 public class DataModel {
-	private AdminBeanRemote adminBeanRemote;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	Map<SCoordinate, Note> mapNotes;
 	private List<Itinerary> itineraries;
 
 	public DataModel() throws NamingException {
-		InitialContext ctx;
-		ctx = new InitialContext();
-		System.out.println("Recherche du bean...");
-		adminBeanRemote = (AdminBeanRemote) ctx
-				.lookup("java:global/GPS-acjn/AdminEJB!fr.emse.server.AdminBeanRemote");
 
 		mapNotes = new HashMap<SCoordinate, Note>();
 
-		List<Note> notes = adminBeanRemote.getNotes();
+		List<Note> notes = ClientAdmin.adminBeanRemote.getNotes();
 		if (notes != null) {
 			for (Note note : notes) {
 				mapNotes.put(note.getCoordinate(), note);
 			}
 		}
 
-		itineraries = adminBeanRemote.getItineraries();
+		itineraries = ClientAdmin.adminBeanRemote.getItineraries();
 	}
 
 	public void addNote(Note newNote) {
 		mapNotes.put(newNote.getCoordinate(), newNote);
-		adminBeanRemote.addNote(newNote);
+		ClientAdmin.adminBeanRemote.addNote(newNote);
 	}
 
 	public List<Note> getNotes() {
-		System.out.println(mapNotes.size());
-
 		List<Note> res = new ArrayList<Note>();
 
 		for (SCoordinate sCoordinate : mapNotes.keySet()) {
@@ -59,15 +49,15 @@ public class DataModel {
 	}
 
 	public Note getNote(SCoordinate coor) {
-		return adminBeanRemote.getNote(coor);
+		return ClientAdmin.adminBeanRemote.getNote(coor);
 	}
 
 	public void updateNote(SCoordinate coor, Note note) {
-		adminBeanRemote.updateNote(coor, note);
+		ClientAdmin.adminBeanRemote.updateNote(coor, note);
 	}
 
 	public void removeNote(SCoordinate coor) {
-		adminBeanRemote.removeNote(coor);
+		ClientAdmin.adminBeanRemote.removeNote(coor);
 	}
 
 	public Note getNearestNodeFrom(double latitude, double longitude) {
@@ -87,7 +77,7 @@ public class DataModel {
 
 	public void addItinerary(Itinerary newItinerary) {
 		itineraries.add(newItinerary);
-		adminBeanRemote.addItinerary(newItinerary);
+		ClientAdmin.adminBeanRemote.addItinerary(newItinerary);
 	}
 
 	public List<Itinerary> getItineraries() {

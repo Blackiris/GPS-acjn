@@ -17,7 +17,7 @@ import javax.persistence.Query;
 /**
  * Session Bean implementation class AdminBean
  */
-@Stateful(name = "AdminEJB", mappedName = "AdminBean")
+@Stateful
 @StatefulTimeout(unit = TimeUnit.MINUTES, value = 10)
 @LocalBean
 @WebService(serviceName = "AdminService")

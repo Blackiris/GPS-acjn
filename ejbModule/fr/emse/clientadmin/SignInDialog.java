@@ -1,5 +1,9 @@
 package fr.emse.clientadmin;
 
+import java.awt.Dialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +22,7 @@ import com.cloudgarden.layout.AnchorLayout;
  * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
  * ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class SignInDialog extends javax.swing.JDialog {
+public class SignInDialog extends javax.swing.JDialog implements ActionListener {
 	private JLabel jLabelPassword;
 	private JTextField jTextFieldPassword;
 	private JButton jButtonSingIn;
@@ -28,8 +32,11 @@ public class SignInDialog extends javax.swing.JDialog {
 	 */
 
 	public SignInDialog(JFrame frame) {
-		super(frame);
+		super(frame, Dialog.ModalityType.APPLICATION_MODAL);
 		initGUI();
+
+		setVisible(true);
+		setModal(true);
 	}
 
 	private void initGUI() {
@@ -48,6 +55,7 @@ public class SignInDialog extends javax.swing.JDialog {
 								AnchorConstraint.ANCHOR_REL));
 				jButtonSingIn.setText("Se connecter");
 				jButtonSingIn.setPreferredSize(new java.awt.Dimension(98, 22));
+				jButtonSingIn.addActionListener(this);
 			}
 			{
 				jTextFieldPassword = new JTextField();
@@ -77,6 +85,17 @@ public class SignInDialog extends javax.swing.JDialog {
 			this.setSize(382, 176);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		String pass = jTextFieldPassword.getText();
+		if (!ClientAdmin.adminBeanRemote.signIn(pass)) {
+			jTextFieldPassword.setText("");
+		} else {
+			System.out.println("Bienvenue maître");
+			this.dispose();
 		}
 	}
 
