@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -14,6 +17,7 @@ import javax.persistence.Query;
  */
 @Stateless(name = "AdminEJB", mappedName = "AdminBean")
 @LocalBean
+@WebService(serviceName = "AdminService")
 public class AdminBean implements AdminBeanRemote {
 
 	@PersistenceContext(unitName = "admin-unit")
@@ -40,12 +44,14 @@ public class AdminBean implements AdminBeanRemote {
 	}
 
 	@Override
-	public void addNote(Note note) {
+	@WebMethod(operationName = "addNote")
+	public void addNote(@WebParam(name = "note") Note note) {
 		em.persist(note);
 	}
 
 	@Override
-	public Note getNote(SCoordinate coor) {
+	@WebMethod(operationName = "getNote")
+	public Note getNote(@WebParam(name = "coordinate") SCoordinate coor) {
 		List<Note> noteList = getNotes();
 		Iterator<Note> iter = noteList.listIterator();
 		Note note = null;
@@ -64,13 +70,16 @@ public class AdminBean implements AdminBeanRemote {
 	}
 
 	@Override
+	@WebMethod(operationName = "getNotes")
 	public List<Note> getNotes() {
 		Query query = em.createQuery("SELECT m from Note as m");
 		return (List<Note>) query.getResultList();
 	}
 
 	@Override
-	public void updateNote(SCoordinate coor, Note note) {
+	@WebMethod(operationName = "updateNote")
+	public void updateNote(@WebParam(name = "coordinate") SCoordinate coor,
+			@WebParam(name = "note") Note note) {
 		Note previousNote = getNote(coor);
 		Note newNote = em.merge(previousNote);
 		newNote.setCategory(note.getCategory());
@@ -80,24 +89,23 @@ public class AdminBean implements AdminBeanRemote {
 	}
 
 	@Override
-	public void removeNote(SCoordinate coor) {
+	@WebMethod(operationName = "removeNote")
+	public void removeNote(@WebParam(name = "coordinate") SCoordinate coor) {
 		Note note = getNote(coor);
 		em.remove(note);
 	}
 
 	@Override
+	@WebMethod(operationName = "itineraries")
 	public List<Itinerary> getItineraries() {
 		Query query = em.createQuery("SELECT m from Itinerary as m");
 		return (List<Itinerary>) query.getResultList();
 	}
 
 	@Override
-	public void addItinerary(Itinerary newItinerary) {
+	@WebMethod(operationName = "addItinerary")
+	public void addItinerary(
+			@WebParam(name = "newItinerary") Itinerary newItinerary) {
 		em.persist(newItinerary);
-	}
-
-	@Override
-	public String hello() {
-		return "Hello!";
 	}
 }
