@@ -32,5 +32,4 @@ public class Context {
 		Context.currentMapMarker = currentMapMaker;
 	}
 	
-	
 }

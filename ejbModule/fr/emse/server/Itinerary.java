@@ -22,6 +22,7 @@ public class Itinerary implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
+	String title;
 	@ManyToMany(mappedBy="itineraries", cascade = CascadeType.PERSIST)
 	List<Note> notes;
 	double distance;
@@ -33,6 +34,7 @@ public class Itinerary implements Serializable {
 	public Itinerary() {
 		this.id = -1;
 		this.notes = new ArrayList<Note>();
+		this.title = "";
 		this.comments = "";
 		this.nbUsed = 0;
 		this.deniveleTotal = 0;
@@ -44,9 +46,10 @@ public class Itinerary implements Serializable {
 		this.dateCreation = formatter.format(currentDate.getTime());
 	}
 	
-	public Itinerary(List<Note> notes, String comments) {
+	public Itinerary(List<Note> notes, String title, String comments) {
 		super();
 		this.notes = notes;
+		this.title = title;
 		this.comments = comments;
 		this.nbUsed = 0;
 		
@@ -94,6 +97,16 @@ public class Itinerary implements Serializable {
 	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
+	
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public String getComments() {
 		return comments;
@@ -133,6 +146,16 @@ public class Itinerary implements Serializable {
 		
 		newNote.addItinerary(this);
 		notes.add(newNote);
+	}
+	
+	public void updateNote(SCoordinate coor, Note newNote) {
+		int i=0;
+		for (Note note:notes){
+			if (note.getCoordinate().getLat() == coor.getLat() && note.getCoordinate().getLon() == coor.getLon()){
+				notes.set(i, newNote);
+			}
+			i++;
+		}
 	}
 	
 	public void isUsed() {

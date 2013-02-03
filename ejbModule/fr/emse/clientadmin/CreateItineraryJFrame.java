@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.cloudgarden.layout.AnchorConstraint;
@@ -32,6 +33,8 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 	private static final long serialVersionUID = -2424945033857892960L;
 	private JButton jButtonFinishItinerary;
 	private JLabel jLabelComments;
+	private JTextField jTextFieldTitle;
+	private JLabel jLabelTitle;
 	private JTextArea jTextAreaComments;
 
 	Itinerary itinerary;
@@ -55,21 +58,31 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			this.setTitle("Nouvel itineraire");
 			{
+				jTextFieldTitle = new JTextField();
+				getContentPane().add(jTextFieldTitle, new AnchorConstraint(79, 946, 270, 363, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextFieldTitle.setPreferredSize(new java.awt.Dimension(213, 23));
+			}
+			{
+				jLabelTitle = new JLabel();
+				getContentPane().add(jLabelTitle, new AnchorConstraint(104, 97, 237, 34, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jLabelTitle.setText("Title");
+			}
+			{
 				jTextAreaComments = new JTextArea();
-				getContentPane().add(jTextAreaComments, new AnchorConstraint(128, 947, 488, 362, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jTextAreaComments.setPreferredSize(new java.awt.Dimension(217, 46));
+				getContentPane().add(jTextAreaComments, new AnchorConstraint(370, 946, 612, 363, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextAreaComments.setPreferredSize(new java.awt.Dimension(213, 29));
 			}
 			{
 				jLabelComments = new JLabel();
-				getContentPane().add(jLabelComments, new AnchorConstraint(128, 330, 261, 33, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				getContentPane().add(jLabelComments, new AnchorConstraint(370, 330, 504, 34, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
 				jLabelComments.setText("Commentaires");
-				jLabelComments.setPreferredSize(new java.awt.Dimension(110, 17));
+				jLabelComments.setPreferredSize(new java.awt.Dimension(108, 16));
 			}
 			{
 				jButtonFinishItinerary = new JButton();
-				getContentPane().add(jButtonFinishItinerary, new AnchorConstraint(685, 598, 859, 331, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jButtonFinishItinerary.setText("Terminer");
-				jButtonFinishItinerary.setPreferredSize(new java.awt.Dimension(99, 23));
+				getContentPane().add(jButtonFinishItinerary, new AnchorConstraint(737, 617, 912, 349, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButtonFinishItinerary.setText("Create");
+				jButtonFinishItinerary.setPreferredSize(new java.awt.Dimension(98, 21));
 				jButtonFinishItinerary.addActionListener(this);
 			}
 			pack();
@@ -83,6 +96,7 @@ public class CreateItineraryJFrame extends javax.swing.JFrame implements ActionL
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == this.jButtonFinishItinerary) {
+			itinerary.setTitle(jTextFieldTitle.getText());
 			itinerary.setComments(this.jTextAreaComments.getText());
 			mainFrame.createItineraryFinished();
 			this.dispose();

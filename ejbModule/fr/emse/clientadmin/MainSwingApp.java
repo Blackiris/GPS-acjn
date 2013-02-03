@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JTextPane;
 import javax.swing.ListModel;
 import javax.swing.event.MouseInputListener;
 
@@ -56,8 +57,10 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	private JList<String> jListItineraries;
 	private JMapViewer map;
 	private MapMarker tmpMapmarker;
+	private JTextPane jTextPaneInfo;
 
 	private Itinerary currentItinerary;
+	private Note currentNote;
 
 	private JLabel jLabel1;
 
@@ -88,10 +91,16 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			getContentPane().setLayout(thisLayout);
 			this.setTitle("GeoNotes");
 			{
+				jTextPaneInfo = new JTextPane();
+				getContentPane().add(jTextPaneInfo, new AnchorConstraint(42, 302, 283, 49, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jTextPaneInfo.setText("");
+				jTextPaneInfo.setPreferredSize(new java.awt.Dimension(199, 87));
+			}
+			{
 				jButtonRemove = new JButton();
-				getContentPane().add(jButtonRemove, new AnchorConstraint(830, 939, 912, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
-				jButtonRemove.setText("x");
-				jButtonRemove.setPreferredSize(new java.awt.Dimension(30, 30));
+				getContentPane().add(jButtonRemove, new AnchorConstraint(810, 961, 929, 902, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL, AnchorConstraint.ANCHOR_REL));
+				jButtonRemove.setText("X");
+				jButtonRemove.setPreferredSize(new java.awt.Dimension(46, 43));
 				jButtonRemove.addActionListener(this);
 				jButtonRemove.setVisible(false);
 			}
@@ -183,13 +192,11 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
-				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
-				System.out.println(coor.toString());
-				Note note = ClientAdmin.dataModel.getNote(coor);
-				JFrame createNoteFrame = new CreateNoteJFrame(note, this);
+
+				JFrame createNoteFrame = new CreateNoteJFrame(currentNote, this);
 				createNoteFrame.setVisible(true);
 			}
-			
+
 			else if (Context.getState() == State.CREATE_NOTE) {
 				jButtonCreateNote.setText("Create note");
 				Context.setState(State.NORMAL);
@@ -201,17 +208,14 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
 				ClientAdmin.dataModel.removeNote(coor);
 				Context.setCurrentMapMarker(null);
-				jButtonRemove.setVisible(false);
+				deselectNote();
 				System.out.println("Note supprimée");
-				jButtonCreateNote.setText("Create note");
-				Context.setState(State.NORMAL);
 			}
 		}
-		//System.out.println(Context.getState().toString());
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		Point mousePoint = e.getPoint();
 
 		if(e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON1){
@@ -223,17 +227,33 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 				tmpMapmarker = new MapMarkerDot(Color.RED, mapMarker.getLat(), mapMarker.getLon());
 				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
 				System.out.println(mapMarker.toString() + " is clicked");
+
+				SCoordinate coor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+				currentNote = ClientAdmin.dataModel.getNote(coor);
+
 				jButtonCreateNote.setText("Edit note");
 				jButtonRemove.setVisible(true);
+
+
+				jTextPaneInfo.setText("Note: "+currentNote.getId()+"\n"
+						+currentNote.getCoordinate().toString()+"\n"
+						+"Category: "+currentNote.getCategory()+"\n"
+						+"Comments: "+currentNote.getComments()+"\n"
+						+"Created: "+currentNote.getDateCreation());
+
 				Context.setState(State.EDIT_NOTE);
 			}
 
 			else if (Context.getState() == State.EDIT_NOTE) {
-				MapMarker tmpMapmarker = new MapMarkerDot(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
+				SCoordinate oldCoor = new SCoordinate(Context.getCurrentMapMarker().getLat(), Context.getCurrentMapMarker().getLon());
+				SCoordinate newCoor = new SCoordinate(map.getPosition(mousePoint).getLat(),map.getPosition(mousePoint).getLon());
+				MapMarker tmpMapmarker = new MapMarkerDot(newCoor.getLat(), newCoor.getLon());
 				map.getMapMarkerList().set(Context.getCurrentIndex(), tmpMapmarker);
-				jButtonCreateNote.setText("Create note");
-				jButtonRemove.setVisible(false);
-				Context.setState(State.NORMAL);
+
+				Note note = ClientAdmin.dataModel.getNote(oldCoor);
+				note.setCoordinate(newCoor);
+				ClientAdmin.dataModel.updateNote(oldCoor, note);
+				deselectNote();
 			}
 
 			else if (Context.getState() == State.CREATE_NOTE) {
@@ -252,6 +272,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 
 			else if (Context.getState() == State.CREATE_ITINERARY) {
 				if (mapMarker != null) {
+					System.out.println("Note : "+mapMarker.toString());
 					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(mapMarker.getLat(), mapMarker.getLon());
 					currentItinerary.appendNote(noteToAdd);
 					updateMap();
@@ -294,53 +315,67 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		return null;
 	}
 
+	public void deselectNote(){
+		jButtonCreateNote.setText("Create note");
+		jButtonRemove.setVisible(false);
+		jTextPaneInfo.setText("");
+		Context.setState(State.NORMAL);
+		updateMap();
+	}
+
 	public void cancelCreateNote() {
 		if (Context.getCurrentMapMarker() != null) {
 			map.removeMapMarker(Context.getCurrentMapMarker());
 			Context.setCurrentMapMarker(null);
 		}
-		jButtonCreateNote.setText("Create note");
-		Context.setState(State.NORMAL);
+		deselectNote();
 	}
-	
+
 	public void cancelUpdate(){
 		map.getMapMarkerList().set(Context.getCurrentIndex(), new MapMarkerDot(Context.getCurrentMapMarker().getLat(),
 				Context.getCurrentMapMarker().getLon()));
-		jButtonCreateNote.setText("Create note");
-		jButtonRemove.setVisible(false);
-		Context.setState(State.NORMAL);
+		deselectNote();
 		map.repaint();
 	}
 
 	public void updateNotefinished() {
 		map.getMapMarkerList().set(Context.getCurrentIndex(), Context.getCurrentMapMarker());
-		jButtonCreateNote.setText("Create note");
-		jButtonRemove.setVisible(false);
-		Context.setState(State.NORMAL);
+		deselectNote();
 		map.repaint();
 	}
-	
+
 	public void createNotefinished() {
 		jButtonCreateNote.setText("Create note");
 		Context.setState(State.NORMAL);
 	}
-	
+
 	public void createItineraryFinished() {
 		ClientAdmin.dataModel.addItinerary(currentItinerary);
 		System.out.println("Itinéraire ajouté !");
 		updateListItineraries();
+		currentItinerary = null;
 		Context.setState(State.NORMAL);
 		jButtonItinerary.setText("Create itinerary");
 	}
-	
+
 	private void updateMap() {
 		map.removeAllMapPolygons();
 
-		List<Note> notes = currentItinerary.getNotes();
+		if (currentItinerary != null){
+			updateMapItinerary(currentItinerary);
+		}
+		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
+		for (Itinerary itinerary:itineraries){
+			updateMapItinerary(itinerary);
+		}
+	}
+
+	private void updateMapItinerary(Itinerary itinerary){
 		Coordinate coord1 = null;
 		Coordinate coord2 = null;
 
-		for (Note note : notes) {
+		for (Note note : itinerary.getNotes()) {
+			System.out.println(itinerary.getTitle()+": "+note.getCategory());
 			coord1 = coord2;
 			coord2 = new Coordinate(note.getCoordinate().getLat(), note.getCoordinate().getLon());
 
@@ -356,7 +391,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		ArrayList<String> itinerariesName = new ArrayList<String>();
 		for (Itinerary itinerary : itineraries) {
-			itinerariesName.add("Itinéraire "+itinerary.getId());
+			itinerariesName.add("Itinéraire "+itinerary.getTitle());
 		}
 
 		ListModel jListItinerariesModel = new DefaultComboBoxModel(itinerariesName.toArray());
@@ -364,7 +399,7 @@ public class MainSwingApp extends JFrame implements ActionListener, MouseInputLi
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {
 
 	}
 

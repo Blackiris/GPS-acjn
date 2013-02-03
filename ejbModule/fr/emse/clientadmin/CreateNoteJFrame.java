@@ -1,6 +1,7 @@
 package fr.emse.clientadmin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -188,7 +189,6 @@ public class CreateNoteJFrame extends JFrame implements ActionListener {
 				Note note = new Note(new SCoordinate(latitude, longitude), height, comment, category);
 				System.out.println("Note : "+note.getCoordinate().getLat()+" "+note.getCoordinate().getLon());
 
-				System.out.println(Context.getState().toString());
 				if (Context.getState() == State.CREATE_NOTE){
 					ClientAdmin.dataModel.addNote(note);
 					System.out.println("Note ajoutée !");

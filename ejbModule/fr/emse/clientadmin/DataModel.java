@@ -54,10 +54,14 @@ public class DataModel {
 	}
 	
 	public void updateNote(SCoordinate coor, Note note) {
+		mapNotes.put(note.getCoordinate(), note);
+		mapNotes.remove(coor);
 		adminBeanRemote.updateNote(coor, note);
+		updateRelatedItinerary(coor, note);
 	}
 	
 	public void removeNote(SCoordinate coor) {
+		mapNotes.remove(coor);
 		adminBeanRemote.removeNote(coor);
 	}
 
@@ -82,5 +86,12 @@ public class DataModel {
 
 	public List<Itinerary> getItineraries() {
 		return itineraries;
+	}
+	
+	public void updateRelatedItinerary(SCoordinate coor, Note newNote){
+		for (Itinerary itinerary:itineraries){
+			itinerary.updateNote(coor, newNote);
+			System.out.println("Itinéraire "+itinerary.getTitle()+" modifié");
+		}
 	}
 }

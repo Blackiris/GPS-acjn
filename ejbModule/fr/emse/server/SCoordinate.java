@@ -1,6 +1,7 @@
 package fr.emse.server;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class SCoordinate implements Serializable {
 
@@ -36,6 +37,7 @@ public class SCoordinate implements Serializable {
 
 	@Override
 	public String toString(){
-		return lat+":"+lon;
+		DecimalFormat dFormat = new DecimalFormat("0.000");
+		return dFormat.format(lat)+":"+dFormat.format(lon);
 	}
 }
