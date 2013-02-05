@@ -17,27 +17,28 @@ import com.cloudgarden.layout.AnchorLayout;
 import fr.emse.server.Itinerary;
 
 /**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
+ * Classe qui affiche une fenêtre et demande les paramètres à entrer pour la création d'un itinéraire
+ * @author Antoine, Julien
  */
 public class CreateItineraryDialog extends JDialog implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2424945033857892960L;
+	//bouton pour valider l'itinéraire
 	private JButton jButtonFinishItinerary;
+	//texte 'commentaires' à côté de la zone d'insertion de commentaires
 	private JLabel jLabelComments;
+	//texte 'titre' à côté de la zone de texte du champ titre
 	private JLabel jLabelTitre;
+	//zone de texte à remplir pour le titre
 	private JTextField jTextFieldTitle;
+	//zone de texte à remplir pour les commentaires
 	private JTextArea jTextAreaComments;
-
+	
+	//itinéaire qui sera modifié selon les informations passées par l'utilisateur
 	Itinerary itinerary;
+	//fenêtre principale de l'interface graphique
 	private MainSwingApp mainFrame;
 
 	/**
@@ -105,11 +106,17 @@ public class CreateItineraryDialog extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * méthode qui gère les actions sur le 'Finish itinéraire'
+	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == this.jButtonFinishItinerary) {
+			//on enregistre le nom de l'itinéraire dans l'attribut title
 			itinerary.setTitle(this.jTextFieldTitle.getText());
+			//on enregistre les commentaires
 			itinerary.setComments(this.jTextAreaComments.getText());
+			//appelle la méthode de MainSwingApp qui s'occupe de repasser en mode d'affichage normal
 			mainFrame.createItineraryFinished();
 			this.dispose();
 		}

@@ -2,6 +2,12 @@ package fr.emse.clientadmin;
 
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
+/**
+ * Classe qui fait le lien entre les interfaces graphiques et la classe DataModel
+ * Les attributs définis sont statiques pour que les modifications soient synchronisées entre les classes qui les utilisent
+ * @author Antoine, Julien
+ *
+ */
 public class Context {
 
 	private static State state;
