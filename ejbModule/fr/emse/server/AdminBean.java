@@ -112,17 +112,17 @@ public class AdminBean implements AdminBeanRemote {
 			@WebParam(name = "newItinerary") Itinerary newItinerary) {
 		em.persist(newItinerary);
 	}
-	
+
 	@Override
 	@WebMethod(operationName = "getItinerary")
 	public Itinerary getItinerary(@WebParam(name = "id") int id) {
 		return em.find(Itinerary.class, id);
 	}
-	
+
 	@Override
 	@WebMethod(operationName = "updateItinerary")
-	public void updateItinerary(
-			@WebParam(name = "id") int id, @WebParam(name = "itinerary") Itinerary itinerary) {
+	public void updateItinerary(@WebParam(name = "id") int id,
+			@WebParam(name = "itinerary") Itinerary itinerary) {
 		Itinerary previousItinerary = getItinerary(id);
 		Itinerary newItinerary = em.merge(previousItinerary);
 		newItinerary.setTitle(itinerary.getTitle());

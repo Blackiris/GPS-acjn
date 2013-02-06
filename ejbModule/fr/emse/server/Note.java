@@ -72,7 +72,7 @@ public class Note implements Serializable {
 	}
 
 	/**
-	 * Renvoie les coordonnées de la note
+	 * Renvoie les coordonnées de la position de la note
 	 * 
 	 * @return Coordonnées
 	 */
@@ -80,6 +80,12 @@ public class Note implements Serializable {
 		return coordinate;
 	}
 
+	/**
+	 * Déplace la position de la note
+	 * 
+	 * @param coordinate
+	 *            Nouvelle position
+	 */
 	public void setCoordinate(SCoordinate coordinate) {
 		this.coordinate = coordinate;
 	}
@@ -121,6 +127,11 @@ public class Note implements Serializable {
 		this.comments = comments;
 	}
 
+	/**
+	 * Renvoie la catégorie de la note
+	 * 
+	 * @return Catégorie
+	 */
 	public String getCategory() {
 		return category;
 	}
@@ -129,6 +140,7 @@ public class Note implements Serializable {
 	 * Change la catégorie de la note
 	 * 
 	 * @param category
+	 *            Nouvelle catégorie
 	 */
 	public void setCategory(String category) {
 		this.category = category;
