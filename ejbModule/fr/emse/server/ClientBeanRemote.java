@@ -6,7 +6,18 @@ import javax.ejb.Remote;
 
 @Remote
 public interface ClientBeanRemote {
+	/**
+	 * Récupère les itinéraires de la base de données
+	 * 
+	 * @return Itinéraires
+	 */
 	List<Itinerary> getItineraries();
 
+	/**
+	 * Permets de dire au serveur que nous utilisons l'itinéraire indiqué par id
+	 * 
+	 * @param id
+	 *            Id de l'itinéraire
+	 */
 	void usingItinerary(int id);
 }

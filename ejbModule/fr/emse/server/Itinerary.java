@@ -174,6 +174,11 @@ public class Itinerary implements Serializable {
 		return distance;
 	}
 
+	/**
+	 * Renvoie l'information de la distance sous forme de chaîne de caractères
+	 * 
+	 * @return
+	 */
 	public String getDistanceString() {
 		DecimalFormat dFormat = new DecimalFormat("0.00");
 		return dFormat.format(distance) + " km";
@@ -188,6 +193,11 @@ public class Itinerary implements Serializable {
 		return deniveleTotal;
 	}
 
+	/**
+	 * Renvoie l'information du dénivelé sous forme de chaîne de caractères
+	 * 
+	 * @return
+	 */
 	public String getDeniveleString() {
 		return deniveleTotal + " m";
 	}
@@ -230,6 +240,12 @@ public class Itinerary implements Serializable {
 		notes.add(newNote);
 	}
 
+	/**
+	 * Mets à jour
+	 * 
+	 * @param coor
+	 * @param newNote
+	 */
 	public void updateNote(SCoordinate coor, Note newNote) {
 		int i = 0;
 		for (Note note : notes) {
@@ -241,6 +257,12 @@ public class Itinerary implements Serializable {
 		}
 	}
 
+	/**
+	 * Supprime la note de l'itinéraire
+	 * 
+	 * @param coor
+	 *            Coordonnées de la note à supprimer
+	 */
 	public void removeNote(SCoordinate coor) {
 		int i = 0;
 		for (Note note : notes) {
@@ -252,6 +274,9 @@ public class Itinerary implements Serializable {
 		}
 	}
 
+	/**
+	 * Mets à jour les valeurs de distance et de dénivelé
+	 */
 	public void updateGeometry() {
 		Note previousNote = notes.get(0);
 		this.distance = 0;
