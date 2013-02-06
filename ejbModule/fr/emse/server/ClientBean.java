@@ -42,7 +42,7 @@ public class ClientBean implements ClientBeanRemote {
 	public void usingItinerary(@WebParam(name = "itineraryId") int id) {
 		Itinerary itinerary = (Itinerary) em.find(Itinerary.class, id);
 		itinerary.isUsed();
-		em.persist(itinerary);
+		em.merge(itinerary);
 	}
 
 }
