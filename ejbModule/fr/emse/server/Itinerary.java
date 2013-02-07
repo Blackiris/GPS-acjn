@@ -3,9 +3,9 @@ package fr.emse.server;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,7 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Itinerary implements Serializable {
@@ -27,8 +28,12 @@ public class Itinerary implements Serializable {
 	@Basic(optional = false)
 	Integer id;
 	String title;
-	@ManyToMany(mappedBy = "itineraries", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	List<Note> notes;
+	// @ManyToMany(mappedBy = "itineraries", s, fetch =
+	// FetchType.EAGER)
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@MapKey(name = "pos")
+	Map<Integer, Position> positions;
 	double distance;
 	int deniveleTotal;
 	String comments;
@@ -39,7 +44,7 @@ public class Itinerary implements Serializable {
 	 * Constructeur vides
 	 */
 	public Itinerary() {
-		this.notes = new ArrayList<Note>();
+		this.positions = new TreeMap<Integer, Position>();
 		this.title = "";
 		this.comments = "";
 		this.nbUsed = 0;
@@ -62,9 +67,10 @@ public class Itinerary implements Serializable {
 	 * @param comments
 	 *            Commentaires sur le parcours
 	 */
-	public Itinerary(List<Note> notes, String title, String comments) {
+	public Itinerary(Map<Integer, Position> positions, String title,
+			String comments) {
 		super();
-		this.notes = notes;
+		this.positions = positions;
 		this.title = title;
 		this.comments = comments;
 		this.nbUsed = 0;
@@ -72,21 +78,23 @@ public class Itinerary implements Serializable {
 		// Computes denivele and distance
 		this.deniveleTotal = 0;
 		this.distance = 0;
-		Note previousNote = notes.get(0);
+		Note previousNote = positions.get(0).getNote();
 
 		boolean isFirst = true;
-		for (Note note : notes) {
+
+		for (Integer pos : positions.keySet()) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
-				this.deniveleTotal += Math.abs(note.getHeight()
+				this.deniveleTotal += Math.abs(positions.get(pos).getNote()
+						.getHeight()
 						- previousNote.getHeight());
-				this.distance += distance(note.getCoordinate(),
-						previousNote.getCoordinate());
+				this.distance += distance(positions.get(pos).getNote()
+						.getCoordinate(), previousNote.getCoordinate());
 			}
 
-			previousNote = note;
-			note.addItinerary(this);
+			previousNote = positions.get(pos).getNote();
+			// notes.get(pos).addItinerary(this);
 		}
 
 		// Date
@@ -123,8 +131,8 @@ public class Itinerary implements Serializable {
 	 * 
 	 * @return
 	 */
-	public List<Note> getNotes() {
-		return notes;
+	public Map<Integer, Position> getPositions() {
+		return positions;
 	}
 
 	/**
@@ -133,8 +141,8 @@ public class Itinerary implements Serializable {
 	 * @param notes
 	 *            Nouvelle liste de notes
 	 */
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
+	public void setPositions(Map<Integer, Position> positions) {
+		this.positions = positions;
 	}
 
 	/**
@@ -220,8 +228,8 @@ public class Itinerary implements Serializable {
 	 *            Nouvelle note à ajouter
 	 */
 	public void appendNote(Note newNote) {
-		if (notes.size() > 0) {
-			Note lastNote = notes.get(notes.size() - 1);
+		if (positions.size() > 0) {
+			Note lastNote = positions.get(positions.size()).getNote();
 
 			distance += distance(newNote.getCoordinate(),
 					lastNote.getCoordinate());
@@ -230,7 +238,8 @@ public class Itinerary implements Serializable {
 		}
 
 		newNote.addItinerary(this);
-		notes.add(newNote);
+		positions.put(positions.size() + 1, new Position(positions.size() + 1,
+				newNote));
 	}
 
 	/**
@@ -240,13 +249,14 @@ public class Itinerary implements Serializable {
 	 * @param newNote
 	 */
 	public void updateNote(SCoordinate coor, Note newNote) {
-		int i = 0;
-		for (Note note : notes) {
-			if (note.getCoordinate().getLat() == coor.getLat()
-					&& note.getCoordinate().getLon() == coor.getLon()) {
-				notes.set(i, newNote);
+		for (Integer posInt : positions.keySet()) {
+			Position position = positions.get(posInt);
+
+			if (position.getNote().getCoordinate().getLat() == coor.getLat()
+					&& position.getNote().getCoordinate().getLon() == coor
+							.getLon()) {
+				position.setNote(newNote);
 			}
-			i++;
 		}
 	}
 
@@ -257,12 +267,20 @@ public class Itinerary implements Serializable {
 	 *            Coordonnées de la note à supprimer
 	 */
 	public void removeNote(SCoordinate coor) {
-		int i = 0;
-		for (Note note : notes) {
-			if (note.getCoordinate().getLat() == coor.getLat()
-					&& note.getCoordinate().getLon() == coor.getLon()) {
-				notes.remove(i);
+		for (Integer pos : positions.keySet()) {
+			if (positions.get(pos).getNote().getCoordinate().getLat() == coor
+					.getLat()
+					&& positions.get(pos).getNote().getCoordinate().getLon() == coor
+							.getLon()) {
+				positions.remove(pos);
 			}
+		}
+
+		Map<Integer, Position> newPositions = new TreeMap<Integer, Position>();
+
+		int i = 1;
+		for (Integer pos : positions.keySet()) {
+			newPositions.put(i, positions.get(pos));
 			i++;
 		}
 	}
@@ -271,19 +289,20 @@ public class Itinerary implements Serializable {
 	 * Mets à jour les valeurs de distance et de dénivelé
 	 */
 	public void updateGeometry() {
-		Note previousNote = notes.get(0);
+		Note previousNote = positions.get(0).getNote();
 		this.distance = 0;
 		this.deniveleTotal = 0;
 
 		boolean isFirst = true;
-		for (Note note : notes) {
+		for (Integer pos : positions.keySet()) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
-				this.deniveleTotal += Math.abs(note.getHeight()
+				this.deniveleTotal += Math.abs(positions.get(pos).getNote()
+						.getHeight()
 						- previousNote.getHeight());
-				this.distance += distance(note.getCoordinate(),
-						previousNote.getCoordinate());
+				this.distance += distance(positions.get(pos).getNote()
+						.getCoordinate(), previousNote.getCoordinate());
 			}
 		}
 	}

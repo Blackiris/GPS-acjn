@@ -126,7 +126,7 @@ public class AdminBean implements AdminBeanRemote {
 		Itinerary previousItinerary = getItinerary(id);
 		Itinerary newItinerary = em.merge(previousItinerary);
 		newItinerary.setTitle(itinerary.getTitle());
-		newItinerary.setNotes(itinerary.getNotes());
+		newItinerary.setPositions(itinerary.getPositions());
 		newItinerary.setComments(itinerary.getComments());
 	}
 }

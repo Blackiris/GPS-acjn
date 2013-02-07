@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ import com.cloudgarden.layout.AnchorLayout;
 
 import fr.emse.server.Itinerary;
 import fr.emse.server.Note;
+import fr.emse.server.Position;
 import fr.emse.server.SCoordinate;
 
 /**
@@ -203,7 +205,8 @@ public class MainSwingApp extends JFrame implements ActionListener,
 							String element = jListItineraries.getModel()
 									.getElementAt(index);
 							System.out.println("clicked on: "
-									+ element.toString());
+									+ element.toString()
+									+ itinerary.getPositions());
 
 							map.removeAllMapPolygons();
 							drawMapItinerary(itinerary);
@@ -619,11 +622,13 @@ public class MainSwingApp extends JFrame implements ActionListener,
 	private void drawMapItinerary(Itinerary itinerary) {
 		Coordinate coord1 = null;
 		Coordinate coord2 = null;
+		Map<Integer, Position> notes = itinerary.getPositions();
 
-		for (Note note : itinerary.getNotes()) {
+		for (Integer pos : notes.keySet()) {
 			coord1 = coord2;
-			coord2 = new Coordinate(note.getCoordinate().getLat(), note
-					.getCoordinate().getLon());
+			coord2 = new Coordinate(notes.get(pos).getNote().getCoordinate()
+					.getLat(), notes.get(pos).getNote().getCoordinate()
+					.getLon());
 
 			if (coord1 != null) {
 				// petite subtilité, il faut donner 3 points pour dessiner une

@@ -2,17 +2,13 @@ package fr.emse.server;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class Note implements Serializable {
@@ -30,8 +26,8 @@ public class Note implements Serializable {
 	String dateCreation;
 	String category;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	List<Itinerary> itineraries;
+	// @ManyToMany(fetch = FetchType.EAGER)
+	// List<Itinerary> itineraries;
 
 	/**
 	 * Constructeur de note vide
@@ -41,7 +37,7 @@ public class Note implements Serializable {
 		this.height = 0;
 		this.comments = "";
 		this.category = "";
-		itineraries = new ArrayList<Itinerary>();
+		// itineraries = new ArrayList<Itinerary>();
 
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -68,7 +64,7 @@ public class Note implements Serializable {
 		this.comments = comments;
 		this.category = category;
 
-		itineraries = new ArrayList<Itinerary>();
+		// itineraries = new ArrayList<Itinerary>();
 
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -165,8 +161,10 @@ public class Note implements Serializable {
 	 * @param newItinerary
 	 *            Nouvel itinéraire contenant la note
 	 */
+
 	public void addItinerary(Itinerary newItinerary) {
-		if (!itineraries.contains(newItinerary))
-			itineraries.add(newItinerary);
+		// if (!itineraries.contains(newItinerary))
+		// itineraries.add(newItinerary);
 	}
+
 }
