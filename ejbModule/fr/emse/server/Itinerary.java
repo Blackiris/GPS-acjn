@@ -248,7 +248,7 @@ public class Itinerary implements Serializable {
 	 * @param coor
 	 * @param newNote
 	 */
-	public void updateNote(SCoordinate coor, Note newNote) {
+	public boolean updateNote(SCoordinate coor, Note newNote) {
 		for (Integer posInt : positions.keySet()) {
 			Position position = positions.get(posInt);
 
@@ -256,8 +256,12 @@ public class Itinerary implements Serializable {
 					&& position.getNote().getCoordinate().getLon() == coor
 							.getLon()) {
 				position.setNote(newNote);
+
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**

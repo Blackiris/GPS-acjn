@@ -182,9 +182,9 @@ public class DataModel {
 		for (Itinerary itinerary : itineraries) {
 			// on appelle la méthode d'un itinéraire qui se charge de mettre à
 			// jour la note spécifiée par les coordonées
-			itinerary.updateNote(coor, newNote);
-			// on met à jour la distance et le dénivelé de l'itinéraire
-			itinerary.updateGeometry();
+			if (itinerary.updateNote(coor, newNote))
+				// on met à jour la distance et le dénivelé de l'itinéraire
+				itinerary.updateGeometry();
 			System.out.println("Itinéraire " + itinerary.getTitle()
 					+ " modifié");
 		}
