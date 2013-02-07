@@ -159,15 +159,6 @@ public class Itinerary implements Serializable {
 	}
 
 	/**
-	 * Renvoie l'id du parcours
-	 * 
-	 * @return
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
 	 * Renvoie la distance du parcours
 	 * 
 	 * @return Distance du parcours

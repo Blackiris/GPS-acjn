@@ -389,11 +389,10 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				jButtonRemove.setVisible(true);
 
 				// on met à jour la partie descriptive de note
-				jTextPaneInfo.setText("Note: " + currentNote.getId() + "\n"
-						+ currentNote.getCoordinate().toString() + "\n"
-						+ "Category: " + currentNote.getCategory() + "\n"
-						+ "Comments: " + currentNote.getComments() + "\n"
-						+ "Created: " + currentNote.getDateCreation());
+				jTextPaneInfo.setText(currentNote.getCoordinate().toString()
+						+ "\n" + "Category: " + currentNote.getCategory()
+						+ "\n" + "Comments: " + currentNote.getComments()
+						+ "\n" + "Created: " + currentNote.getDateCreation());
 
 				// on change le contexte pour passer en mode édition
 				Context.setState(State.EDIT_NOTE);

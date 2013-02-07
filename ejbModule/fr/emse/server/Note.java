@@ -151,15 +151,6 @@ public class Note implements Serializable {
 	}
 
 	/**
-	 * Renvoie l'id de la note
-	 * 
-	 * @return id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
 	 * Renvoie la date de création de la note
 	 * 
 	 * @return date de céation
