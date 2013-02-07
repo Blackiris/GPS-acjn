@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,10 +14,16 @@ import com.cloudgarden.layout.AnchorConstraint;
 import com.cloudgarden.layout.AnchorLayout;
 
 /**
- * Classe qui se charge d'ouvrir le panneau pour l'identification de l'administrateur
+ * Classe qui se charge d'ouvrir le panneau pour l'identification de
+ * l'administrateur
+ * 
  * @author Julien
  */
-public class SignInDialog extends javax.swing.JDialog implements ActionListener {
+public class SignInDialog extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 498548169514261760L;
 	private JLabel jLabelPassword;
 	private JTextField jTextFieldPassword;
 	private JButton jButtonSingIn;

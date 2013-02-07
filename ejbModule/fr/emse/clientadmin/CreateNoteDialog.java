@@ -20,7 +20,9 @@ import fr.emse.server.Note;
 import fr.emse.server.SCoordinate;
 
 /**
- * Classe qui se charge de générer la fenêtre pour entrer les paramètres de création ou d'édition d'une note
+ * Classe qui se charge de générer la fenêtre pour entrer les paramètres de
+ * création ou d'édition d'une note
+ * 
  * @author Antoine, Julien
  */
 public class CreateNoteDialog extends JDialog implements ActionListener {
@@ -28,29 +30,29 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//label 'Créer une nouvelle note'
+	// label 'Créer une nouvelle note'
 	private JLabel jLabel1;
-	//label 'commentaires'
+	// label 'commentaires'
 	private JLabel jLabelComments;
-	//bouton annuler la création d'une note
+	// bouton annuler la création d'une note
 	private JButton jButtonCancel;
-	//bouton pour entrer la hauteur du point
+	// bouton pour entrer la hauteur du point
 	private JTextField jTextFieldHeight;
-	//label 'hauteur'
+	// label 'hauteur'
 	private JLabel jLabelHeight;
-	//champ pour entrer la longitude des coordonnées de la note
+	// champ pour entrer la longitude des coordonnées de la note
 	private JTextField jTextFieldCoordinate2;
-	//label 'longitude'
+	// label 'longitude'
 	private JLabel jLabelCoordinate2;
-	///champ pour entrer la latitude des coordonnées de la note
+	// /champ pour entrer la latitude des coordonnées de la note
 	private JTextField jTextFieldCoordinate1;
-	//label 'latitude'
+	// label 'latitude'
 	private JLabel jLabelCoordinate1;
-	//champ pour entre les commentaires
+	// champ pour entre les commentaires
 	private JTextArea jTextAreaComments;
-	//champ pour entrer la catégorie
+	// champ pour entrer la catégorie
 	private JTextField jTextFieldCategory;
-	//label 'catégorie'
+	// label 'catégorie'
 	private JLabel jLabel2;
 	private JButton jButtonCreateNote;
 
@@ -61,7 +63,9 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 	 */
 
 	/**
-	 * Constructeur qui affiche la fenêtre avec les coordonnées et la hauteur déjà initialisées
+	 * Constructeur qui affiche la fenêtre avec les coordonnées et la hauteur
+	 * déjà initialisées
+	 * 
 	 * @param coor
 	 * @param height
 	 * @param mainFrame
@@ -79,8 +83,10 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 		setModal(true);
 	}
 
-	/** Constructeur qui affiche la fenêtre de création de la note avec tous les champs potentiellement remplis
-	 * utilisé lors de l'édition d'une note
+	/**
+	 * Constructeur qui affiche la fenêtre de création de la note avec tous les
+	 * champs potentiellement remplis utilisé lors de l'édition d'une note
+	 * 
 	 * @param note
 	 * @param mainFrame
 	 */
@@ -291,10 +297,11 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		//si on clique sur le bouton 'Create Note'
+		// si on clique sur le bouton 'Create Note'
 		if (ae.getSource() == jButtonCreateNote) {
 			try {
-				//on récupère toutes les informations contenues dans les divers champs
+				// on récupère toutes les informations contenues dans les divers
+				// champs
 				double latitude = Double.parseDouble(jTextFieldCoordinate1
 						.getText());
 				double longitude = Double.parseDouble(jTextFieldCoordinate2
@@ -303,36 +310,43 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 				String comment = jTextAreaComments.getText();
 				String category = jTextFieldCategory.getText();
 
-				//on créé un objet de type note avec ces informations
+				// on créé un objet de type note avec ces informations
 				Note note = new Note(new SCoordinate(latitude, longitude),
 						height, comment, category);
 				System.out.println("Note : " + note.getCoordinate().getLat()
 						+ " " + note.getCoordinate().getLon());
 
 				System.out.println(Context.getState().toString());
-				//si on est dans le contexte de création d'une note
+				// si on est dans le contexte de création d'une note
 				if (Context.getState() == State.CREATE_NOTE) {
-					//on appelle la méthode de la classe DataModel qui est en charge de la création de la note
+					// on appelle la méthode de la classe DataModel qui est en
+					// charge de la création de la note
 					ClientAdmin.dataModel.addNote(note);
 					System.out.println("Note ajoutée !");
-					//on appelle la méthode de MainSwingApp qui s'occupe du retour au contexte normal
+					// on appelle la méthode de MainSwingApp qui s'occupe du
+					// retour au contexte normal
 					mainFrame.createNotefinished();
 				}
 
-				//si on est dans le cadre de l'édition d'une note
+				// si on est dans le cadre de l'édition d'une note
 				if (Context.getState() == State.EDIT_NOTE) {
-					//on créé un objet de type coordinate qui contient les coordonnées de la note à modifier chargées depuis le contexte
+					// on créé un objet de type coordinate qui contient les
+					// coordonnées de la note à modifier chargées depuis le
+					// contexte
 					SCoordinate coor = new SCoordinate(Context
 							.getCurrentMapMarker().getLat(), Context
 							.getCurrentMapMarker().getLon());
-					//on appelle la méthode de la classe DataModel qui est en charge de la création de la note
+					// on appelle la méthode de la classe DataModel qui est en
+					// charge de la création de la note
 					ClientAdmin.dataModel.updateNote(coor, note);
-					//on actualise le contexte en mettant à jour la note courante
+					// on actualise le contexte en mettant à jour la note
+					// courante
 					Context.setCurrentMapMarker(new MapMarkerDot(note
 							.getCoordinate().getLat(), note.getCoordinate()
 							.getLon()));
 					System.out.println("Note mise à jour");
-					//on appelle la méthode de MainSwingApp qui se charge du retour au contexte normal
+					// on appelle la méthode de MainSwingApp qui se charge du
+					// retour au contexte normal
 					mainFrame.updateNotefinished();
 				}
 
@@ -342,13 +356,13 @@ public class CreateNoteDialog extends JDialog implements ActionListener {
 			} catch (NullPointerException e3) {
 				e3.printStackTrace();
 			}
-			//si on appuie sur le bouton 'Annuler'
+			// si on appuie sur le bouton 'Annuler'
 		} else if (ae.getSource() == jButtonCancel) {
 			if (Context.getState() == State.CREATE_NOTE)
-				//on repasse en mode normal
+				// on repasse en mode normal
 				mainFrame.cancelCreateNote();
 			if (Context.getState() == State.EDIT_NOTE) {
-				//on quitte le mode update
+				// on quitte le mode update
 				mainFrame.updateNotefinished();
 			}
 

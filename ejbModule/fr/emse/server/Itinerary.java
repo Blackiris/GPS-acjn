@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,9 +24,10 @@ public class Itinerary implements Serializable {
 	private static final long serialVersionUID = 8148007240281677876L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
 	Integer id;
 	String title;
-	@ManyToMany(mappedBy = "itineraries", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "itineraries", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<Note> notes;
 	double distance;
 	int deniveleTotal;
@@ -37,7 +39,6 @@ public class Itinerary implements Serializable {
 	 * Constructeur vides
 	 */
 	public Itinerary() {
-		this.id = -1;
 		this.notes = new ArrayList<Note>();
 		this.title = "";
 		this.comments = "";

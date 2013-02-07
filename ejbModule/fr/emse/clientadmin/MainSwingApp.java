@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -230,24 +229,6 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			}
 			{
 
-				final JCheckBox scrollWrapEnabled = new JCheckBox(
-						"Scrollwrap enabled");
-				scrollWrapEnabled.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						map.setScrollWrapEnabled(scrollWrapEnabled.isSelected());
-					}
-				});
-
-				final JCheckBox showMapMarker = new JCheckBox(
-						"Map markers visible");
-				showMapMarker.setSelected(map.getMapMarkersVisible());
-				showMapMarker.addActionListener(new ActionListener() {
-
-					public void actionPerformed(ActionEvent e) {
-						map.setMapMarkerVisible(showMapMarker.isSelected());
-					}
-				});
-
 				getContentPane().add(
 						map,
 						new AnchorConstraint(42, 970, 767, 339,
@@ -312,6 +293,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				// informations textuelles
 				new CreateItineraryDialog(currentItinerary, this);
 			}
+
 			// si on appuye sur le bouton 'Create Note'
 		} else if (ae.getSource() == jButtonCreateNote) {
 			// si on est dans le contexte normal
@@ -342,6 +324,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				// on retourne dans le contexte normal
 				Context.setState(State.NORMAL);
 			}
+
 			// si on appuye sur le bouton remove
 		} else if (ae.getSource() == jButtonRemove) {
 			// si on est bien dans le mode édition
@@ -396,7 +379,10 @@ public class MainSwingApp extends JFrame implements ActionListener,
 						.getCurrentMapMarker().getLon());
 				// on change la note courante par les valeurs récupérées dans la
 				// base de données grâce aux coordonnées du marqueur
-				currentNote = ClientAdmin.dataModel.getNote(coor);
+				currentNote = ClientAdmin.dataModel.getNearestNoteFrom(
+						coor.getLat(), coor.getLon());
+				System.out.println(Context.getCurrentIndex() + " "
+						+ currentNote);
 				// on change le texte du bouton de création par 'Edit Note'
 				jButtonCreateNote.setText("Edit note");
 				// on rend le bouton 'remove' visible
@@ -412,6 +398,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				// on change le contexte pour passer en mode édition
 				Context.setState(State.EDIT_NOTE);
 			}
+
 			// si le contexte est en mode édition
 			else if (Context.getState() == State.EDIT_NOTE) {
 				// on récupère les coordonnés du clic et les anciennes
@@ -438,6 +425,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				// on repasse en contexte normal
 				deselectNote();
 			}
+
 			// si le contexte est en mode de création
 			else if (Context.getState() == State.CREATE_NOTE) {
 				// si on clique sur le vide de la carte
@@ -452,6 +440,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 					map.addMapMarker(Context.getCurrentMapMarker());
 					// on ouvre une fenêtre pour renseigner des informations
 					// textuelles de la note
+
 					new CreateNoteDialog(coor, 0, this);
 				} else {
 					// si cherche à cliquer sur un marqueur existant
@@ -468,7 +457,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 				if (mapMarker != null) {
 					System.out.println("Note : " + mapMarker.toString());
 					// on récupère la note correspondante
-					Note noteToAdd = ClientAdmin.dataModel.getNearestNodeFrom(
+					Note noteToAdd = ClientAdmin.dataModel.getNearestNoteFrom(
 							mapMarker.getLat(), mapMarker.getLon());
 					// on ajoute cette note à l'itinéraire courant
 					currentItinerary.appendNote(noteToAdd);

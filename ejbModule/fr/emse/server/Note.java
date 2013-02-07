@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Note implements Serializable {
@@ -19,6 +22,7 @@ public class Note implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
 	Integer id;
 	SCoordinate coordinate;
 	int height;
@@ -26,13 +30,13 @@ public class Note implements Serializable {
 	String dateCreation;
 	String category;
 
+	@ManyToMany(fetch = FetchType.EAGER)
 	List<Itinerary> itineraries;
 
 	/**
 	 * Constructeur de note vide
 	 */
 	public Note() {
-		this.id = -1;
 		this.coordinate = null;
 		this.height = 0;
 		this.comments = "";
