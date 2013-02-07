@@ -204,6 +204,9 @@ public class MainSwingApp extends JFrame implements ActionListener,
 									.getElementAt(index);
 							System.out.println("clicked on: "
 									+ element.toString());
+
+							map.removeAllMapPolygons();
+							drawMapItinerary(itinerary);
 						}
 					}
 				};
@@ -609,21 +612,21 @@ public class MainSwingApp extends JFrame implements ActionListener,
 		map.removeAllMapPolygons();
 
 		if (currentItinerary != null) {
-			updateMapItinerary(currentItinerary);
+			drawMapItinerary(currentItinerary);
 		}
 		List<Itinerary> itineraries = ClientAdmin.dataModel.getItineraries();
 		for (Itinerary itinerary : itineraries) {
-			updateMapItinerary(itinerary);
+			drawMapItinerary(itinerary);
 		}
 	}
 
 	/**
 	 * méthode qui met à jour les lignes entre les marqueurs pour l'itinéraire
-	 * courant
+	 * indiqué
 	 * 
 	 * @param itinerary
 	 */
-	private void updateMapItinerary(Itinerary itinerary) {
+	private void drawMapItinerary(Itinerary itinerary) {
 		Coordinate coord1 = null;
 		Coordinate coord2 = null;
 

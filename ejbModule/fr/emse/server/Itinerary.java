@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Itinerary implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String title;
-	@ManyToMany(mappedBy = "itineraries", cascade = CascadeType.PERSIST)
+	@ManyToMany(mappedBy = "itineraries", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	List<Note> notes;
 	double distance;
 	int deniveleTotal;
