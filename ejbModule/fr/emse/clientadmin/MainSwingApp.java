@@ -104,6 +104,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 
 		// Sign in
 		// new SignInDialog(this);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -373,6 +374,7 @@ public class MainSwingApp extends JFrame implements ActionListener,
 			// on récupère le marqueur sur lequel on a cliqué (null) si on a
 			// cliqué dans le vide de la carte
 			MapMarker mapMarker = getMapMarker(mousePoint);
+
 			// si le contexte est normal et qu'un marqueur a été sélectionné
 			if (Context.getState() == State.NORMAL && mapMarker != null) {
 				// on change l'indice du marqueur courant dans le contexte
