@@ -75,4 +75,12 @@ public class ClientBean implements ClientBeanRemote {
 		return em.find(Itinerary.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@WebMethod(operationName = "getNotes")
+	public List<Note> getNotes() {
+		Query query = em.createQuery("SELECT m from Note as m");
+		return (List<Note>) query.getResultList();
+	}
+
 }

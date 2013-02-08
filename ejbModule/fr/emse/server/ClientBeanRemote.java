@@ -31,4 +31,11 @@ public interface ClientBeanRemote {
 	Itinerary getItinerary(int id);
 
 	Note getNote(SCoordinate coord);
+
+	/**
+	 * Récupère toutes les notes enregistrées dans la base de données
+	 * 
+	 * @return Notes du serveur
+	 */
+	List<Note> getNotes();
 }
