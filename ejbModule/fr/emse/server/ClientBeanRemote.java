@@ -21,5 +21,14 @@ public interface ClientBeanRemote {
 	 */
 	void usingItinerary(int id);
 
+	/**
+	 * Renvoie l'itinéraire indiqué par l'id
+	 * 
+	 * @param id
+	 *            Id de l'itinéraire à récupérer
+	 * @return Itinéraire souhaité
+	 */
+	Itinerary getItinerary(int id);
+
 	Note getNote(SCoordinate coord);
 }

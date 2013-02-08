@@ -69,4 +69,10 @@ public class ClientBean implements ClientBeanRemote {
 		return actualNote;
 	}
 
+	@Override
+	@WebMethod(operationName = "getItinerary")
+	public Itinerary getItinerary(@WebParam(name = "id") int id) {
+		return em.find(Itinerary.class, id);
+	}
+
 }
