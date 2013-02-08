@@ -27,6 +27,7 @@ public class Itinerary implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	Integer id;
+
 	String title;
 	// @ManyToMany(mappedBy = "itineraries", s, fetch =
 	// FetchType.EAGER)
@@ -101,6 +102,10 @@ public class Itinerary implements Serializable {
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		this.dateCreation = formatter.format(currentDate.getTime());
+	}
+
+	public Integer getId() {
+		return id;
 	}
 
 	/**

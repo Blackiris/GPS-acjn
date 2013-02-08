@@ -20,4 +20,6 @@ public interface ClientBeanRemote {
 	 *            Id de l'itinéraire
 	 */
 	void usingItinerary(int id);
+
+	Note getNote(SCoordinate coord);
 }

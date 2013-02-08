@@ -45,4 +45,28 @@ public class ClientBean implements ClientBeanRemote {
 		em.merge(itinerary);
 	}
 
+	@Override
+	@WebMethod(operationName = "getNote")
+	public Note getNote(@WebParam(name = "coordinate") SCoordinate coor) {
+		Query query = em.createQuery("SELECT m from Note as m");
+		List<Note> noteList = (List<Note>) query.getResultList();
+
+		double min = 1000;
+		Note actualNote = null;
+		// on parcours l'ensemble des notes de la Map
+		for (Note note : noteList) {
+			// on calcule la distance entre la note courante et les coordonnées
+			double dist = Math.abs(coor.getLat()
+					- note.getCoordinate().getLat())
+					+ Math.abs(coor.getLon() - note.getCoordinate().getLon());
+			// on cherche le min
+			if (dist < min) {
+				min = dist;
+				actualNote = note;
+			}
+		}
+
+		return actualNote;
+	}
+
 }
