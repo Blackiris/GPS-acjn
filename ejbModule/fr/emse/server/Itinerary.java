@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlElement;
 
 @Entity
 public class Itinerary implements Serializable {
@@ -104,6 +105,7 @@ public class Itinerary implements Serializable {
 		this.dateCreation = formatter.format(currentDate.getTime());
 	}
 
+	@XmlElement
 	public Integer getId() {
 		return id;
 	}
@@ -176,6 +178,7 @@ public class Itinerary implements Serializable {
 	 * 
 	 * @return Distance du parcours
 	 */
+	@XmlElement
 	public double getDistance() {
 		return distance;
 	}
@@ -195,6 +198,7 @@ public class Itinerary implements Serializable {
 	 * 
 	 * @return Dénivelé du parcours
 	 */
+	@XmlElement
 	public int getDeniveleTotal() {
 		return deniveleTotal;
 	}
@@ -222,6 +226,7 @@ public class Itinerary implements Serializable {
 	 * 
 	 * @return
 	 */
+	@XmlElement
 	public String getDateCreation() {
 		return dateCreation;
 	}

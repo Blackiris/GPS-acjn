@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlElement;
 
 @Entity
 public class Note implements Serializable {
@@ -69,6 +70,11 @@ public class Note implements Serializable {
 		Calendar currentDate = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		dateCreation = formatter.format(currentDate.getTime());
+	}
+
+	@XmlElement
+	public Integer getId() {
+		return id;
 	}
 
 	/**
